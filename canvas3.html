@@ -3,15 +3,29 @@
 <head>
     <title> My drawing tool! </title>
     <style>
+        
+        html{
+            font-family: arial, times, sans-serif;
+        }
          #myCanvas {
             border: 1px black solid;
             /* A bit of border so that we can see our canvas */
         }
+        
+        #go{
+            padding: 0.5rem;
+            margin: 0.5rem;
+            border:2px solid grey;
+            background-color: lightblue;
+            height: 2rem;
+            width: 7rem;
+        }
+        
     </style>
 </head>
 
 <body>
-    <form method="get" action="">
+    <form method="get" action="" id= "help">
 
         <div>
             <fieldset>
@@ -25,20 +39,38 @@
                 <br/>
 
             </fieldset>
+            
         </div>
-        <div>Go!</div>
+        </form>
+    
+        <div id="go">Apply! :) </div>
 
 
         <canvas width='500px' height='500px' id='myCanvas'></canvas>
         <script>
             
-            var lineCol= blue;
+            var goButton = document.getElementById("go");
+            
+            var lineCol= "blue";
             var lineWid= 1;
+            var formm= document.getElementById("help");
+            goButton.addEventListener('click', function(){
+                console.log("i have been clicked!");
+                lineCol = formm.colorhex.value;
+                lineWid = formm.lineWid.value;
+               
+                console.log(lineCol);
+                console.log(lineWid);
+                
+            });
             
-            function getOptions (form) {
-            var TestVar = form.inputbox.value;
-            
-            }
+//            var lineCol= blue;
+//            var lineWid= 1;
+//            
+//            function getOptions (form) {
+//            lineCol = form.colorhex.value;
+//            
+//            }
              
             
             var canvas = document.querySelector('#myCanvas'); // Grab a JS hook into our canvas element
@@ -49,7 +81,7 @@
                 ctx.moveTo(x1, y1); // move our pen to x1, y1
                 ctx.lineWidth = lineWid;
                 ctx.lineTo(x2, y2); // draw a line from wherever our pen is to x2, y2
-                ctx.strokeStyle = "red";
+                ctx.strokeStyle = lineCol;
                 ctx.stroke(); // and then actually fill in the line with whatever stroke is defined
                 ctx.closePath(); // and close our path
             };
