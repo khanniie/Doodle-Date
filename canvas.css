@@ -1,0 +1,13 @@
+ #myCanvas {
+        border: 1px black dotted;
+        /* A bit of border so that we can see our canvas */
+    }
+
+ #follower {
+    	width: 10px;
+    	height: 10px;
+    	/*border-radius: 50%; */
+    	background-color: lightcyan;
+        border: solid black;
+    	position: absolute;
+    }
