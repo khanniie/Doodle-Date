@@ -8,7 +8,6 @@
     }
         
         /* extra stuff added for follower */
-        
         #follower {
     	width: 10px;
     	height: 10px;
@@ -17,8 +16,7 @@
         border: solid black;
     	position: absolute;
     }
-        
-        /*extraaaaaaaaaend******/
+        /*extraaaaaaaaa end******/
         
         
         
@@ -27,7 +25,13 @@
 
 <body>
     <canvas width='500px' height='500px' id='myCanvas'></canvas>
+    
+    
+<!--    ***EXTRA-->
     <div id='follower'></div>
+<!--    EXTRA END-->
+    
+    
     
     <script>
     var canvas = document.querySelector('#myCanvas'); // Grab a JS hook into our canvas element
@@ -71,8 +75,9 @@
         var follower = document.querySelector('#follower');
     	follower.style.left = event.x - 5 + "px";
     	follower.style.top = event.y - 5 + "px";
-        
         //*** end of extra
+        
+        
     });
         
         
