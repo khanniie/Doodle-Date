@@ -140,7 +140,7 @@
         var goButton = document.getElementById("go");
 
         var lineCol = "#000000";
-        var lineWid = 2;
+        var lineWid = 50;
         var formm = document.getElementById("help");
         goButton.addEventListener('click', function () {
             console.log("go has been clicked!");
@@ -171,7 +171,7 @@
         clearButton.addEventListener('click', function () {
         console.log("clear has been clicked!");
 
-        ctx.clearRect(0, 0, 500, 500);
+        ctx.clearRect(0, 0, 1, 1);
         });
 
 
@@ -208,8 +208,8 @@
         var ESelected = false;
         var erase = function(x1, y1, x2, y2){
             
-            var heightE = y2 - y1;
-            var widthE = x2 - x1;
+            var heightE = 10;
+            var widthE = 10;
             
             ctx.clearRect(x1, y1, widthE, heightE);
         }

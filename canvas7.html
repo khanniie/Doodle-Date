@@ -20,13 +20,14 @@
         
         #canvasCover {
             height: 500px;
-            width: 500px;
+            width: 1000px;
             position: fixed;
             left: 10%;
             top: 25%;
             cursor: none;
             z-index: 5;
         }
+        
         /*     the apply button - has an eventlistner attached, when clicked, it updates color and width   */
         
         #go {
@@ -72,12 +73,19 @@
             position: absolute;
             left: 40%;
             top: 40%;
-            z-index: 0;
+            z-index: 1;
         }
         /* is added through javascript when the cursor reaches the canvas. follower is invisible until then.*/
         
         #follower.on {
             display: block;
+        }
+        
+        .percent{
+            width: 2rem;
+            height: 2rem;
+            background-color: aqua;
+            
         }
     </style>
 </head>
@@ -96,9 +104,20 @@
                 <legend>Options</legend>
                 <label for="colorhex">color hex (add # at start please): </label>
                 <input type="text" name="colorhex" id="colorhex" size="10" />
-                <label for="colorhex">line width: </label>
+                <label for="lineWid">line width: </label>
                 <input type="range" name="lineWid" id="lineWid"/>
+                <label for="lineOpacity">line opacity: </label>
+                <input type="range" name="lineOpacity" id="lineOpacity"/><div id="opacityPercent" class ="percent"></div>
 
+                    <!--apply button that has an eventlistener that updates color and width when clicked   -->
+    <div id="go">APPLY! :) </div>
+
+
+    <!--    button that clears canvas-->
+    <div id="clear"> New Canvas (old one will be cleared) </div>
+
+
+                
                 <br/>
                 <br/>
 
@@ -108,43 +127,48 @@
     </form>
 
 
-    <!--apply button that has an eventlistener that updates color and width when clicked   -->
-    <div id="go">APPLY! :) </div>
-
-
-    <!--    button that clears canvas-->
-    <div id="clear"> New Canvas (old one will be cleared) </div>
-
 
 
     <!--original code start/ the canvas-->
-    <canvas width='500px' height='500px' id='myCanvas'></canvas>
+    <canvas width='1000px' height='500px' id='myCanvas'></canvas>
     <div id="canvasCover"></div>
     <!--    // original code end-->
 
 
     <script>
+        
         //gets the follower, which needs to change its background color and size according to line color and width
         var follower = document.querySelector('#follower');
         
         
         var lineCol = "#000000";
         var lineWid = 50;
+        var lineOpacity = 1;
+        
         var formm = document.getElementById("help");
 
         var updateFollower = function(){
             follower.style.backgroundColor = formm.colorhex.value;
             follower.style.width = formm.lineWid.value * 1 + "px";
-            follower.style.height = formm.lineWid.value * 1 + "px";
-
-            
-            
+            follower.style.height = formm.lineWid.value * 1 + "px";      
         }
+        
         
         var widSlider = document.getElementById("lineWid");
         
+        var opacitySlider = document.getElementById("lineOpacity");
+        
+        opacitySlider.value= 100;
+        
         widSlider.addEventListener("change", function(){
              lineWid = widSlider.value;           updateFollower();           
+                                   })
+        
+        opacitySlider.addEventListener("change", function(){
+            console.log("The new opacity is:" + opacitySlider.value);
+            var opacityPercent = document.getElementById("opacityPercent");
+            opacityPercent.innerText= opacitySlider.value + "%";
+             lineOpacity = opacitySlider.value/100.0;    updateFollower();           
                                    })
         
         
@@ -158,9 +182,9 @@
 
             updateFollower();
 
-            console.log(lineCol);
-            console.log(lineWid);
-            console.log("a " + follower.style.backgroundColor);
+            console.log("line color is =" + lineCol);
+            console.log("line width is=" + lineWid);
+            console.log("follower's background color is " + follower.style.backgroundColor);
 
         });
         //**********END
@@ -177,7 +201,11 @@
         clearButton.addEventListener('click', function () {
         console.log("clear has been clicked!");
 
-        ctx.clearRect(0, 0, 500, 500);
+        var canvas2width = canvas2.width;
+        var canvas2height = canvas2.height;
+        console.log("canvas width =" + canvas2width + " canvas height =" + canvas2height );
+        
+        ctx.clearRect(0, 0, canvas2width, canvas2height);
         });
 
 
@@ -202,6 +230,9 @@
             ctx.lineCap = "round";
             ctx.moveTo(x1, y1); // move our pen to x1, y1
             ctx.lineWidth = lineWid;
+            ctx.globalAlpha= lineOpacity;
+            
+            
             ctx.lineTo(x2, y2); // draw a line from wherever our pen is to x2, y2
             ctx.strokeStyle = lineCol;
             ctx.stroke(); // and then actually fill in the line with whatever stroke is defined

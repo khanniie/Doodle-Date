@@ -1,15 +1,72 @@
+<!--
+Main canvas version. Has:
+
+- working color changer (text input)
+- working line width changer slider
+- working follower
+- clear canvas
+- weird opacity function (wip)
+-->
+
+
 <html>
 
 <head>
     <title>My drawing tool!</title>
-    <link rel="stylesheet" type="text/css" href="canvas.css">
-   
-  
+    <link rel="stylesheet" type="text/css" href="/canvas.css">
+
 </head>
 
 <body>
-     <script type="text/javascript" src="canvas.js"></script>
-    <canvas width='500px' height='500px' id='myCanvas'></canvas>
+    <!-- for follower -->
+    <div id='follower'></div>
+
+
+    <!--    place to input values to change the color and width. Still needs a lot of work! -->
+    <form method="get" action="" id="help">
+
+        <div>
+            <fieldset>
+                <legend>Options</legend>
+                <label for="colorhex">color hex (add # at start please): </label>
+                <input type="text" name="colorhex" id="colorhex" size="10" />
+                <label for="lineWid">line width: </label>
+                <input type="range" name="lineWid" id="lineWid" />
+                <label for ="lineWid" id="widthPercent">50%</label>
+                
+                <label for="lineOpacity">line opacity: </label>
+                <input type="range" name="lineOpacity" id="lineOpacity" />
+                <label for ="lineOpacity" id="opacityPercent">100%</label>
+
+                <!--apply button that has an eventlistener that updates color and width when clicked   -->
+                <div id="go">APPLY! :) </div>
+
+
+                <!--    button that clears canvas-->
+                <div id="clear"> New Canvas (old one will be cleared) </div>
+
+
+
+                <br/>
+                <br/>
+
+            </fieldset>
+
+        </div>
+    </form>
+
+
+
+
+    <!--original code start/ the canvas-->
+    <canvas width='1000px' height='500px' id='myCanvas'></canvas>
+    <div id="canvasCover"></div>
+    <!--    // original code end-->
+
+
+    <script type="text/javascript" src="/canvas.js"></script>
+
+
 
 </body>
 

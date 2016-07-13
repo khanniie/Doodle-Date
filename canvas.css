@@ -1,13 +1,82 @@
- #myCanvas {
-        border: 1px black dotted;
-        /* A bit of border so that we can see our canvas */
-    }
+        html {
+            font-family: arial, times, sans-serif;
+        }
+        
+        #myCanvas {
+            border: 1px black solid;
+            position: fixed;
+            left: 10%;
+            top: 25%;
+            z-index: -1;
+        }
+        /*        A transparent "cover" that is the exact dimension of the canvas. Gets rid of the problem where the "follower" is between the cursor and eventlistner canvas*/
+        
+        #canvasCover {
+            height: 500px;
+            width: 1000px;
+            position: fixed;
+            left: 10%;
+            top: 25%;
+            cursor: none;
+            z-index: 5;
+        }
+        
+        /*     the apply button - has an eventlistner attached, when clicked, it updates color and width   */
+        
+        #go {
+            padding: 0.5rem;
+            margin: 0.5rem;float: left;
+            border: 2px solid grey;
+            background-color: azure;
+            height: 2rem;
+            width: 7rem;
+            box-shadow: 2px 2px grey;
+            text-align: center;
+            font-variant: small-caps;
+            font-size: 1.2rem;
+            border-radius: 20%;
+        }
+        
+        /* button to clear current canvas */
+        
+        #clear {
+            float: left;
+            padding: 0.5rem;
+            margin: 0.5rem;
+            border: 2px solid grey;
+            background-color: azure;
+            height: 2rem;
+            width: 9rem;
+            box-shadow: 2px 2px grey;
+            text-align: center;
+            font-variant: small-caps;
+            border-radius: 20%;
+        }
+        /* extra stuff added for follower, the dot that represents the pen on the canvas */
+        
+        #follower {
+            display: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #000000;
+            border: 0.5px dotted grey;
+            position: absolute;
+            cursor: none;
+            position: absolute;
+            left: 40%;
+            top: 40%;
+            z-index: 1;
+        }
+        /* is added through javascript when the cursor reaches the canvas. follower is invisible until then.*/
+        
+        #follower.on {
+            display: block;
+        }
+        
 
- #follower {
-    	width: 10px;
-    	height: 10px;
-    	/*border-radius: 50%; */
-    	background-color: lightcyan;
-        border: solid black;
-    	position: absolute;
-    }
+.button{
+    
+    float: left down;
+    clear: top;
+}
