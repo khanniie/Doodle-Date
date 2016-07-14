@@ -96,18 +96,11 @@
         <div>
             <fieldset>
                 <legend>Options</legend>
-                <label for="colorhex">color hex (add # at start please): </label>
-                <input type="text" name="colorhex" id="colorhex" size="10" />
-                <label for="colorhex">line width: </label>
+                <label for="lineSoft">softness: </label>
+                <input type="text" name="lineSoft" id="lineSoft" size="10" />
+                <label for="lineWid">line width: </label>
                 <input type="text" name="lineWid" id="lineWid" size="10" />
-                
-                
-               <p>Draw Type</p>
-              <input type="radio" name="draw" id="penRadio" value="Pen" checked/><label for="penRadio">Pen</label><br/>
-              <input type="radio" name="draw" id="eraserRadio" value="Eraser"/><label for="eraserRadio">Eraser</label><br/>
-
-                <br/>
-                <br/>
+            
 
             </fieldset>
 
@@ -139,20 +132,18 @@
         //code belows allows for the changing of line color and width          
         var goButton = document.getElementById("go");
 
-        var lineCol = "#000000";
-        var lineWid = 2;
+        var softValue = 50;
+        var lineWid = 50;
         var formm = document.getElementById("help");
         goButton.addEventListener('click', function () {
             console.log("go has been clicked!");
-            lineCol = formm.colorhex.value;
+            softValue = formm.lineSoft.value;
             lineWid = formm.lineWid.value;
 
-            follower.style.backgroundColor = formm.colorhex.value;
             follower.style.width = formm.lineWid.value * 1.5 + "px";
             follower.style.height = formm.lineWid.value * 1.5 + "px";
 
 
-            console.log(lineCol);
             console.log(lineWid);
             console.log("a " + follower.style.backgroundColor);
 
@@ -171,7 +162,7 @@
         clearButton.addEventListener('click', function () {
         console.log("clear has been clicked!");
 
-        ctx.clearRect(0, 0, 500, 500);
+        ctx.clearRect(0, 0, 1000, 500);
         });
 
 
@@ -189,17 +180,18 @@
             follower.classList.remove("on");
         });
 
+        var line = function (x1, y1, x2, y2, tempWidth) { // A convenience function to draw a line between two points in our context
 
-        var line = function (x1, y1, x2, y2) { // A convenience function to draw a line between two points in our context
-
+            
             ctx.beginPath(); // start a path
             ctx.lineCap = "round";
             ctx.moveTo(x1, y1); // move our pen to x1, y1
-            ctx.lineWidth = lineWid;
+            ctx.lineWidth = tempWidth;
             ctx.lineTo(x2, y2); // draw a line from wherever our pen is to x2, y2
-            ctx.strokeStyle = lineCol;
+            ctx.strokeStyle = "red";
             ctx.stroke(); // and then actually fill in the line with whatever stroke is defined
             ctx.closePath(); // and close our path
+         
         };
         
         
@@ -208,8 +200,8 @@
         var ESelected = false;
         var erase = function(x1, y1, x2, y2){
             
-            var heightE = y2 - y1;
-            var widthE = x2 - x1;
+            var heightE = 10;
+            var widthE = 10;
             
             ctx.clearRect(x1, y1, widthE, heightE);
         }
@@ -235,16 +227,47 @@
         });
 
         cover.addEventListener('mousemove', function (event) { // When the mouse is moved over the canvas element
-            if (mouseIsDown) { // If the mouse button is also down (i.e. if we're dragging)
-                if (document.getElementById("eraserRadio").checked){
-                    erase(mousePosition.x, mousePosition.y, event.offsetX, event.offsetY); 
+            if (mouseIsDown) { 
+                
+                var mpX = mousePosition.x;
+                var mpY = mousePosition.y;
+                
+                var ex =event.offsetX;
+                var ey = event.offsetY;
+                
+                var tempWid= 100;
+                var omo = 0.0;
+                
+                if(softValue <= 0)
+                    {
+                        ctx.globalAlpha= 1;
+                        line(mpX, mpY, ex, ey, tempWid);
                     
-                    updateMousePosition(event);
-                }
-                else{
-                line(mousePosition.x, mousePosition.y, event.offsetX, event.offsetY); // draw a line from our old (mousePosition.x, .y) coordinates to the event's coordinates
-                updateMousePosition(event); // and then update our mousePosition coordinates
-            }}
+                     tempWid=-1;
+                    }
+            
+             
+                while (tempWid > 0){
+                  ctx.globalAlpha= omo/100.0;
+                    
+                  if( softValue >100){
+                   softValue=100;
+               }
+                
+                    
+                line(mpX, mpY, ex, ey, tempWid);
+                
+                tempWid = tempWid - (softValue)/10;
+                    
+                omo = omo + 1;
+                
+
+            }
+                
+            console.log(tempWid);
+                updateMousePosition(event);
+            }
+                               
 
 
             //*****extra added for the follower
