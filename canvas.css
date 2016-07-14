@@ -7,7 +7,7 @@
             border: 1px black solid;
             position: fixed;
             left: 10%;
-            top: 25%;
+            top: 45%;
             z-index: -1;
         }
         /*        A transparent "cover" that is the exact dimension of the canvas. Gets rid of the problem where the "follower" is between the cursor and eventlistner canvas*/
@@ -17,7 +17,7 @@
             width: 1000px;
             position: fixed;
             left: 10%;
-            top: 25%;
+            top: 45%;
             cursor: none;
             z-index: 5;
         }
@@ -79,3 +79,4 @@
             float: left down;
             clear: top;
         }
+
