@@ -141,32 +141,19 @@ var follower = document.querySelector('#follower');
             mouseIsDown = false; // toggle mouseIsDown
         });
 
-             // When the mouse is moved over the canvas element
-        cover.addEventListener('mousemove', function (event) {
+        cover.addEventListener('mousemove', function (event) { // When the mouse is moved over the canvas element
             if (mouseIsDown) { 
                 
-//                the mouse positions. program does not work if these are placed inside the while loop
                 var mpX = mousePosition.x;
                 var mpY = mousePosition.y;
                 
                 var ex =event.offsetX;
                 var ey = event.offsetY;
                 
-//                tempWid is a temporary width that will change
-//                omo is the current opacity that gets incremented up
                 var tempWid= lineWid;
                 var omo = 0.0;
                 
                
-//                just in case
-                if(lineSoft <= 0)
-                    {
-                        ctx.globalAlpha= lineOpacity;
-                        line(mpX, mpY, ex, ey, tempWid);
-                    
-                     tempWid=-1;
-                    }
-                
                 
                 if(lineSoft <= 0)
                     {
@@ -176,53 +163,51 @@ var follower = document.querySelector('#follower');
                      tempWid=-1;
                     }
                 
-                //as it gets softer, originally it also got smaller, so the code below just increases lineWidth as it gets softer
-                
-                if(lineSoft > 30){
-                tempWid = tempWid *1.4;      
-                }
-                else if(lineSoft > 40){
-                tempWid = tempWid *1.45;      
-                }
-                else if(lineSoft > 50){
-                tempWid = tempWid *1.5;      
+                if(lineSoft > 50){
+                tempWid = tempWid *1.3;      
                 }
                 
                 else if(lineSoft > 60){
-                tempWid = tempWid *1.6;      
+                tempWid = tempWid *1.4;      
                 }
                 else if(lineSoft > 70){
-                tempWid = tempWid *1.7;      
+                tempWid = tempWid *1.5;      
                 }
                 else if(lineSoft > 80){
-                tempWid = tempWid *1.8;      
+                tempWid = tempWid *1.6;      
                 }
                 else if(lineSoft > 90){
-                tempWid = tempWid *1.9;      
+                tempWid = tempWid *1.6;      
                 }
                 
-                if( lineSoft >100){
-                   lineSoft=100;}
-                
-                
-                //implementing lineOpacity within softness
-                var opacityCutoff = tempWid - ((lineOpacity) * tempWid);
-                console.log("opa" + opacityCutoff);
+                 var opacityCutoff = -1* ((lineOpacity * tempWid)-100);
        
+                while (tempWid > 10){
                 
-                //the while loop
-                while (tempWid > opacityCutoff){
-                ctx.globalAlpha= omo/100.0;  
+                  
+                   if( lineSoft >100){
+                   lineSoft=100;
+                        
+                    ctx.globalAlpha= omo/100.0;
+                    
+                  
+               }
+                
+                    
                 line(mpX, mpY, ex, ey, tempWid);
+                
                 tempWid = tempWid - (lineSoft)/20.0;
-                omo = omo + (lineOpacity) * .8;
-                } 
-                updateMousePosition(event);
+                    
+                omo = omo + 1;
+                
+                    i++;
+                
+                } updateMousePosition(event);
             }
                                
 
 
-            //*****extra added for the follower to follow the cursor
+            //*****extra added for the follower
             follower.style.left = event.x - .5 *lineWid + "px";
             follower.style.top = event.y - .5 *lineWid +"px";
 
