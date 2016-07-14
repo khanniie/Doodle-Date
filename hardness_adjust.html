@@ -96,9 +96,9 @@
         <div>
             <fieldset>
                 <legend>Options</legend>
-                <label for="colorhex">color hex (add # at start please): </label>
-                <input type="text" name="colorhex" id="colorhex" size="10" />
-                <label for="colorhex">line width: </label>
+                <label for="lineSoft">softness: </label>
+                <input type="text" name="lineSoft" id="lineSoft" size="10" />
+                <label for="lineWid">line width: </label>
                 <input type="text" name="lineWid" id="lineWid" size="10" />
             
 
@@ -132,20 +132,18 @@
         //code belows allows for the changing of line color and width          
         var goButton = document.getElementById("go");
 
-        var lineCol = "#000000";
+        var softValue = 50;
         var lineWid = 50;
         var formm = document.getElementById("help");
         goButton.addEventListener('click', function () {
             console.log("go has been clicked!");
-            lineCol = formm.colorhex.value;
+            softValue = formm.lineSoft.value;
             lineWid = formm.lineWid.value;
 
-            follower.style.backgroundColor = formm.colorhex.value;
             follower.style.width = formm.lineWid.value * 1.5 + "px";
             follower.style.height = formm.lineWid.value * 1.5 + "px";
 
 
-            console.log(lineCol);
             console.log(lineWid);
             console.log("a " + follower.style.backgroundColor);
 
@@ -164,7 +162,7 @@
         clearButton.addEventListener('click', function () {
         console.log("clear has been clicked!");
 
-        ctx.clearRect(0, 0, 1, 1);
+        ctx.clearRect(0, 0, 1000, 500);
         });
 
 
@@ -181,7 +179,6 @@
         cover.addEventListener("mouseleave", function () {
             follower.classList.remove("on");
         });
-        var opa = 75; 
 
         var line = function (x1, y1, x2, y2, tempWidth) { // A convenience function to draw a line between two points in our context
 
@@ -191,7 +188,7 @@
             ctx.moveTo(x1, y1); // move our pen to x1, y1
             ctx.lineWidth = tempWidth;
             ctx.lineTo(x2, y2); // draw a line from wherever our pen is to x2, y2
-            ctx.strokeStyle = lineCol;
+            ctx.strokeStyle = "red";
             ctx.stroke(); // and then actually fill in the line with whatever stroke is defined
             ctx.closePath(); // and close our path
          
@@ -240,18 +237,33 @@
                 
                 var tempWid= 100;
                 var omo = 0.0;
-                var softValue = 100.0;
                 
+                if(softValue <= 0)
+                    {
+                        ctx.globalAlpha= 1;
+                        line(mpX, mpY, ex, ey, tempWid);
+                    
+                     tempWid=-1;
+                    }
+            
+             
                 while (tempWid > 0){
                   ctx.globalAlpha= omo/100.0;
                     
+                  if( softValue >100){
+                   softValue=100;
+               }
+                
+                    
                 line(mpX, mpY, ex, ey, tempWid);
                 
-                tempWid = tempWid - softValue/10;
+                tempWid = tempWid - (softValue)/10;
                     
                 omo = omo + 1;
-           
+                
+
             }
+                
             console.log(tempWid);
                 updateMousePosition(event);
             }
