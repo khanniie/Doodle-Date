@@ -1,5 +1,7 @@
 //gets the follower, which needs to change its background color and size according to line color and width
-        var follower = document.querySelector('#follower');
+<script src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>       
+
+var follower = document.querySelector('#follower');
         
         
         var lineCol = "#000000";

@@ -1,0 +1,269 @@
+<html>
+<!--verison 2, testing out eraser-->
+    
+    
+<head>
+    <title> Connie's drawing tool! </title>
+    <style>
+        html {
+            font-family: arial, times, sans-serif;
+        }
+        
+        
+        
+        #myCanvas {
+            border: 1px black solid;
+            position: fixed;
+            left: 10%;
+            top: 35%;
+            z-index: -1;
+        }
+        /*        A transparent "cover" that is the exact dimension of the canvas. Gets rid of the problem where the "follower" is between the cursor and eventlistner canvas*/
+        
+        #canvasCover {
+            height: 500px;
+            width: 500px;
+            position: fixed;
+            left: 10%;
+            top: 35%;
+            cursor: none;
+            z-index: 5;
+        }
+        /*     the apply button - has an eventlistner attached, when clicked, it updates color and width   */
+        
+        #go {
+            padding: 0.5rem;
+            margin: 0.5rem;float: left;
+            border: 2px solid grey;
+            background-color: azure;
+            height: 2rem;
+            width: 7rem;
+            box-shadow: 2px 2px grey;
+            text-align: center;
+            font-variant: small-caps;
+            font-size: 1.2rem;
+            border-radius: 20%;
+        }
+        
+        /* button to clear current canvas */
+        
+        #clear {
+            float: left;
+            padding: 0.5rem;
+            margin: 0.5rem;
+            border: 2px solid grey;
+            background-color: azure;
+            height: 2rem;
+            width: 9rem;
+            box-shadow: 2px 2px grey;
+            text-align: center;
+            font-variant: small-caps;
+            border-radius: 20%;
+        }
+        /* extra stuff added for follower, the dot that represents the pen on the canvas */
+        
+        #follower {
+            display: none;
+            width: 3px;
+            height: 3px;
+            border-radius: 50%;
+            background-color: #000000;
+            border: 0.5px dotted grey;
+            position: absolute;
+            cursor: none;
+            position: absolute;
+            left: 40%;
+            top: 40%;
+            z-index: -1;
+        }
+        /* is added through javascript when the cursor reaches the canvas. follower is invisible until then.*/
+        
+        #follower.on {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- for follower -->
+    <div id='follower'></div>
+
+
+    <!--    place to input values to change the color and width. Still needs a lot of work! -->
+    <form method="get" action="" id="help">
+
+        <div>
+            <fieldset>
+                <legend>Options</legend>
+                <label for="colorhex">color hex (add # at start please): </label>
+                <input type="text" name="colorhex" id="colorhex" size="10" />
+                <label for="colorhex">line width: </label>
+                <input type="text" name="lineWid" id="lineWid" size="10" />
+            
+
+            </fieldset>
+
+        </div>
+    </form>
+
+
+    <!--apply button that has an eventlistener that updates color and width when clicked   -->
+    <div id="go">APPLY! :) </div>
+
+
+    <!--    button that clears canvas-->
+    <div id="clear"> New Canvas (old one will be cleared) </div>
+
+
+
+    <!--original code start/ the canvas-->
+    <canvas width='500px' height='500px' id='myCanvas'></canvas>
+    <div id="canvasCover"></div>
+    <!--    // original code end-->
+
+
+    
+    <script src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>
+    <script>
+        //gets the follower, which needs to change its background color and size according to line color and width
+        var follower = document.querySelector('#follower');
+
+        //code belows allows for the changing of line color and width          
+        var goButton = document.getElementById("go");
+
+        var lineCol = "#000000";
+        var lineWid = 50;
+        var formm = document.getElementById("help");
+        goButton.addEventListener('click', function () {
+            console.log("go has been clicked!");
+            lineCol = formm.colorhex.value;
+            lineWid = formm.lineWid.value;
+
+            follower.style.backgroundColor = formm.colorhex.value;
+            follower.style.width = formm.lineWid.value * 1.5 + "px";
+            follower.style.height = formm.lineWid.value * 1.5 + "px";
+
+
+            console.log(lineCol);
+            console.log(lineWid);
+            console.log("a " + follower.style.backgroundColor);
+
+        });
+        //**********END
+
+
+        //        code to clear canvas
+
+
+        var canvas2 = document.querySelector('#myCanvas'); 
+        var ctx2 = canvas2.getContext('2d');
+        
+        var clearButton = document.getElementById("clear");
+
+        clearButton.addEventListener('click', function () {
+        console.log("clear has been clicked!");
+
+        ctx.clearRect(0, 0, 1, 1);
+        });
+
+
+        // original code from alec, slightly modified. instead of canvas, the eventlistner is added to a "cover" on top of the canvas. 
+        var canvas = document.querySelector('#myCanvas'); // Grab a JS hook into our canvas element
+
+        var cover = document.querySelector('#canvasCover');
+        var ctx = canvas.getContext('2d'); // Grab the rendering context, which we actually use to draw
+
+        cover.addEventListener("mouseenter", function () {
+            follower.classList.add("on");
+        });
+
+        cover.addEventListener("mouseleave", function () {
+            follower.classList.remove("on");
+        });
+        var opa = 75; 
+
+        var line = function (x1, y1, x2, y2, tempWidth) { // A convenience function to draw a line between two points in our context
+
+            
+            ctx.beginPath(); // start a path
+            ctx.lineCap = "round";
+            ctx.moveTo(x1, y1); // move our pen to x1, y1
+            ctx.lineWidth = tempWidth;
+            ctx.lineTo(x2, y2); // draw a line from wherever our pen is to x2, y2
+            ctx.strokeStyle = lineCol;
+            ctx.stroke(); // and then actually fill in the line with whatever stroke is defined
+            ctx.closePath(); // and close our path
+         
+        };
+        
+        
+//        eraser
+        
+        var ESelected = false;
+        var erase = function(x1, y1, x2, y2){
+            
+            var heightE = 10;
+            var widthE = 10;
+            
+            ctx.clearRect(x1, y1, widthE, heightE);
+        }
+        
+
+        var mouseIsDown = false; // a variable we'll toggle to keep track of whether the mouse is down
+
+        var mousePosition = { // a convenience dictionary for storing our mouse's x- and y-coordinates
+            x: null
+            , y: null
+        };
+        var updateMousePosition = function (event) { // a function to take a MouseEvent and update our mousePosition dictionary with the right x- and y-coordinates from the MouseEvent
+            mousePosition.x = event.offsetX;
+            mousePosition.y = event.offsetY;
+        };
+
+        cover.addEventListener('mousedown', function (event) { // When the mouse button is pressed down on the canvas element
+            mouseIsDown = true; // toggle mouseIsDown
+            updateMousePosition(event); // update the mousePosition
+        });
+        cover.addEventListener('mouseup', function (event) { // When we release the mouse button on the canvas element
+            mouseIsDown = false; // toggle mouseIsDown
+        });
+
+        cover.addEventListener('mousemove', function (event) { // When the mouse is moved over the canvas element
+            if (mouseIsDown) { 
+                
+                var mpX = mousePosition.x;
+                var mpY = mousePosition.y;
+                
+                var ex =event.offsetX;
+                var ey = event.offsetY;
+                
+                var tempWid= 100;
+                var omo = 0.0;
+                var softValue = 100.0;
+                
+                while (tempWid > 0){
+                  ctx.globalAlpha= omo/100.0;
+                    
+                line(mpX, mpY, ex, ey, tempWid);
+                
+                tempWid = tempWid - softValue/10;
+                    
+                omo = omo + 1;
+           
+            }
+            console.log(tempWid);
+                updateMousePosition(event);
+            }
+                               
+
+
+            //*****extra added for the follower
+            follower.style.left = event.x - 5 + "px";
+            follower.style.top = event.y - 5
+
+        });
+    </script>
+</body>
+
+</html>
