@@ -4,14 +4,16 @@
         var lineOpacity = 1;
         var lineSoft = 20;
 
-$(function () {
-  
-    
+
         var updateFollower = function(){
             follower.style.backgroundColor = lineCol;
             follower.style.width = lineWid + "px";
             follower.style.height = lineWid  + "px";   
         };
+
+$(function () {
+  
+    
     
 	   $('#colorpicker2').farbtastic({callback: function(color){
            lineCol = color;
