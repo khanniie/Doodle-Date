@@ -28,8 +28,6 @@ var follower = document.querySelector('#follower');
             var widthPercent = document.querySelector("#widthPercent");
              widthPercent.innerText = widSlider.value + "%";
              updateFollower();  
-             
-            
                                    })
         
         opacitySlider.addEventListener("change", function(){
