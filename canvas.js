@@ -31,7 +31,6 @@ var follower = document.querySelector('#follower');
                                    })
         
         opacitySlider.addEventListener("change", function(){
-            console.log("The new opacity is:" + opacitySlider.value);
             var opacityPercent = document.querySelector("#opacityPercent");
             opacityPercent.innerText = opacitySlider.value + "%";
             
@@ -54,7 +53,6 @@ var follower = document.querySelector('#follower');
         var goButton = document.getElementById("go");
 
         goButton.addEventListener('click', function () {
-            console.log("go has been clicked!");
             lineCol = formm.color2.value;
 
             updateFollower();
@@ -67,11 +65,9 @@ var follower = document.querySelector('#follower');
         var clearButton = document.getElementById("clear");
 
         clearButton.addEventListener('click', function () {
-        console.log("clear has been clicked!");
 
         var canvas2width = canvas2.width;
         var canvas2height = canvas2.height;
-        console.log("canvas width =" + canvas2width + " canvas height =" + canvas2height );
         
         ctx.clearRect(0, 0, canvas2width, canvas2height);
         });
@@ -178,8 +174,6 @@ var follower = document.querySelector('#follower');
                 
                 //implementing lineOpacity within softness
                 var opacityCutoff = tempWid - ((lineOpacity) * tempWid);
-                console.log("opa" + opacityCutoff);
-       
                 
                 //the while loop
                 while (tempWid > opacityCutoff){
