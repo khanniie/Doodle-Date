@@ -1,15 +1,15 @@
 var follower = document.querySelector('#follower');
         
         
-        var lineCol = "#000000";
+        var lineCol = "#808080";
         var lineWid = 50;
         var lineOpacity = 1;
         var lineSoft = 20;
         
-        var formm = document.getElementById("help");
+        var formm = document.getElementById("colorForm");
 
         var updateFollower = function(){
-            follower.style.backgroundColor = formm.colorhex.value;
+            follower.style.backgroundColor = formm.color2.value;
             follower.style.width = lineWid + "px";
             follower.style.height = lineWid  + "px";   
         };
@@ -55,7 +55,7 @@ var follower = document.querySelector('#follower');
 
         goButton.addEventListener('click', function () {
             console.log("go has been clicked!");
-            lineCol = formm.colorhex.value;
+            lineCol = formm.color2.value;
 
             updateFollower();
         });
