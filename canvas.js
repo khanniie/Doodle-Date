@@ -1,18 +1,30 @@
-var follower = document.querySelector('#follower');
-        
-        
-        var lineCol = "#808080";
+  var follower = document.querySelector('#follower');
+    var lineCol = "#808080";
         var lineWid = 50;
         var lineOpacity = 1;
         var lineSoft = 20;
-        
-        var formm = document.getElementById("colorForm");
 
+$(function () {
+  
+    
         var updateFollower = function(){
-            follower.style.backgroundColor = formm.color2.value;
+            follower.style.backgroundColor = lineCol;
             follower.style.width = lineWid + "px";
             follower.style.height = lineWid  + "px";   
         };
+    
+	   $('#colorpicker2').farbtastic({callback: function(color){
+           lineCol = color;
+           updateFollower();
+       }, width: 150 }); 
+     });
+
+
+        
+        
+        var formm = document.getElementById("colorForm");
+
+        
         
         
         var widSlider = document.getElementById("lineWid");
@@ -48,16 +60,6 @@ var follower = document.querySelector('#follower');
              updateFollower();           
                                    });
         
-        
-        //code belows allows for the changing of line color       
-        var goButton = document.getElementById("go");
-
-        goButton.addEventListener('click', function () {
-            lineCol = formm.color2.value;
-
-            updateFollower();
-        });
-
         //        code to clear canvas
         var canvas2 = document.querySelector('#myCanvas'); 
         var ctx2 = canvas2.getContext('2d');

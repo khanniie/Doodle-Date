@@ -20,11 +20,6 @@ canvas version 1.3. Has:
     <script type="text/javascript" charset="utf-8" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
     
     <script type="text/javascript" charset="utf-8" src="farbtastic-master/src/farbtastic.js"></script>
-	<script type="text/javascript" charset="utf-8">
-	 $(function () {
-	   $('#colorpicker2').farbtastic({ callback: '#color2', width: 150 });
-	 });
-	</script>
 
 
 </head>
@@ -56,10 +51,6 @@ canvas version 1.3. Has:
                 <input type="range" name="lineSoftness" id="lineSoftness" />
                 <label for="lineSoftness" id="softnessPercent">20%</label>
 
-                <!--apply button that has an eventlistener that updates color when clicked. temporary   -->
-                <div id="go">APPLY! :) (only needed for color) </div>
-
-
                 <!--    button that clears canvas-->
                 <div id="clear"> New Canvas (old one will be cleared) </div>
 
@@ -72,7 +63,6 @@ canvas version 1.3. Has:
     
        <div class="colorpicker">
         <div id="colorpicker2"></div>
-        <form id = "colorForm"><input type="text" id="color2" /></form>
         </div>
 
     <!-- the canvas-->
