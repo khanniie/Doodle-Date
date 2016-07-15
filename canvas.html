@@ -17,23 +17,7 @@ side canvas version 1.2. Has:
   
     <title>Drawing tool 1.2</title>
     <link rel="stylesheet" type="text/css" href="canvas.css">
-    <style type="text/css" media="screen">
-	 .colorpicker {
-	   float: left;
-	   margin: 1em;
-       z-index: 10;
-	 }
-	 form {
-	   margin: 2em 1em 0 1;
-	   text-align: center;
-	 }
-	
-	 p {
-	   clear: both;
-	 }
-	</style>
-    
-    
+
     <script type="text/javascript" charset="utf-8" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
     <script type="text/javascript" charset="utf-8" src="farbtastic-master/src/farbtastic.js"></script>
 	<script type="text/javascript" charset="utf-8">
@@ -43,7 +27,6 @@ side canvas version 1.2. Has:
 	</script>
     
 
-    <script type="text/javascript" src="canvas.js"></script>
 
 </head>
 
@@ -90,13 +73,12 @@ side canvas version 1.2. Has:
 
             </fieldset>
         </div>
-        
-        <div class="colorpicker">
+    </form>
+    
+       <div class="colorpicker">
         <div id="colorpicker2"></div>
         <form><input type="text" id="color2" /></form>
         </div>
-        
-    </form>
 
     <!-- the canvas-->
     <canvas width='1000px' height='500px' id='myCanvas'></canvas>
@@ -104,6 +86,8 @@ side canvas version 1.2. Has:
     <div id="canvasCover"></div>
 
 
+    <script type="text/javascript" src="canvas.js"></script>
+    
 </body>
 
 </html>

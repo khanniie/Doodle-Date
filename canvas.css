@@ -79,4 +79,14 @@
             float: left down;
             clear: top;
         }
-
+        
+      .colorpicker {
+	   float: left;
+	   margin: 1em;
+       z-index: 10;
+	 }
+	 form {
+	   margin: 2em 1em 0 1;
+	   text-align: center;
+	 }
+	

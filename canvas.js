@@ -11,14 +11,12 @@ var follower = document.querySelector('#follower');
         var updateFollower = function(){
             follower.style.backgroundColor = formm.colorhex.value;
             follower.style.width = lineWid + "px";
-            follower.style.height = lineWid  + "px";      
+            follower.style.height = lineWid  + "px";   
         };
         
         
         var widSlider = document.getElementById("lineWid");
-        
         var opacitySlider = document.getElementById("lineOpacity");
-        
         var softnessSlider = document.getElementById("lineSoftness");
         
         
@@ -45,7 +43,6 @@ var follower = document.querySelector('#follower');
         
         
         softnessSlider.addEventListener("change", function(){
-            console.log("The new softness is:" + softnessSlider.value);
             var softnessPercent = document.querySelector("#softnessPercent");
             
             softnessPercent.innerText = softnessSlider.value + "%";
@@ -55,27 +52,17 @@ var follower = document.querySelector('#follower');
                                    });
         
         
-        //code belows allows for the changing of line color and width          
+        //code belows allows for the changing of line color       
         var goButton = document.getElementById("go");
 
         goButton.addEventListener('click', function () {
             console.log("go has been clicked!");
             lineCol = formm.colorhex.value;
-            lineWid = formm.lineWid.value;
 
             updateFollower();
-
-            console.log("line color is =" + lineCol);
-            console.log("line width is=" + lineWid);
-            console.log("follower's background color is " + follower.style.backgroundColor);
-
         });
-        //**********END
-
 
         //        code to clear canvas
-
-
         var canvas2 = document.querySelector('#myCanvas'); 
         var ctx2 = canvas2.getContext('2d');
         
@@ -92,11 +79,11 @@ var follower = document.querySelector('#follower');
         });
 
 
-        // original code from alec, slightly modified. instead of canvas, the eventlistner is added to a "cover" on top of the canvas. 
+        // instead of canvas, the eventlistner is added to a "cover" on top of the canvas. 
         var canvas = document.querySelector('#myCanvas'); // Grab a JS hook into our canvas element
 
         var cover = document.querySelector('#canvasCover');
-        var ctx = canvas.getContext('2d'); // Grab the rendering context, which we actually use to draw
+        var ctx = canvas.getContext('2d'); 
 
         cover.addEventListener("mouseenter", function () {
             follower.classList.add("on");
@@ -107,38 +94,33 @@ var follower = document.querySelector('#follower');
         });
 
 
-        var line = function (x1, y1, x2, y2, lineTemp) { // A convenience function to draw a line between two points in our context
-
-            ctx.beginPath(); // start a path
+        var line = function (x1, y1, x2, y2, lineTemp) { 
+            ctx.beginPath();
             ctx.lineCap = "round";
-            ctx.moveTo(x1, y1); // move our pen to x1, y1
-            ctx.lineWidth = lineTemp;
-//            ctx.globalAlpha= lineOpacity;
-//            
-//            
-            ctx.lineTo(x2, y2); // draw a line from wherever our pen is to x2, y2
+            ctx.moveTo(x1, y1);
+            ctx.lineWidth = lineTemp;        
+            ctx.lineTo(x2, y2); 
             ctx.strokeStyle = lineCol;
-            ctx.stroke(); // and then actually fill in the line with whatever stroke is defined
-            ctx.closePath(); // and close our path
+            ctx.stroke(); 
+            ctx.closePath(); 
         };
 
-        var mouseIsDown = false; // a variable we'll toggle to keep track of whether the mouse is down
-
-        var mousePosition = { // a convenience dictionary for storing our mouse's x- and y-coordinates
+        var mouseIsDown = false; 
+        var mousePosition = { 
             x: null
             , y: null
         };
-        var updateMousePosition = function (event) { // a function to take a MouseEvent and update our mousePosition dictionary with the right x- and y-coordinates from the MouseEvent
+        var updateMousePosition = function (event) {
             mousePosition.x = event.offsetX;
             mousePosition.y = event.offsetY;
         };
 
-        cover.addEventListener('mousedown', function (event) { // When the mouse button is pressed down on the canvas element
+        cover.addEventListener('mousedown', function (event) {
             mouseIsDown = true; // toggle mouseIsDown
             updateMousePosition(event); // update the mousePosition
         });
-        cover.addEventListener('mouseup', function (event) { // When we release the mouse button on the canvas element
-            mouseIsDown = false; // toggle mouseIsDown
+        cover.addEventListener('mouseup', function (event) {
+            mouseIsDown = false;
         });
 
              // When the mouse is moved over the canvas element
@@ -168,14 +150,6 @@ var follower = document.querySelector('#follower');
                     }
                 
                 
-                if(lineSoft <= 0)
-                    {
-                        ctx.globalAlpha= lineOpacity;
-                        line(mpX, mpY, ex, ey, tempWid);
-                    
-                     tempWid=-1;
-                    }
-                
                 //as it gets softer, originally it also got smaller, so the code below just increases lineWidth as it gets softer
                 
                 if(lineSoft > 30){
@@ -187,7 +161,6 @@ var follower = document.querySelector('#follower');
                 else if(lineSoft > 50){
                 tempWid = tempWid *1.5;      
                 }
-                
                 else if(lineSoft > 60){
                 tempWid = tempWid *1.6;      
                 }
