@@ -5,8 +5,14 @@
   var lineSoft = 20;
 
   var layerCounter = 2;
+  var currentCanvas = "canvas1";
   var layerZ = -99;
 
+ var updateCanvas = function(){
+   canvas = document.getElementById(currentCanvas);
+   ctx= canvas.getContext('2d');
+     
+ };
 
   var updateFollower = function () {
       follower.style.backgroundColor = lineCol;
@@ -54,7 +60,7 @@
               }
           });
       });
-  }
+  };
 
   //tried to make a for loop to make this section faster, but it never worked???
   $('#colorMem1').single_double_click(function () {
@@ -146,7 +152,7 @@
 
 
   // instead of canvas, the eventlistner is added to a "cover" on top of the canvas. 
-  var canvas = document.querySelector('#canvas1'); // Grab a JS hook into our canvas element
+  var canvas = document.getElementById(currentCanvas); // Grab a JS hook into our canvas element
 
   var cover = document.querySelector('#canvasCover');
   var ctx = canvas.getContext('2d');
@@ -155,7 +161,7 @@
 
   cover.addEventListener("mouseenter", function () {
       follower.classList.add("on");
-      updateFollower;
+      updateFollower();
       setEraserSettings();
 
   });
@@ -271,7 +277,7 @@
       follower.style.top = event.y - .5 * lineWid + "px";
 
       ctx.globalCompositeOperation = "source-over";
-      updateFollower();
+//      updateFollower();
 
 
   });
@@ -279,16 +285,33 @@
 
 
   //        code to clear canvas
-  var canvas2 = document.querySelector('#canvas1');
-  var ctx2 = canvas2.getContext('2d');
-
   var clearButton = document.getElementById("clear");
 
   clearButton.addEventListener('click', function () {
 
-      var canvas2width = canvas2.width;
-      var canvas2height = canvas2.height;
+      var canvas2width = canvas.width;
+      var canvas2height = canvas.height;
 
       ctx.clearRect(0, 0, canvas2width, canvas2height);
   });
 
+  var newLayerButton = document.getElementById("newLayerButton");
+
+  newLayerButton.addEventListener('click', function () {
+      var newC = document.createElement('canvas');
+      newC.id = "canvas" + layerCounter;
+      newC.style.width = "850px";
+      newC.style.height = "400px";
+      newC.style.zIndex = layerZ;
+      newC.style.position = "fixed";
+      newC.style.left = "20%";
+      newC.style.top = "30%";
+      newC.style.border= "1px solid black";
+      document.body.appendChild(newC);
+      console.log("new layer!");
+      currentCanvas= "canvas" + layerCounter;
+      updateCanvas();
+      layerCounter++;
+      layerZ++;
+
+  });
