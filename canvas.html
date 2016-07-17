@@ -53,10 +53,11 @@ canvas version 1.3. Has:
                 <label for="lineSoftness" id="softnessPercent">20%</label>
                    <!--    button that clears canvas-->
                 <div id="clear"> New Canvas (old one will be cleared) </div>
+                <div id="newLayerButton"> New Layer </div>
                 
-                 <p>Draw Type</p>
+                 <div id ="penOrEraser"><p>Draw Type</p>
               <input type="radio" name="draw" id="penRadio" value="Pen" checked/><label for="penRadio">Pen</label><br/>
-              <input type="radio" name="draw" id="eraserRadio" value="Eraser"/><label for="eraserRadio">Eraser</label><br/>
+              <input type="radio" name="draw" id="eraserRadio" value="Eraser"/><label for="eraserRadio">Eraser</label><br/></div>
 
              
 
@@ -84,7 +85,7 @@ canvas version 1.3. Has:
         </div> 
 
     <!-- the canvas-->
-    <canvas width='850px' height='400px' id='myCanvas'></canvas>
+    <canvas width='850px' height='400px' id='canvas1'></canvas>
     <!--    the canvas cover, which is the same width and height as the canvas.-->
     <div id="canvasCover"></div>
 

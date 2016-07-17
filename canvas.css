@@ -3,12 +3,12 @@
         }
         /*the canvas*/
         
-        #myCanvas {
+        #canvas1 {
             border: 1px black solid;
             position: fixed;
             left: 20%;
             top: 25%;
-            z-index: -1;
+            z-index: -100;
         }
         /*        A transparent "cover" that is the exact dimension of the canvas. Gets rid of the problem where the "follower" is between the cursor and eventlistner canvas*/
         
@@ -20,6 +20,7 @@
             top: 25%;
             cursor: none;
             z-index: 5;
+            border: 1px black solid;
         }
         /*     the apply button - has an eventlistner attached, when clicked, it updates color  */
         
@@ -106,23 +107,26 @@
     
 }
 
+/*
 #colorMem1{
         background-color: #FFFFFF;
-};
+}
 
 #colorMem2{
         background-color: #FFFFFF;
-};
+}
 
 #colorMem3{
         background-color: #FFFFFF;
-};
+}
 
 #colorMem4{
         background-color: #FFFFFF;
-};
+}
 
 #colorMem5{
         background-color: #FFFFFF;
-};
+}
+*/
+
 
