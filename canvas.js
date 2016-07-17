@@ -8,27 +8,93 @@
         var updateFollower = function(){
             follower.style.backgroundColor = lineCol;
             follower.style.width = lineWid + "px";
-            follower.style.height = lineWid  + "px";   
+            follower.style.height = lineWid  + "px";
+           
         };
 
-$(function () {
-  
-    
-    
 	   $('#colorpicker2').farbtastic({callback: function(color){
            lineCol = color;
+           var colorBox= document.getElementById("currentColorBox");
+           colorBox.style.backgroundColor=color;
            updateFollower();
-       }, width: 150 }); 
-     });
+       }, width: 150 });
 
+// Author:  Jacek Becela
+// Source:  http://gist.github.com/399624
+// License: MIT
+jQuery.fn.single_double_click = function(single_click_callback, double_click_callback, timeout) {
+  return this.each(function(){
+    var clicks = 0, self = this;
+    jQuery(this).click(function(event){
+      clicks++;
+      if (clicks == 1) {
+        setTimeout(function(){
+          if(clicks == 1) {
+            single_click_callback.call(self, event);
+          } else {
+            double_click_callback.call(self, event);
+          }
+          clicks = 0;
+        }, timeout || 300);
+      }
+    });
+  });
+}
+        
+//tried to make a for loop to make this section faster, but it never worked???
+ $('#colorMem1').single_double_click(function () {
+  var colorBox= document.getElementById("colorMem1");
+  lineCol = colorBox.style.backgroundColor;
+  updateFollower();
+  var colorBox2= document.getElementById("currentColorBox");
+  colorBox2.style.backgroundColor= lineCol;
+}, function () {
+  var colorBox= document.getElementById("colorMem1");
+  colorBox.style.backgroundColor= lineCol; 
+});
 
-        
-        
-        var formm = document.getElementById("colorForm");
+ $('#colorMem2').single_double_click(function () {
+  var colorBox= document.getElementById("colorMem2");
+  lineCol = colorBox.style.backgroundColor;
+  updateFollower();
+  var colorBox2= document.getElementById("currentColorBox");
+  colorBox2.style.backgroundColor= lineCol;
+}, function () {
+  var colorBox= document.getElementById("colorMem2");
+  colorBox.style.backgroundColor= lineCol; 
+});
+ $('#colorMem3').single_double_click(function () {
+  var colorBox= document.getElementById("colorMem3");
+  lineCol = colorBox.style.backgroundColor;
+  updateFollower();
+  var colorBox2= document.getElementById("currentColorBox");
+  colorBox2.style.backgroundColor= lineCol;
+}, function () {
+  var colorBox= document.getElementById("colorMem3");
+  colorBox.style.backgroundColor= lineCol; 
+ });    
+ $('#colorMem4').single_double_click(function () {
+  var colorBox= document.getElementById("colorMem4");
+  lineCol = colorBox.style.backgroundColor;
+  updateFollower();
+  var colorBox2= document.getElementById("currentColorBox");
+  colorBox2.style.backgroundColor= lineCol;
+}, function () {
+  var colorBox= document.getElementById("colorMem4");
+  colorBox.style.backgroundColor= lineCol; 
+ });
 
-        
-        
-        
+$('#colorMem5').single_double_click(function () {
+  var colorBox= document.getElementById("colorMem5");
+  lineCol = colorBox.style.backgroundColor;
+  updateFollower();
+  var colorBox2= document.getElementById("currentColorBox");
+  colorBox2.style.backgroundColor= lineCol;
+}, function () {
+  var colorBox= document.getElementById("colorMem5");
+  colorBox.style.backgroundColor= lineCol; 
+ });
+
         var widSlider = document.getElementById("lineWid");
         var opacitySlider = document.getElementById("lineOpacity");
         var softnessSlider = document.getElementById("lineSoftness");
@@ -62,20 +128,7 @@ $(function () {
              updateFollower();           
                                    });
         
-        //        code to clear canvas
-        var canvas2 = document.querySelector('#myCanvas'); 
-        var ctx2 = canvas2.getContext('2d');
-        
-        var clearButton = document.getElementById("clear");
-
-        clearButton.addEventListener('click', function () {
-
-        var canvas2width = canvas2.width;
-        var canvas2height = canvas2.height;
-        
-        ctx.clearRect(0, 0, canvas2width, canvas2height);
-        });
-
+      
 
         // instead of canvas, the eventlistner is added to a "cover" on top of the canvas. 
         var canvas = document.querySelector('#myCanvas'); // Grab a JS hook into our canvas element
@@ -102,6 +155,8 @@ $(function () {
             ctx.stroke(); 
             ctx.closePath(); 
         };
+
+
 
         var mouseIsDown = false; 
         var mousePosition = { 
@@ -136,7 +191,15 @@ $(function () {
 //                omo is the current opacity that gets incremented up
                 var tempWid= lineWid;
                 var omo = 0.0;
+//                
+//                if (document.getElementById("eraserRadio").checked){
+//                    erase(mousePosition.x, mousePosition.y, event.offsetX, event.offsetY); 
+//                    
+//                    updateMousePosition(event);
+//                }
+//                
                 
+//                else{
                
 //                just in case
                 if(lineSoft <= 0)
@@ -195,4 +258,22 @@ $(function () {
             follower.style.left = event.x - .5 *lineWid + "px";
             follower.style.top = event.y - .5 *lineWid +"px";
 
+//            };
+                
+        });
+
+
+
+  //        code to clear canvas
+        var canvas2 = document.querySelector('#myCanvas'); 
+        var ctx2 = canvas2.getContext('2d');
+        
+        var clearButton = document.getElementById("clear");
+
+        clearButton.addEventListener('click', function () {
+
+        var canvas2width = canvas2.width;
+        var canvas2height = canvas2.height;
+        
+        ctx.clearRect(0, 0, canvas2width, canvas2height);
         });
