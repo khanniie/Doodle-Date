@@ -65,10 +65,11 @@
 
   $('#colorMem1').single_double_click(function () {
       var colorBox = document.getElementById("colorMem1");
-      lineCol = colorBox.style.backgroundColor ? lineCol: "white";
+      lineCol = colorBox.style.backgroundColor ? colorBox.style.backgroundColor: "white"; 
+      console.log("click");
       updateFollower();
       var colorBox2 = document.getElementById("currentColorBox");
-      colorBox2.style.backgroundColor = lineCol ? lineCol : "white";
+      colorBox2.style.backgroundColor = colorBox.style.backgroundColor ? lineCol : "white";
   }, function () {
       var colorBox = document.getElementById("colorMem1");
       colorBox.style.backgroundColor = lineCol;
@@ -76,46 +77,48 @@
 
   $('#colorMem2').single_double_click(function () {
       var colorBox = document.getElementById("colorMem2");
-      lineCol = colorBox.style.backgroundColor ? lineCol: "white";
+      lineCol = colorBox.style.backgroundColor ? colorBox.style.backgroundColor: "white"; 
+      console.log("click");
       updateFollower();
       var colorBox2 = document.getElementById("currentColorBox");
-      colorBox2.style.backgroundColor = lineCol ? lineCol : "white";
+      colorBox2.style.backgroundColor = colorBox.style.backgroundColor ? lineCol : "white";
   }, function () {
       var colorBox = document.getElementById("colorMem2");
       colorBox.style.backgroundColor = lineCol;
   });
-  $('#colorMem3').single_double_click(function () {
+    $('#colorMem3').single_double_click(function () {
       var colorBox = document.getElementById("colorMem3");
-      lineCol = colorBox.style.backgroundColor ? lineCol: "white";
+      lineCol = colorBox.style.backgroundColor ? colorBox.style.backgroundColor: "white"; 
+      console.log("click");
       updateFollower();
       var colorBox2 = document.getElementById("currentColorBox");
-      colorBox2.style.backgroundColor = lineCol ? lineCol : "white";
+      colorBox2.style.backgroundColor = colorBox.style.backgroundColor ? lineCol : "white";
   }, function () {
       var colorBox = document.getElementById("colorMem3");
       colorBox.style.backgroundColor = lineCol;
   });
   $('#colorMem4').single_double_click(function () {
       var colorBox = document.getElementById("colorMem4");
-      lineCol = colorBox.style.backgroundColor ? lineCol: "white";
+      lineCol = colorBox.style.backgroundColor ? colorBox.style.backgroundColor: "white"; 
+      console.log("click");
       updateFollower();
       var colorBox2 = document.getElementById("currentColorBox");
-      colorBox2.style.backgroundColor = lineCol ? lineCol : "white";
+      colorBox2.style.backgroundColor = colorBox.style.backgroundColor ? lineCol : "white";
   }, function () {
       var colorBox = document.getElementById("colorMem4");
       colorBox.style.backgroundColor = lineCol;
   });
-
   $('#colorMem5').single_double_click(function () {
       var colorBox = document.getElementById("colorMem5");
-      lineCol = colorBox.style.backgroundColor  ? lineCol: "white";
+      lineCol = colorBox.style.backgroundColor ? colorBox.style.backgroundColor: "white"; 
+      console.log("click");
       updateFollower();
       var colorBox2 = document.getElementById("currentColorBox");
-      colorBox2.style.backgroundColor = lineCol ? lineCol : "white";
+      colorBox2.style.backgroundColor = colorBox.style.backgroundColor ? lineCol : "white";
   }, function () {
       var colorBox = document.getElementById("colorMem5");
       colorBox.style.backgroundColor = lineCol;
   });
-
   var widSlider = document.getElementById("lineWid");
   var opacitySlider = document.getElementById("lineOpacity");
   var softnessSlider = document.getElementById("lineSoftness");
