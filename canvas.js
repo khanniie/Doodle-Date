@@ -6,6 +6,7 @@
 
   var layerCounter = 2;
   var currentCanvas = "canvas1";
+  var selectedLayer ="preview1";
   var layerZ = -99;
 
  var updateCanvas = function(){
@@ -62,13 +63,12 @@
       });
   };
 
-  //tried to make a for loop to make this section faster, but it never worked???
   $('#colorMem1').single_double_click(function () {
       var colorBox = document.getElementById("colorMem1");
-      lineCol = colorBox.style.backgroundColor;
+      lineCol = colorBox.style.backgroundColor ? lineCol: "white";
       updateFollower();
       var colorBox2 = document.getElementById("currentColorBox");
-      colorBox2.style.backgroundColor = lineCol;
+      colorBox2.style.backgroundColor = lineCol ? lineCol : "white";
   }, function () {
       var colorBox = document.getElementById("colorMem1");
       colorBox.style.backgroundColor = lineCol;
@@ -76,30 +76,30 @@
 
   $('#colorMem2').single_double_click(function () {
       var colorBox = document.getElementById("colorMem2");
-      lineCol = colorBox.style.backgroundColor;
+      lineCol = colorBox.style.backgroundColor ? lineCol: "white";
       updateFollower();
       var colorBox2 = document.getElementById("currentColorBox");
-      colorBox2.style.backgroundColor = lineCol;
+      colorBox2.style.backgroundColor = lineCol ? lineCol : "white";
   }, function () {
       var colorBox = document.getElementById("colorMem2");
       colorBox.style.backgroundColor = lineCol;
   });
   $('#colorMem3').single_double_click(function () {
       var colorBox = document.getElementById("colorMem3");
-      lineCol = colorBox.style.backgroundColor;
+      lineCol = colorBox.style.backgroundColor ? lineCol: "white";
       updateFollower();
       var colorBox2 = document.getElementById("currentColorBox");
-      colorBox2.style.backgroundColor = lineCol;
+      colorBox2.style.backgroundColor = lineCol ? lineCol : "white";
   }, function () {
       var colorBox = document.getElementById("colorMem3");
       colorBox.style.backgroundColor = lineCol;
   });
   $('#colorMem4').single_double_click(function () {
       var colorBox = document.getElementById("colorMem4");
-      lineCol = colorBox.style.backgroundColor;
+      lineCol = colorBox.style.backgroundColor ? lineCol: "white";
       updateFollower();
       var colorBox2 = document.getElementById("currentColorBox");
-      colorBox2.style.backgroundColor = lineCol;
+      colorBox2.style.backgroundColor = lineCol ? lineCol : "white";
   }, function () {
       var colorBox = document.getElementById("colorMem4");
       colorBox.style.backgroundColor = lineCol;
@@ -107,10 +107,10 @@
 
   $('#colorMem5').single_double_click(function () {
       var colorBox = document.getElementById("colorMem5");
-      lineCol = colorBox.style.backgroundColor;
+      lineCol = colorBox.style.backgroundColor  ? lineCol: "white";
       updateFollower();
       var colorBox2 = document.getElementById("currentColorBox");
-      colorBox2.style.backgroundColor = lineCol;
+      colorBox2.style.backgroundColor = lineCol ? lineCol : "white";
   }, function () {
       var colorBox = document.getElementById("colorMem5");
       colorBox.style.backgroundColor = lineCol;
@@ -209,6 +209,7 @@
           //                the mouse positions. program does not work if these are placed inside the while loop
           var mpX = mousePosition.x;
           var mpY = mousePosition.y;
+          
 
           var ex = event.offsetX;
           var ey = event.offsetY;
@@ -222,20 +223,22 @@
           //                else{
 
           //                just in case
-          if (lineSoft <= 0) {
-              ctx.globalAlpha = lineOpacity;
-              line(mpX, mpY, ex, ey, tempWid);
-
-              tempWid = -1;
-          }
+        
 
           if (document.getElementById("eraserRadio").checked) {
               ctx.globalCompositeOperation = "destination-out";
               follower.style.backgroundColor = "white";
           };
 
+            if (lineSoft <= 0 || lineWid <= 3) {
+              ctx.globalAlpha = lineOpacity;
+              line(mpX, mpY, ex, ey, lineWid);
+                
+                tempWid = -1;
+                
+          }
+          
           //as it gets softer, originally it also got smaller, so the code below just increases lineWidth as it gets softer
-
           if (lineSoft > 30) {
               tempWid = tempWid * 1.4;
           } else if (lineSoft > 40) {
@@ -268,7 +271,7 @@
               omo = omo + (lineOpacity) * .8;
           }
           updateMousePosition(event);
-      }
+      };
 
 
 
@@ -299,9 +302,11 @@
 
   newLayerButton.addEventListener('click', function () {
       var newC = document.createElement('canvas');
+     
       newC.id = "canvas" + layerCounter;
-      newC.style.width = "850px";
-      newC.style.height = "400px";
+      newC.dataset.name = "Layer " + layerCounter;
+      newC.setAttribute("width", 850);
+      newC.setAttribute("height", 400);
       newC.style.zIndex = layerZ;
       newC.style.position = "fixed";
       newC.style.left = "20%";
@@ -311,7 +316,77 @@
       console.log("new layer!");
       currentCanvas= "canvas" + layerCounter;
       updateCanvas();
+      
+      var preview = document.createElement('div');
+      preview.setAttribute("id", "preview" + layerCounter);
+      preview.classList.add("preview");
+      
+      var p = document.createElement('p');
+      p.innerText= newC.dataset.name;    
+      preview.appendChild(p);
+      document.getElementById(selectedLayer).classList.remove("selectedLayer");
+      preview.classList.add("selectedLayer");
+      selectedLayer= preview.id;
+      
+      preview.addEventListener("click", function(){
+          document.getElementById(selectedLayer).classList.remove("selectedLayer");
+          
+          var a = preview.id;
+          var num = a[a.length-1];
+          preview.classList.add("selectedLayer");
+          
+          currentCanvas= "canvas" + num;
+          selectedLayer= a;
+          updateCanvas();
+      });
+      
+      var box = document.getElementById("previewBox");
+      
+      box.insertBefore(preview, box.firstChild);
+      
+      
       layerCounter++;
       layerZ++;
-
   });
+
+  document.getElementById("preview1").addEventListener("click", function(){
+      
+      var preview =document.getElementById("preview1");
+          document.getElementById(selectedLayer).classList.remove("selectedLayer");
+          
+          var a = preview.id;
+          var num = a[a.length-1];
+          preview.classList.add("selectedLayer");
+          
+          currentCanvas= "canvas" + num;
+          selectedLayer= a;
+          updateCanvas();
+      });
+$("#deleteLayerButton").click(function(){
+    if (currentCanvas == "canvas1"){
+        alert("You can't delete the background! Sorry :(");
+    }
+    else{
+        var deleted = document.getElementById(currentCanvas);
+        var n = currentCanvas.slice(currentCanvas.length -1);
+        var deleted2 = document.getElementById("preview" + n );
+        var a = 1;
+        selectedLayer= "preview" + (n-a);
+            var preview = document.getElementById(selectedLayer);
+       
+        while(preview == null){
+            a++;
+            selectedLayer= "preview" + (n-a);
+            var preview = document.getElementById(selectedLayer);
+            console.log("a= " + a + "selectedLayer= " + selectedLayer);
+        }
+        var preview = document.getElementById(selectedLayer);
+        preview.classList.add("selectedLayer");
+        currentCanvas= "canvas" + (n-a);
+        
+        deleted.remove();
+        deleted2.remove();
+        updateCanvas();
+    }
+    
+});
