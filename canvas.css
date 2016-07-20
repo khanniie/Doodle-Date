@@ -1,11 +1,18 @@
-        html {
+        
+
+html {
             font-family: arial, times, sans-serif;
         }
         /*the canvas*/
         
+
+#instructions{
+    font-size: 0.5rem;
+    
+}
         #canvas1 {
             border: 1px black solid;
-            position: fixed;
+            position: absolute;
             left: 20%;
             top: 30%;
             z-index: -100;
@@ -15,7 +22,7 @@
         #canvasCover {
             height: 400px;
             width: 850px;
-            position: fixed;
+            position: absolute;
             left: 20%;
             top: 30%;
             cursor: none;
@@ -132,7 +139,7 @@ button{
     height: 250px;
     width: 200px;
     position: absolute;
-    top: 450px;
+    top: 400px;
     left: 10px;
     
     
@@ -162,3 +169,11 @@ button{
           left: 0px;
           top: 225px;
         }
+#mergeLayerButton{
+    left: 100px;
+    top:225px;
+}
+
+.aCanvas{ 
+}
+

@@ -307,11 +307,12 @@
       var newC = document.createElement('canvas');
      
       newC.id = "canvas" + layerCounter;
+      newC.classList.add("aCanvas");
       newC.dataset.name = "Layer " + layerCounter;
       newC.setAttribute("width", 850);
       newC.setAttribute("height", 400);
       newC.style.zIndex = layerZ;
-      newC.style.position = "fixed";
+      newC.style.position = "absolute";
       newC.style.left = "20%";
       newC.style.top = "30%";
       newC.style.border= "1px solid black";
@@ -391,5 +392,72 @@ $("#deleteLayerButton").click(function(){
         deleted2.remove();
         updateCanvas();
     }
+    
+});
+
+$("#mergeLayerButton").click(function(){
+    if (currentCanvas == "canvas1"){
+        alert("You can't merge down! There's nothing below! Sorry :(");
+    }
+    else{
+        var deleted = document.getElementById(currentCanvas);
+        var n = currentCanvas.slice(currentCanvas.length -1);
+        var deleted2 = document.getElementById("preview" + n );
+        var a = 1;
+        selectedLayer= "preview" + (n-a);
+            var preview = document.getElementById(selectedLayer);
+       
+        while(preview == null){
+            a++;
+            selectedLayer= "preview" + (n-a);
+            var preview = document.getElementById(selectedLayer);
+        }
+        
+        
+        var preview = document.getElementById(selectedLayer);
+        preview.classList.add("selectedLayer");
+        currentCanvas= "canvas" + (n-a);
+        
+        var tempCtx = document.getElementById(currentCanvas).getContext('2d');
+        var alphaa= tempCtx.globalAlpha;
+        tempCtx.globalAlpha =1;
+        
+        tempCtx.drawImage(deleted, 0, 0);
+        
+        tempCtx.globalAlpha = alphaa;
+        
+        deleted.remove();
+        deleted2.remove();
+        updateCanvas();
+        console.log(tempCtx.globalAlpha);
+    }
+    
+});
+
+
+$("#fileRefButton").click(function(){
+
+
+    
+});
+
+
+
+$("#download").click(function(){
+
+   var canvasInfinity= document.createElement("canvas");
+   canvasInfinity.setAttribute("width", 850);
+   canvasInfinity.setAttribute("height", 400);
+    
+    $(".aCanvas").each(function(){
+    canvasInfinity.getContext("2d").drawImage(this, 0, 0);  
+    });
+    
+    
+    console.log(canvasInfinity);
+  
+var d=canvasInfinity.toDataURL("image/png");
+var w=window.open('about:blank','image from canvas');
+w.document.write("<img src='"+d+"' alt='from canvas'/>");
     
 });

@@ -1,14 +1,16 @@
 <!--
 canvas version 1.4. Has:
 
-- working line width changer slider
-- working follower
+-  line width changer slider
+-  follower
 - clear canvas
 - weird opacity function (wip)
 - softness adjustment
 - color wheel and color memory
-- layers
+- layers (delete merge add clear)
 - eraser
+- download 
+
 -->
 
 <!DOCTYPE html>
@@ -30,7 +32,7 @@ canvas version 1.4. Has:
 <body>
     <!-- for follower, which follows the cursor and replaces it when the cursor hovers over the canvas -->
     <div id='follower'></div>
-
+<div id="fileRef"></div>
 
     <!--    place to input values to change: color, width, opacity, softness. Color is still a work in progress! -->
     <form method="get" action="" id="help">
@@ -62,11 +64,11 @@ canvas version 1.4. Has:
               <input type="radio" name="draw" id="penRadio" value="Pen" checked/><label for="penRadio">Pen</label><br/>
               <input type="radio" name="draw" id="eraserRadio" value="Eraser"/><label for="eraserRadio">Eraser</label><br/></div>
 
-             
-
-                <br/>
-                <br/>
-
+<!--              <button type="button" id ="fileRefButton">Add a File Reference (from url)</button>-->
+                
+                <button type="button" id ="download">Download (opens in new tab)</button>
+                 
+                
             </fieldset>
         </div>
     </form>
@@ -82,15 +84,13 @@ canvas version 1.4. Has:
         <div id="colorMem5" class= "colorMem"></div>
            <br>
            <br>
-        <p>one click to grab, 
-            <br>
-            double click to set down</p>
+        
         </div> 
     
-    <div class = "bigBox"><div class="bigBoxHolder"><div id="previewBox"><div id ="preview1" class = "preview selectedLayer"><p>Background</p></div></div></div><button type="button" id ="deleteLayerButton">Delete Layer Button</button><button type="button" id ="newLayerButton">Add Layer Button</button><button type="button" id ="clear">Clear Layer</button></div>
+    <div class = "bigBox"><div class="bigBoxHolder"><div id="previewBox"><div id ="preview1" class = "preview selectedLayer"><p>Background</p></div></div></div><button type="button" id ="deleteLayerButton">Delete</button><button type="button" id ="newLayerButton">Add</button><button type="button" id ="clear">Clear</button><button type="button" id ="mergeLayerButton">Merge Down</button></div>
 
     <!-- the canvas-->
-    <canvas width='850px' height='400px' id='canvas1'></canvas>
+    <canvas width='850px' height='400px' id='canvas1' class = 'aCanvas'></canvas>
     <!--    the canvas cover, which is the same width and height as the canvas.-->
     <div id="canvasCover"></div>
 
