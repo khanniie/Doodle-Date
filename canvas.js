@@ -267,14 +267,14 @@
 
 
           //implementing lineOpacity within softness
-//          var opacityCutoff = tempWid - ((lineOpacity) * tempWid);
+          var opacityCutoff = tempWid - ((lineOpacity) * tempWid);
 
           //the while loop
-          while (tempWid > 0) {
+          while (tempWid > opacityCutoff) {
               ctx.globalAlpha = omo / 100.0;
               line(mpX, mpY, ex, ey, tempWid);
               tempWid = tempWid - (lineSoft) / 20.0;
-              omo = omo + (lineOpacity);
+              omo = omo + (lineOpacity) * .8;
           }
           updateMousePosition(event);
       };
