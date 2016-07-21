@@ -23,6 +23,7 @@ canvas version 1.4. Has:
    
     <script type="text/javascript" charset="utf-8" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
     
+    
     <script type="text/javascript" charset="utf-8" src="farbtastic-master/src/farbtastic.js"></script>
     
      <link rel="stylesheet" type="text/css" href="canvas.css">
@@ -32,7 +33,7 @@ canvas version 1.4. Has:
 <body>
     <!-- for follower, which follows the cursor and replaces it when the cursor hovers over the canvas -->
     <div id='follower'></div>
-<div id="fileRef"></div>
+    <div id="fileRef"><div id= closeRef>close</div></div>
 
     <!--    place to input values to change: color, width, opacity, softness. Color is still a work in progress! -->
     <form method="get" action="" id="help">
@@ -64,7 +65,7 @@ canvas version 1.4. Has:
               <input type="radio" name="draw" id="penRadio" value="Pen" checked/><label for="penRadio">Pen</label><br/>
               <input type="radio" name="draw" id="eraserRadio" value="Eraser"/><label for="eraserRadio">Eraser</label><br/></div>
 
-<!--              <button type="button" id ="fileRefButton">Add a File Reference (from url)</button>-->
+              <div id = "refButtonHolder"><button type="button" id ="fileRefButton">Add a File Reference (from url)</button><div id ="refPopUp"><form id="refForm" action="" method="get"><input type="textBox" id ="refUrl" name="refUrl"/></form></div></div>
                 
                 <button type="button" id ="download">Download (opens in new tab)</button>
                  

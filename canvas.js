@@ -159,8 +159,7 @@
 
   var cover = document.querySelector('#canvasCover');
   var ctx = canvas.getContext('2d');
-
-  //        ctx.globalCompositeOperation = 'xor';
+// ctx.globalCompositeOperation = 'xor';
 
   cover.addEventListener("mouseenter", function () {
       follower.classList.add("on");
@@ -234,6 +233,10 @@
           };
 
             if (lineSoft <= 0 || lineWid <= 3) {
+                
+                
+//                here!!! is the issue!!!
+//              ctx.globalCompositeOperation = "source-over";
               ctx.globalAlpha = lineOpacity;
               line(mpX, mpY, ex, ey, lineWid);
                 
@@ -264,14 +267,14 @@
 
 
           //implementing lineOpacity within softness
-          var opacityCutoff = tempWid - ((lineOpacity) * tempWid);
+//          var opacityCutoff = tempWid - ((lineOpacity) * tempWid);
 
           //the while loop
-          while (tempWid > opacityCutoff) {
+          while (tempWid > 0) {
               ctx.globalAlpha = omo / 100.0;
               line(mpX, mpY, ex, ey, tempWid);
               tempWid = tempWid - (lineSoft) / 20.0;
-              omo = omo + (lineOpacity) * .8;
+              omo = omo + (lineOpacity);
           }
           updateMousePosition(event);
       };
@@ -434,9 +437,77 @@ $("#mergeLayerButton").click(function(){
     
 });
 
+var makeRefPopUp = function(){
+    var refPopUp = document.getElementById("refPopUp");
+    refPopUp.style.display= "block";
+   
+}
+
+$("#refUrl").keypress(function(e){
+    
+   if(e.which == 13){
+       
+       var file = document.getElementById("fileRef");
+       var refPopUp = document.getElementById("refPopUp");
+       refPopUp.style.display= "none";
+       
+        var realUrl = true;         
+    
+       var image = new Image();
+       image.id = "theimage";
+       
+       
+       
+       image.onerror = function(){
+           alert("that's not a valid url!! stop!!");
+           realUrl = false;
+           return;   
+       }
+       
+       var urll = document.getElementById("refUrl").value;
+       image.setAttribute("src", urll);
+       
+       image.onload =  function(){
+           if(realUrl){ 
+       var iWid= image.width;
+       var iHeight = image.height;
+       console.log( iWid, iHeight);
+       
+       var ratio= 1;
+       
+       
+       if (iWid >= iHeight){
+           image.width = 200;
+           
+           ratio = iHeight / (iWid + 0.0);
+           image.height = Math.floor(200 * ratio);
+       }
+       else{
+           image.height = 200;
+           ratio = iWid/(iHeight + 0.0);
+           image.width = Math.floor(200 * ratio);
+           
+       }
+               
+               
+       console.log(image.width, image.height);
+
+           
+       file.appendChild(image);  
+               
+               file.style.display="block";
+           }
+       };
+       
+       return false;
+       }
+ 
+    
+});
 
 $("#fileRefButton").click(function(){
-
+    console.log('clickldkhfoiahdf');
+     makeRefPopUp();
 
     
 });
@@ -460,4 +531,14 @@ var d=canvasInfinity.toDataURL("image/png");
 var w=window.open('about:blank','image from canvas');
 w.document.write("<img src='"+d+"' alt='from canvas'/>");
     
+});
+
+document.getElementById("closeRef").addEventListener("click",function(){
+       var file = document.getElementById("fileRef");
+       var refPopUp = document.getElementById("refPopUp");
+       refPopUp.style.display= "none";
+       file.style.display="none";
+       var a = document.getElementById("theimage");
+        file.removeChild(a);
+  
 });
