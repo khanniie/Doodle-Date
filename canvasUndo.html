@@ -9,30 +9,70 @@
         /* A bit of border so that we can see our canvas */
     }
     </style>
-</head>
-
+</head>        
 <body>
     <button id='undo'>↩</button>
     <canvas width='500px' height='500px' id='myCanvas'></canvas>
     <ol id='history'>
     </ol>
     <script>
+        
+var lineCol = "#808080";
+var lineWid = 50;
+var lineOpacity = 1;
+var lineSoftness = 20;
+
+var canvas = document.getElementById("myCanvas");
+var ctx = canvas.getContext('2d');
+var line = function (x1, y1, x2, y2, lineTemp) {
+    ctx.beginPath();
+    ctx.lineCap = "round";
+    ctx.moveTo(x1, y1);
+    ctx.lineWidth = lineTemp;
+    ctx.lineTo(x2, y2);
+    ctx.strokeStyle = lineCol;
+    ctx.stroke();
+    ctx.closePath();};
+   var drawLine = function(drawing) {  
+        var color = drawing.lineCol;
+        var width = drawing.lineWid;
+        var opacity = drawing.lineOpacity;
+        var lineSoft = drawing.lineSoftness;
+        var mpX = drawing.x1;
+        var mpY = drawing.y1;
+        var ex = drawing.x2;
+        var ey = drawing.y2;
+        var tempWid = drawing.lineWid;
+        var omo = 0.0;
+       
+        if (lineSoft > 30) {
+            tempWid = tempWid * 1.4;
+        } else if (lineSoft > 40) {
+            tempWid = tempWid * 1.45;
+        } else if (lineSoft > 50) {
+            tempWid = tempWid * 1.5;
+        } else if (lineSoft > 60) {
+            tempWid = tempWid * 1.6;
+        } else if (lineSoft > 70) {
+            tempWid = tempWzid * 1.7;
+        } else if (lineSoft > 80) {
+            tempWid = tempWid * 1.8;
+        } else if (lineSoft > 90) {
+            tempWid = tempWid * 1.9;
+        }
+        if (lineSoft > 100) {lineSoft = 100;}
+        var opacityCutoff = tempWid - ((lineOpacity) * tempWid);
+        while (tempWid > opacityCutoff) {
+            ctx.globalAlpha = omo / 100.0;
+            line(mpX, mpY, ex, ey, tempWid, color);
+            tempWid = tempWid - (lineSoft) / 20.0;
+            omo = omo + (lineOpacity) * .8;}
+        updateMousePosition(event);}
     // An array to hold our drawing commands
     var drawingCommands = [];
 
     // A div to hold the history of our drawing commands
     var drawingHistory = document.querySelector('#history');
-
-    var canvas = document.querySelector('#myCanvas'); // Grab a JS hook into our canvas element
-    var ctx = canvas.getContext('2d'); // Grab the rendering context, which we actually use to draw
-
-    var line = function(x1, y1, x2, y2) { // A convenience function to draw a line between two points in our context
-        ctx.beginPath(); // start a path
-        ctx.moveTo(x1, y1); // move our pen to x1, y1
-        ctx.lineTo(x2, y2); // draw a line from wherever our pen is to x2, y2
-        ctx.stroke(); // and then actually fill in the line with whatever stroke is defined
-        ctx.closePath(); // and close our path
-    };
 
     var clearScreen = function() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -55,20 +95,24 @@
         mousePosition.y = event.offsetY;
     };
 
-    var drawLine = function(drawing) {
-        line(drawing.x1, drawing.y1, drawing.x2, drawing.y2);
-    };
+//    var drawLine = function(drawing) {
+//        line(drawing.x1, drawing.y1, drawing.x2, drawing.y2);
+//    };
 
-    var Drawing = function(x1, y1, x2, y2) {
+    var Drawing = function(x1, y1, x2, y2, lineCol, lineWid, lineOpacity, lineSoftness) {
         // A class to represent a single, drawn line
         this.x1 = x1;
         this.y1 = y1;
         this.x2 = x2;
         this.y2 = y2;
+        this.lineCol = lineCol;
+        this.lineWid = lineWid;
+        this.lineOpacity = lineOpacity;
+        this.lineSoftness = lineSoftness;
 
         this.log = function() {
             // A method for each drawing which can output a human-readable string representing the line
-            return "(" + this.x1 + ', ' + this.y1 + ') => (' + this.x2 + ', ' + this.y2 + ')';
+            return "(" + this.x1 + ', ' + this.y1 + ') => (' + this.x2 + ', ' + this.y2 + ') => (' + this.lineCol + ', '+ this.lineOpacity + ', '+ this.lineSoftness + ', '+ this.lineWid + ')';
         };
     };
 
@@ -82,7 +126,7 @@
 
     canvas.addEventListener('mousemove', function(event) { // When the mouse is moved over the canvas element
         if (mouseIsDown) { // If the mouse button is also down (i.e. if we're dragging)
-            var drawing = new Drawing(mousePosition.x, mousePosition.y, event.offsetX, event.offsetY);
+            var drawing = new Drawing(mousePosition.x, mousePosition.y, event.offsetX, event.offsetY, lineCol, lineWid, lineOpacity, lineSoftness);
             var li = document.createElement('li');
             li.innerText = drawing.log();
             drawingHistory.appendChild(li);
