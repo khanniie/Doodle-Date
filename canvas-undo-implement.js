@@ -136,15 +136,11 @@ $("#mergeLayerButton").click(function(){
 
 //**************** LINE*********************//
 
- 
-//_________________________________________undo
-
 var lineCol = "#808080";
 var lineWid = 50;
 var lineOpacity = 1;
 var lineSoftness = 20;
 
-//line drawing
 var mouseIsDown = false;
 var mousePosition = { x: null, y: null};
 var updateMousePosition = function (event) {
@@ -153,22 +149,23 @@ var updateMousePosition = function (event) {
 var canvas = document.getElementById("canvas0");
 var cover = document.querySelector('#canvasCover');
 var ctx = canvas.getContext('2d');
-
 cover.addEventListener("mouseenter", function () {
     follower.classList.add("on");
     updateFollower();
     setEraserSettings();});
 cover.addEventListener("mouseleave", function () {
     follower.classList.remove("on");});
+//var drawSegment = [];
+
 cover.addEventListener('mousedown', function (event) {
+//    drawSegment=[];
     mouseIsDown = true;
     updateMousePosition(event);});
-cover.addEventListener('mouseup', function (event) {
-    mouseIsDown = false;});
 
-cover.addEventListener('mousemove', function (event) {
-    follower.style.left = event.x - .5 * lineWid + "px";
-    follower.style.top = event.y - .5 * lineWid + "px";});
+cover.addEventListener('mouseup', function (event) {
+    mouseIsDown = false;
+//    drawingCommands= drawingCommands.concat(drawSegment);
+});
 
 var line = function (x1, y1, x2, y2, lineTemp, color) {
     ctx.beginPath();
@@ -179,8 +176,7 @@ var line = function (x1, y1, x2, y2, lineTemp, color) {
     ctx.strokeStyle = color;
     ctx.stroke();
     ctx.closePath();};
-var drawLine = function(drawing) {  
-    
+var drawLine = function(drawing) {    
         currentCanvas = drawing.canvas;
         updateCanvas();
         var color = drawing.lineCol;
@@ -196,9 +192,7 @@ var drawLine = function(drawing) {
  if (drawing.isPenOrEraser=="eraser") {
             ctx.globalCompositeOperation = "destination-out";
             follower.style.backgroundColor = "white";}
-    
         if (lineSoft <= 0 || width <= 3) {
-            //              ctx.globalCompositeOperation = "source-over";
             ctx.globalAlpha = opacity;
             line(mpX, mpY, ex, ey, width, color);
             tempWid = -1;}
@@ -228,23 +222,21 @@ var drawLine = function(drawing) {
 
   // An array to hold our drawing commands
     var drawingCommands = [];
-
-    // A div to hold the history of our drawing commands
-    var drawingHistory = document.querySelector('#history');
-
     var clearScreen = function() {
         $(".aCanvas").each(function(canvas){
                  var ctxx= this.getContext("2d");
                  ctxx.clearRect(0, 0, this.width, this.height);
-        })
-   
-    };
+        })};
 
     var redrawLines = function() {
         drawingCommands.forEach(function(drawing) {
             drawLine(drawing);
         });
+//        drawSegment.forEach(function(drawing){
+//                    drawLine(drawing);
+//            }); 
     };
+
 var Drawing = function(x1, y1, x2, y2, lineCol, lineWid, lineOpacity, lineSoftness, isPenOrEraser, currentCanvas) {
         // A class to represent a single, drawn line
         this.x1 = x1;
@@ -261,24 +253,63 @@ var Drawing = function(x1, y1, x2, y2, lineCol, lineWid, lineOpacity, lineSoftne
         this.log = function() {
             // A method for each drawing which can output a human-readable string representing the line
             return "(" + this.x1 + ', ' + this.y1 + ') => (' + this.x2 + ', ' + this.y2 + ') => (' + this.lineCol + ', '+ this.lineOpacity + ', '+ this.lineSoftness + ', '+ this.lineWid + ', '+ this.isPenOrEraser + " ," + this.canvas + ')';
-        };
-    };
+        };};
 
- cover.addEventListener('mousemove', function(event) { // When the mouse is moved over the canvas element
+ cover.addEventListener('mousemove', function(event) {
+//      if (mouseIsDown) {
+//        var mpX = mousePosition.x;
+//        var mpY = mousePosition.y;
+//        var ex = event.offsetX;
+//        var ey = event.offsetY;
+//
+//        var tempWid = lineWid;
+//        var omo = 0.0;
+//        if (document.getElementById("eraserRadio").checked) {
+//            ctx.globalCompositeOperation = "destination-out";
+//            follower.style.backgroundColor = "white";};
+//        if (lineSoftness <= 0 || lineWid <= 3) {
+//            //              ctx.globalCompositeOperation = "source-over";
+//            ctx.globalAlpha = lineOpacity;
+//            line(mpX, mpY, ex, ey, lineWid, lineCol);
+//            tempWid = -1;}
+//        if (lineSoftness > 30) {
+//            tempWid = tempWid * 1.4;
+//        } else if (lineSoftness > 40) {
+//            tempWid = tempWid * 1.45;
+//        } else if (lineSoftness > 50) {
+//            tempWid = tempWid * 1.5;
+//        } else if (lineSoftness > 60) {
+//            tempWid = tempWid * 1.6;
+//        } else if (lineSoftness > 70) {
+//            tempWid = tempWid * 1.7;
+//        } else if (lineSoftness > 80) {
+//            tempWid = tempWid * 1.8;
+//        } else if (lineSoftness > 90) {
+//            tempWid = tempWid * 1.9;
+//        }
+//        if (lineSoftness > 100) {lineSoftness = 100;}
+//        var opacityCutoff = tempWid - ((lineOpacity) * tempWid);
+//        while (tempWid > opacityCutoff) {
+//            ctx.globalAlpha = omo / 100.0;
+//            line(mpX, mpY, ex, ey, tempWid, lineCol);
+//            tempWid = tempWid - (lineSoftness) / 20.0;
+//            omo = omo + (lineOpacity) * .8;}}
+//     
+//    updateMousePosition(event);
+//    ctx.globalCompositeOperation = "source-over";  
+     
         var isPenOrEraser= "pen";
         if(document.getElementById("eraserRadio").checked){isPenOrEraser= "eraser";}
-        if (mouseIsDown) { // If the mouse button is also down (i.e. if we're dragging)
+        if (mouseIsDown) {
             var drawing = new Drawing(mousePosition.x, mousePosition.y, event.offsetX, event.offsetY, lineCol, lineWid, lineOpacity, lineSoftness, isPenOrEraser, currentCanvas);
-            var li = document.createElement('li');
-            li.innerText = drawing.log();
-            drawingHistory.appendChild(li);
+            drawLine(drawing);
 
             drawingCommands.push(drawing);
-            clearScreen();
-            redrawLines();
-
             updateMousePosition(event); // and then update our mousePosition coordinates
         }
+     
+     follower.style.left = event.x - .5 * lineWid + "px";
+    follower.style.top = event.y - .5 * lineWid + "px";
     });
 
     // Grab our undo button
