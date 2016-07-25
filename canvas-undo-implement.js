@@ -21,7 +21,8 @@ var setEraserSettings = function () {
     $("#canvas" +  n).toggle();});
   var updateCanvas = function(){
    canvas = document.getElementById(currentCanvas);
-   ctx= canvas.getContext('2d');};
+   ctx= canvas.getContext('2d');
+  };
 //clear
   var clearButton = document.getElementById("clear");
   clearButton.addEventListener('click', function () {
@@ -198,7 +199,7 @@ var drawLine = function(drawing) {
     
         if (lineSoft <= 0 || width <= 3) {
             //              ctx.globalCompositeOperation = "source-over";
-            ctx.globalAlpha = lineOpacity;
+            ctx.globalAlpha = opacity;
             line(mpX, mpY, ex, ey, width, color);
             tempWid = -1;}
         if (lineSoft > 30) {
@@ -222,10 +223,8 @@ var drawLine = function(drawing) {
             ctx.globalAlpha = omo / 100.0;
             line(mpX, mpY, ex, ey, tempWid, color);
             tempWid = tempWid - (lineSoft) / 20.0;
-            omo = omo + (lineOpacity) * .8;}
-    ctx.globalCompositeOperation = "source-over";
-     ctx.globalAlpha = lineOpacity;
-    console.log( color, width, opacity, lineSoft, currentCanvas, tempWid, omo, ctx.globalAlpha)};
+            omo = omo + (opacity) * .8;}
+    ctx.globalCompositeOperation = "source-over";};
 
   // An array to hold our drawing commands
     var drawingCommands = [];
@@ -234,7 +233,11 @@ var drawLine = function(drawing) {
     var drawingHistory = document.querySelector('#history');
 
     var clearScreen = function() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        $(".aCanvas").each(function(canvas){
+                 var ctxx= this.getContext("2d");
+                 ctxx.clearRect(0, 0, this.width, this.height);
+        })
+   
     };
 
     var redrawLines = function() {
@@ -318,7 +321,7 @@ opacitySlider.addEventListener("change", function () {
 softnessSlider.addEventListener("change", function () {
     var softnessPercent = document.querySelector("#softnessPercent");
     softnessPercent.innerText = softnessSlider.value + "%";
-    lineSoft = softnessSlider.value;
+    lineSoftness = softnessSlider.value;
     updateFollower();});
 
 //*************COLOR WHEEL******************//
