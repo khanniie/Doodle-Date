@@ -219,11 +219,6 @@ button{
 */
     
 }
-
-ol{
-    display: none;
-}
-
 #undo{
     position: absolute;
     top: 2vw;

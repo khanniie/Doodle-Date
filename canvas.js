@@ -8,172 +8,6 @@ var setEraserSettings = function () {
     if (document.getElementById("eraserRadio").checked) {
         follower.style.backgroundColor = "white";};};
 
-//**************** LINE*********************//
-//properties
-var lineCol = "#808080";
-var lineWid = 50;
-var lineOpacity = 1;
-var lineSoft = 20;
-
-//line drawing
-var mouseIsDown = false;
-var mousePosition = { x: null, y: null};
-var updateMousePosition = function (event) {
-    mousePosition.x = event.offsetX;
-    mousePosition.y = event.offsetY;};
-var canvas = document.getElementById("canvas0");
-var cover = document.querySelector('#canvasCover');
-var ctx = canvas.getContext('2d');
-// ctx.globalCompositeOperation = 'xor';
-
-cover.addEventListener("mouseenter", function () {
-    follower.classList.add("on");
-    updateFollower();
-    setEraserSettings();});
-cover.addEventListener("mouseleave", function () {
-    follower.classList.remove("on");});
-cover.addEventListener('mousedown', function (event) {
-    mouseIsDown = true;
-    updateMousePosition(event);});
-cover.addEventListener('mouseup', function (event) {
-    mouseIsDown = false;});
-var line = function (x1, y1, x2, y2, lineTemp, color) {
-    ctx.beginPath();
-    ctx.lineCap = "round";
-    ctx.moveTo(x1, y1);
-    ctx.lineWidth = lineTemp;
-    ctx.lineTo(x2, y2);
-    ctx.strokeStyle = color;
-    ctx.stroke();
-    ctx.closePath();};
-cover.addEventListener('mousemove', function (event) {
-    if (mouseIsDown) {
-        var mpX = mousePosition.x;
-        var mpY = mousePosition.y;
-        var ex = event.offsetX;
-        var ey = event.offsetY;
-
-        var tempWid = lineWid;
-        var omo = 0.0;
-        if (document.getElementById("eraserRadio").checked) {
-            ctx.globalCompositeOperation = "destination-out";
-            follower.style.backgroundColor = "white";};
-        if (lineSoft <= 0 || lineWid <= 3) {
-            //              ctx.globalCompositeOperation = "source-over";
-            ctx.globalAlpha = lineOpacity;
-            line(mpX, mpY, ex, ey, lineWid, lineCol);
-            tempWid = -1;}
-        if (lineSoft > 30) {
-            tempWid = tempWid * 1.4;
-        } else if (lineSoft > 40) {
-            tempWid = tempWid * 1.45;
-        } else if (lineSoft > 50) {
-            tempWid = tempWid * 1.5;
-        } else if (lineSoft > 60) {
-            tempWid = tempWid * 1.6;
-        } else if (lineSoft > 70) {
-            tempWid = tempWid * 1.7;
-        } else if (lineSoft > 80) {
-            tempWid = tempWid * 1.8;
-        } else if (lineSoft > 90) {
-            tempWid = tempWid * 1.9;
-        }
-        if (lineSoft > 100) {lineSoft = 100;}
-        var opacityCutoff = tempWid - ((lineOpacity) * tempWid);
-        while (tempWid > opacityCutoff) {
-            ctx.globalAlpha = omo / 100.0;
-            line(mpX, mpY, ex, ey, tempWid, lineCol);
-            tempWid = tempWid - (lineSoft) / 20.0;
-            omo = omo + (lineOpacity) * .8;}
-        updateMousePosition(event);};
-    follower.style.left = event.x - .5 * lineWid + "px";
-    follower.style.top = event.y - .5 * lineWid + "px";
-    ctx.globalCompositeOperation = "source-over";});
-
-//***************SLIDERS**********************//
-var widSlider = document.getElementById("lineWid");
-var opacitySlider = document.getElementById("lineOpacity");
-var softnessSlider = document.getElementById("lineSoftness");
-opacitySlider.value = 100;
-softnessSlider.value = 20;
-
-widSlider.addEventListener("change", function () {
-    lineWid = widSlider.value;
-    var widthPercent = document.querySelector("#widthPercent");
-    widthPercent.innerText = widSlider.value + "%";
-    updateFollower();});
-opacitySlider.addEventListener("change", function () {
-    var opacityPercent = document.querySelector("#opacityPercent");
-    opacityPercent.innerText = opacitySlider.value + "%";
-    lineOpacity = opacitySlider.value / 100.0;
-    updateFollower();});
-softnessSlider.addEventListener("change", function () {
-    var softnessPercent = document.querySelector("#softnessPercent");
-    softnessPercent.innerText = softnessSlider.value + "%";
-    lineSoft = softnessSlider.value;
-    updateFollower();});
-
-//*************COLOR WHEEL******************//
-$('#colorpicker2').farbtastic({
-      callback: function (color) {
-          lineCol = color;
-          var colorBox = document.getElementById("currentColorBox");
-          colorBox.style.backgroundColor = color;
-          updateFollower();}, width: 150});
-jQuery.fn.single_double_click = function (single_click_callback, double_click_callback, timeout) {return this.each(function () {
-          var clicks = 0, self = this;
-          jQuery(this).click(function (event) {
-              clicks++;
-              if (clicks == 1) {
-                  setTimeout(function () {
-                      if (clicks == 1) { single_click_callback.call(self, event);} else {double_click_callback.call(self, event);}
-                      clicks = 0;}, timeout || 300);}});});};
-  $('#colorMem1').single_double_click(function () {
-      var colorBox = document.getElementById("colorMem1");
-      lineCol = colorBox.style.backgroundColor ? colorBox.style.backgroundColor: "white"; 
-      updateFollower();
-      var colorBox2 = document.getElementById("currentColorBox");
-      colorBox2.style.backgroundColor = colorBox.style.backgroundColor ? lineCol : "white";
-  }, function () {
-      var colorBox = document.getElementById("colorMem1");
-      colorBox.style.backgroundColor = lineCol;});
-  $('#colorMem2').single_double_click(function () {
-      var colorBox = document.getElementById("colorMem2");
-      lineCol = colorBox.style.backgroundColor ? colorBox.style.backgroundColor: "white"; 
-      updateFollower();
-      var colorBox2 = document.getElementById("currentColorBox");
-      colorBox2.style.backgroundColor = colorBox.style.backgroundColor ? lineCol : "white";
-  }, function () {
-      var colorBox = document.getElementById("colorMem2");
-      colorBox.style.backgroundColor = lineCol;});
-    $('#colorMem3').single_double_click(function () {
-      var colorBox = document.getElementById("colorMem3");
-      lineCol = colorBox.style.backgroundColor ? colorBox.style.backgroundColor: "white"; 
-      updateFollower();
-      var colorBox2 = document.getElementById("currentColorBox");
-      colorBox2.style.backgroundColor = colorBox.style.backgroundColor ? lineCol : "white";
-  }, function () {
-      var colorBox = document.getElementById("colorMem3");
-      colorBox.style.backgroundColor = lineCol;});
-  $('#colorMem4').single_double_click(function () {
-      var colorBox = document.getElementById("colorMem4");
-      lineCol = colorBox.style.backgroundColor ? colorBox.style.backgroundColor: "white"; 
-      updateFollower();
-      var colorBox2 = document.getElementById("currentColorBox");
-      colorBox2.style.backgroundColor = colorBox.style.backgroundColor ? lineCol : "white";
-  }, function () {
-      var colorBox = document.getElementById("colorMem4");
-      colorBox.style.backgroundColor = lineCol;});
-  $('#colorMem5').single_double_click(function () {
-      var colorBox = document.getElementById("colorMem5");
-      lineCol = colorBox.style.backgroundColor ? colorBox.style.backgroundColor: "white"; 
-      updateFollower();
-      var colorBox2 = document.getElementById("currentColorBox");
-      colorBox2.style.backgroundColor = colorBox.style.backgroundColor ? lineCol : "white";
-  }, function () {
-      var colorBox = document.getElementById("colorMem5");
-      colorBox.style.backgroundColor = lineCol;});
-
 //*******************LAYERS*************************//
   var layerCounter = 1;
   var currentCanvas = "canvas0";
@@ -184,7 +18,8 @@ jQuery.fn.single_double_click = function (single_click_callback, double_click_ca
     $("#canvas" +  n).toggle();});
   var updateCanvas = function(){
    canvas = document.getElementById(currentCanvas);
-   ctx= canvas.getContext('2d');};
+   ctx= canvas.getContext('2d');
+  };
 //clear
   var clearButton = document.getElementById("clear");
   clearButton.addEventListener('click', function () {
@@ -293,6 +128,235 @@ $("#mergeLayerButton").click(function(){
           currentCanvas= "canvas" + num;
           selectedLayer= a;
           updateCanvas();});
+
+//**************** LINE*********************//
+
+var lineCol = "#808080";
+var lineWid = 50;
+var lineOpacity = 1;
+var lineSoftness = 20;
+
+var mouseIsDown = false;
+var mousePosition = { x: null, y: null};
+var updateMousePosition = function (event) {
+    mousePosition.x = event.offsetX;
+    mousePosition.y = event.offsetY;};
+var canvas = document.getElementById("canvas0");
+var cover = document.querySelector('#canvasCover');
+var ctx = canvas.getContext('2d');
+cover.addEventListener("mouseenter", function () {
+    follower.classList.add("on");
+    updateFollower();
+    setEraserSettings();});
+cover.addEventListener("mouseleave", function () {
+    follower.classList.remove("on");});
+//var drawSegment = [];
+cover.addEventListener('mousedown', function (event) {
+//    drawSegment=[];
+    mouseIsDown = true;
+    updateMousePosition(event);});
+cover.addEventListener('mouseup', function (event) {
+    mouseIsDown = false;
+//    drawingCommands= drawingCommands.concat(drawSegment);
+});
+var line = function (x1, y1, x2, y2, lineTemp, color) {
+    ctx.beginPath();
+    ctx.lineCap = "round";
+    ctx.moveTo(x1, y1);
+    ctx.lineWidth = lineTemp;
+    ctx.lineTo(x2, y2);
+    ctx.strokeStyle = color;
+    ctx.stroke();
+    ctx.closePath();};
+var drawLine = function(drawing) {    
+        currentCanvas = drawing.canvas;
+        if(document.getElementById(currentCanvas)!= null){
+        updateCanvas();
+        var color = drawing.lineCol;
+        var width = drawing.lineWid;
+        var opacity = drawing.lineOpacity;
+        var lineSoft = drawing.lineSoftness;
+        var mpX = drawing.x1;
+        var mpY = drawing.y1;
+        var ex = drawing.x2;
+        var ey = drawing.y2;
+        var tempWid = drawing.lineWid;
+        var omo = 0.0;
+ if (drawing.isPenOrEraser=="eraser") {
+            ctx.globalCompositeOperation = "destination-out";
+            follower.style.backgroundColor = "white";}
+        if (lineSoft <= 0 || width <= 3) {
+            ctx.globalAlpha = opacity;
+            line(mpX, mpY, ex, ey, width, color);
+            tempWid = -1;}
+        if (lineSoft > 30) {
+            tempWid = tempWid * 1.4;
+        } else if (lineSoft > 40) {
+            tempWid = tempWid * 1.45;
+        } else if (lineSoft > 50) {
+            tempWid = tempWid * 1.5;
+        } else if (lineSoft > 60) {
+            tempWid = tempWid * 1.6;
+        } else if (lineSoft > 70) {
+            tempWid = tempWid * 1.7;
+        } else if (lineSoft > 80) {
+            tempWid = tempWid * 1.8;
+        } else if (lineSoft > 90) {
+            tempWid = tempWid * 1.9;
+        }
+        if (lineSoft > 100) {lineSoft = 100;}
+        var opacityCutoff = tempWid - ((opacity) * tempWid);
+        while (tempWid > opacityCutoff) {
+            ctx.globalAlpha = omo / 100.0;
+            line(mpX, mpY, ex, ey, tempWid, color);
+            tempWid = tempWid - (lineSoft) / 20.0;
+            omo = omo + (opacity) * .8;}
+    ctx.globalCompositeOperation = "source-over";}};
+  // An array to hold our drawing commands
+    var drawingCommands = [];
+    var clearScreen = function() {
+        $(".aCanvas").each(function(canvas){
+                 var ctxx= this.getContext("2d");
+                 ctxx.clearRect(0, 0, this.width, this.height);})};
+    var redrawLines = function() {
+        drawingCommands.forEach(function(drawing) {
+            drawLine(drawing);});
+//        drawSegment.forEach(function(drawing){
+//                    drawLine(drawing);
+//            }); 
+        currentCanvas = "canvas" + selectedLayer.slice(selectedLayer.length -1);
+        updateCanvas();};
+    var Drawing = function(x1, y1, x2, y2, lineCol, lineWid, lineOpacity, lineSoftness, isPenOrEraser, currentCanvas) {
+        this.x1 = x1;
+        this.y1 = y1;
+        this.x2 = x2;
+        this.y2 = y2;
+        this.lineCol = lineCol;
+        this.lineWid = lineWid;
+        this.lineOpacity = lineOpacity;
+        this.lineSoftness = lineSoftness;
+        this.isPenOrEraser = isPenOrEraser;
+        this.canvas = currentCanvas;};
+    cover.addEventListener('mousemove', function(event) {
+        var isPenOrEraser= "pen";
+        if(document.getElementById("eraserRadio").checked){isPenOrEraser= "eraser";}
+        if (mouseIsDown) {
+            var drawing = new Drawing(mousePosition.x, mousePosition.y, event.offsetX, event.offsetY, lineCol, lineWid, lineOpacity, lineSoftness, isPenOrEraser, currentCanvas);
+            drawLine(drawing);
+            drawingCommands.push(drawing);
+            updateMousePosition(event);}
+     
+     follower.style.left = event.x - .5 * lineWid + "px";
+     follower.style.top = event.y - .5 * lineWid + "px";});
+
+    var undo = document.querySelector('#undo');
+    undo.addEventListener('click', function() {
+        var undoLength = 12;
+        drawingCommands = drawingCommands.slice(0, drawingCommands.length - undoLength);
+        clearScreen();
+        redrawLines();});
+
+//function KeyPress(e) {
+//      var evtobj = window.event? event : e
+//      if (evtobj.keyCode == 90 && evtobj.ctrlKey){
+//          e.preventDefault();
+//          var undoLength = 12; // A variable to set how far back to undo
+//        // Redefine `drawingCommands` as what it was, but `undoLength` shorter
+//        drawingCommands = drawingCommands.slice(0, drawingCommands.length - undoLength);
+//
+//        // Clear our screen
+//        clearScreen();
+//
+//        // Redraw the lines in `drawingCommands`, now `undoLength` elements shorter
+//        redrawLines();
+//      };
+//}
+//
+//document.onkeydown = KeyPress;
+    
+//***************SLIDERS**********************//
+var widSlider = document.getElementById("lineWid");
+var opacitySlider = document.getElementById("lineOpacity");
+var softnessSlider = document.getElementById("lineSoftness");
+opacitySlider.value = 100;
+softnessSlider.value = 20;
+
+widSlider.addEventListener("change", function () {
+    lineWid = widSlider.value;
+    var widthPercent = document.querySelector("#widthPercent");
+    widthPercent.innerText = widSlider.value + "%";
+    updateFollower();});
+opacitySlider.addEventListener("change", function () {
+    var opacityPercent = document.querySelector("#opacityPercent");
+    opacityPercent.innerText = opacitySlider.value + "%";
+    lineOpacity = opacitySlider.value / 100.0;
+    updateFollower();});
+softnessSlider.addEventListener("change", function () {
+    var softnessPercent = document.querySelector("#softnessPercent");
+    softnessPercent.innerText = softnessSlider.value + "%";
+    lineSoftness = softnessSlider.value;
+    updateFollower();});
+
+//*************COLOR WHEEL******************//
+$('#colorpicker2').farbtastic({
+      callback: function (color) {
+          lineCol = color;
+          var colorBox = document.getElementById("currentColorBox");
+          colorBox.style.backgroundColor = color;
+          updateFollower();}, width: 150});
+jQuery.fn.single_double_click = function (single_click_callback, double_click_callback, timeout) {return this.each(function () {
+          var clicks = 0, self = this;
+          jQuery(this).click(function (event) {
+              clicks++;
+              if (clicks == 1) {
+                  setTimeout(function () {
+                      if (clicks == 1) { single_click_callback.call(self, event);} else {double_click_callback.call(self, event);}
+                      clicks = 0;}, timeout || 300);}});});};
+  $('#colorMem1').single_double_click(function () {
+      var colorBox = document.getElementById("colorMem1");
+      lineCol = colorBox.style.backgroundColor ? colorBox.style.backgroundColor: "white"; 
+      updateFollower();
+      var colorBox2 = document.getElementById("currentColorBox");
+      colorBox2.style.backgroundColor = colorBox.style.backgroundColor ? lineCol : "white";
+  }, function () {
+      var colorBox = document.getElementById("colorMem1");
+      colorBox.style.backgroundColor = lineCol;});
+  $('#colorMem2').single_double_click(function () {
+      var colorBox = document.getElementById("colorMem2");
+      lineCol = colorBox.style.backgroundColor ? colorBox.style.backgroundColor: "white"; 
+      updateFollower();
+      var colorBox2 = document.getElementById("currentColorBox");
+      colorBox2.style.backgroundColor = colorBox.style.backgroundColor ? lineCol : "white";
+  }, function () {
+      var colorBox = document.getElementById("colorMem2");
+      colorBox.style.backgroundColor = lineCol;});
+    $('#colorMem3').single_double_click(function () {
+      var colorBox = document.getElementById("colorMem3");
+      lineCol = colorBox.style.backgroundColor ? colorBox.style.backgroundColor: "white"; 
+      updateFollower();
+      var colorBox2 = document.getElementById("currentColorBox");
+      colorBox2.style.backgroundColor = colorBox.style.backgroundColor ? lineCol : "white";
+  }, function () {
+      var colorBox = document.getElementById("colorMem3");
+      colorBox.style.backgroundColor = lineCol;});
+  $('#colorMem4').single_double_click(function () {
+      var colorBox = document.getElementById("colorMem4");
+      lineCol = colorBox.style.backgroundColor ? colorBox.style.backgroundColor: "white"; 
+      updateFollower();
+      var colorBox2 = document.getElementById("currentColorBox");
+      colorBox2.style.backgroundColor = colorBox.style.backgroundColor ? lineCol : "white";
+  }, function () {
+      var colorBox = document.getElementById("colorMem4");
+      colorBox.style.backgroundColor = lineCol;});
+  $('#colorMem5').single_double_click(function () {
+      var colorBox = document.getElementById("colorMem5");
+      lineCol = colorBox.style.backgroundColor ? colorBox.style.backgroundColor: "white"; 
+      updateFollower();
+      var colorBox2 = document.getElementById("currentColorBox");
+      colorBox2.style.backgroundColor = colorBox.style.backgroundColor ? lineCol : "white";
+  }, function () {
+      var colorBox = document.getElementById("colorMem5");
+      colorBox.style.backgroundColor = lineCol;});
 
 //******************DOWNLOAD*************************//
 $("#download").click(function(){

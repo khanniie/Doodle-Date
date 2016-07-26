@@ -219,3 +219,8 @@ button{
 */
     
 }
+#undo{
+    position: absolute;
+    top: 2vw;
+    left: 5px;
+}
