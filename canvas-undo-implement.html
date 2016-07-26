@@ -27,7 +27,7 @@ canvas version 1.4. Has:
     
     <script type="text/javascript" charset="utf-8" src="farbtastic-master/src/farbtastic.js"></script>
     
-     <link rel="stylesheet" type="text/css" href="canvas.css">
+     <link rel="stylesheet" type="text/css" href="canvas-undo-implement.css">
 
 </head>
 
@@ -91,14 +91,16 @@ canvas version 1.4. Has:
         </div> 
     
     <div class = "bigBox"><div class="bigBoxHolder"><div id="previewBox"><div id ="preview0" class = "preview selectedLayer"><p>Background<i class ="view-icon" ></i></p></div></div></div><button type="button" id ="deleteLayerButton">Delete</button><button type="button" id ="newLayerButton">Add</button><button type="button" id ="clear">Clear</button><button type="button" id ="mergeLayerButton">Merge Down</button></div>
-
+   <button id='undo'>↩</button>
+    <ol id='history'>
+    </ol>
     <!-- the canvas-->
     <canvas width='850px' height='400px' id='canvas0' class = 'aCanvas' display = "block"></canvas>
     <!--    the canvas cover, which is the same width and height as the canvas.-->
     <div id="canvasCover"></div>
 
 
-    <script type="text/javascript" src="canvas.js"></script>
+    <script type="text/javascript" src="canvas-undo-implement.js"></script>
 
 </body>
 
