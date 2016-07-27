@@ -12,6 +12,7 @@ var setEraserSettings = function () {
   var layerCounter = 1;
   var currentCanvas = "canvas0";
   var selectedLayer ="preview0";
+  var currentCanvasSave;
   var layerZ = -999;
   $(".view-icon").click(function(){
     var n=$(this).parents(".preview").attr("id").slice($(this).parents(".preview").attr("id").length -1);
@@ -42,12 +43,10 @@ var setEraserSettings = function () {
       newC.style.border= "1px solid black";
       document.body.appendChild(newC);
       currentCanvas= "canvas" + layerCounter;
-      updateCanvas();
-      
+      updateCanvas(); 
       var preview = document.createElement('div');
       preview.setAttribute("id", "preview" + layerCounter);
-      preview.classList.add("preview");
-      
+      preview.classList.add("preview"); 
       var p = document.createElement('p');
       p.innerText= newC.dataset.name; 
       var viewIcon= document.createElement("i");
@@ -57,7 +56,6 @@ var setEraserSettings = function () {
          $("#canvas" +  n).toggle();});
       p.appendChild(viewIcon);
       preview.appendChild(p);
-      
       document.getElementById(selectedLayer).classList.remove("selectedLayer");
       preview.classList.add("selectedLayer");
       selectedLayer= preview.id;
@@ -112,6 +110,10 @@ $("#mergeLayerButton").click(function(){
         currentCanvas= "canvas" + (n-a);
         var tempCtx = document.getElementById(currentCanvas).getContext('2d');
         var alphaa= tempCtx.globalAlpha;
+        drawingCommands.forEach(function(drawing){
+          if(drawing.canvas == deleted.id){
+            drawing.canvas = currentCanvas;
+          }});
         tempCtx.globalAlpha =1;
         tempCtx.drawImage(deleted, 0, 0);
         tempCtx.globalAlpha = alphaa;
@@ -128,14 +130,12 @@ $("#mergeLayerButton").click(function(){
           currentCanvas= "canvas" + num;
           selectedLayer= a;
           updateCanvas();});
-
 //**************** LINE*********************//
-
+var maxUndo = 200;
 var lineCol = "#808080";
 var lineWid = 50;
 var lineOpacity = 1;
 var lineSoftness = 20;
-
 var mouseIsDown = false;
 var mousePosition = { x: null, y: null};
 var updateMousePosition = function (event) {
@@ -150,15 +150,11 @@ cover.addEventListener("mouseenter", function () {
     setEraserSettings();});
 cover.addEventListener("mouseleave", function () {
     follower.classList.remove("on");});
-//var drawSegment = [];
 cover.addEventListener('mousedown', function (event) {
-//    drawSegment=[];
     mouseIsDown = true;
     updateMousePosition(event);});
 cover.addEventListener('mouseup', function (event) {
-    mouseIsDown = false;
-//    drawingCommands= drawingCommands.concat(drawSegment);
-});
+    mouseIsDown = false;});
 var line = function (x1, y1, x2, y2, lineTemp, color) {
     ctx.beginPath();
     ctx.lineCap = "round";
@@ -168,7 +164,48 @@ var line = function (x1, y1, x2, y2, lineTemp, color) {
     ctx.strokeStyle = color;
     ctx.stroke();
     ctx.closePath();};
-var drawLine = function(drawing) {    
+var saveLine = function(drawing){
+        currentCanvasSave = drawing.canvas + "Save";
+        canvas =document.getElementById(currentCanvasSave);
+        ctx= canvas.getContext("2d");
+        var color = drawing.lineCol;
+        var width = drawing.lineWid;
+        var opacity = drawing.lineOpacity;
+        var lineSoft = drawing.lineSoftness;
+        var mpX = drawing.x1;
+        var mpY = drawing.y1;
+        var ex = drawing.x2;
+        var ey = drawing.y2;
+        var tempWid = drawing.lineWid;
+        var omo = 0.0;
+        if (lineSoft <= 0 || width <= 3) {
+            ctx.globalAlpha = opacity;
+            line(mpX, mpY, ex, ey, width, color);
+            tempWid = -1;}
+        if (lineSoft > 30) {
+            tempWid = tempWid * 1.4;
+        } else if (lineSoft > 40) {
+            tempWid = tempWid * 1.45;
+        } else if (lineSoft > 50) {
+            tempWid = tempWid * 1.5;
+        } else if (lineSoft > 60) {
+            tempWid = tempWid * 1.6;
+        } else if (lineSoft > 70) {
+            tempWid = tempWid * 1.7;
+        } else if (lineSoft > 80) {
+            tempWid = tempWid * 1.8;
+        } else if (lineSoft > 90) {
+            tempWid = tempWid * 1.9;
+        }
+        if (lineSoft > 100) {lineSoft = 100;}
+        var opacityCutoff = tempWid - ((opacity) * tempWid);
+        while (tempWid > opacityCutoff) {
+            ctx.globalAlpha = omo / 100.0;
+            line(mpX, mpY, ex, ey, tempWid, color);
+            console.log(mpX);
+            tempWid = tempWid - (lineSoft) / 20.0;
+            omo = omo + (opacity) * .8;}};
+    var drawLine = function(drawing) {    
         currentCanvas = drawing.canvas;
         if(document.getElementById(currentCanvas)!= null){
         updateCanvas();
@@ -212,7 +249,6 @@ var drawLine = function(drawing) {
             tempWid = tempWid - (lineSoft) / 20.0;
             omo = omo + (opacity) * .8;}
     ctx.globalCompositeOperation = "source-over";}};
-  // An array to hold our drawing commands
     var drawingCommands = [];
     var clearScreen = function() {
         $(".aCanvas").each(function(canvas){
@@ -221,9 +257,6 @@ var drawLine = function(drawing) {
     var redrawLines = function() {
         drawingCommands.forEach(function(drawing) {
             drawLine(drawing);});
-//        drawSegment.forEach(function(drawing){
-//                    drawLine(drawing);
-//            }); 
         currentCanvas = "canvas" + selectedLayer.slice(selectedLayer.length -1);
         updateCanvas();};
     var Drawing = function(x1, y1, x2, y2, lineCol, lineWid, lineOpacity, lineSoftness, isPenOrEraser, currentCanvas) {
@@ -237,6 +270,12 @@ var drawLine = function(drawing) {
         this.lineSoftness = lineSoftness;
         this.isPenOrEraser = isPenOrEraser;
         this.canvas = currentCanvas;};
+    var Layer = function(actionPerformed, layerInvolved) {
+        this.actionPerformed = actionPerformed;
+        this.layerInvolved = layerInvolved;};
+    var MergeLayer = function(layer1, layer2){
+        this.layer1 = layer1;
+        this.layer2 = layer2;};
     cover.addEventListener('mousemove', function(event) {
         var isPenOrEraser= "pen";
         if(document.getElementById("eraserRadio").checked){isPenOrEraser= "eraser";}
@@ -244,15 +283,35 @@ var drawLine = function(drawing) {
             var drawing = new Drawing(mousePosition.x, mousePosition.y, event.offsetX, event.offsetY, lineCol, lineWid, lineOpacity, lineSoftness, isPenOrEraser, currentCanvas);
             drawLine(drawing);
             drawingCommands.push(drawing);
+              if(drawingCommands.length>= maxUndo){
+                var piece = drawingCommands[0];
+                if (document.getElementById(piece.canvas + "Save") == null){ var canvasInfinity = document.createElement("canvas"); canvasInfinity.setAttribute("width", 850);
+   canvasInfinity.setAttribute("height", 400); canvasInfinity.id = piece.canvas + "Save"; canvasInfinity.classList.add("savedCanvas"); $(canvasInfinity).hide(); document.body.appendChild(canvasInfinity);} 
+                saveLine(piece);
+                drawingCommands = drawingCommands.slice(1, drawingCommands.length - 1);};
             updateMousePosition(event);}
-     
      follower.style.left = event.x - .5 * lineWid + "px";
      follower.style.top = event.y - .5 * lineWid + "px";});
-
+    var undoHistory= [];
     var undo = document.querySelector('#undo');
     undo.addEventListener('click', function() {
         var undoLength = 12;
+        undoHistory = drawingCommands.slice(drawingCommands.length - undoLength, drawingCommands.length);
         drawingCommands = drawingCommands.slice(0, drawingCommands.length - undoLength);
+        clearScreen();
+         $(".savedCanvas").each(function(canvas){
+                 var a = this;
+                 console.log(this);
+                 var actualCanvas = document.getElementById(this.id.slice(0, this.id.length - 4));
+                 console.log(this.id.slice(0, this.id.length - 4)); 
+                 var ctxx= actualCanvas.getContext("2d");
+                 ctxx.globalAlpha = 1;
+                 ctxx.drawImage(a, 0, 0);})
+        redrawLines();});
+    var redo = document.querySelector('#redo');
+    redo.addEventListener('click', function() {
+        drawingCommands = drawingCommands.concat(undoHistory);
+        undoHistory = [];
         clearScreen();
         redrawLines();});
 
