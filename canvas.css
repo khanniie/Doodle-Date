@@ -12,22 +12,20 @@ html {
     
 }
         #canvas0 {
-            border: 1px black solid;
             position: absolute;
             display: block;
-            left: 20%;
-            top: 30%;
+            left: 0;
+            top: 0;
             z-index: -1000;
         }
         /*        A transparent "cover" that is the exact dimension of the canvas. Gets rid of the problem where the "follower" is between the cursor and eventlistner canvas*/
         
         #canvasCover {
-            height: 400px;
-            width: 850px;
+            height: 5000px;
+            width: 5000px;
             position: absolute;
-            left: 20%;
-            top: 30%;
-            border: 1px solid black;
+            left: 0;
+            top: 0;
             cursor: none;
             z-index: 40;
         }
@@ -45,7 +43,7 @@ html {
             height: 50px;
             border-radius: 50%;
             background-color: #808080;
-            border: 0.5px dotted grey;
+            border: 2px dotted grey;
             position: absolute;
             cursor: none;
             position: absolute;
@@ -58,10 +56,6 @@ html {
         #follower.on {
             display: block;
         }
-button{
-    width: 100px;
-    height: 25px;
-}
         
       .colorpicker {
 	   float: left;
@@ -89,25 +83,10 @@ button{
     
 }
 
-#colorMem1{
+.colorMem{
         background-color: #FFFFFF;
 }
 
-#colorMem2{
-        background-color: #FFFFFF;
-}
-
-#colorMem3{
-        background-color: #FFFFFF;
-}
-
-#colorMem4{
-        background-color: #FFFFFF;
-}
-
-#colorMem5{
-        background-color: #FFFFFF;
-}
 
 #previewBox{
     height: 200px;
@@ -133,9 +112,8 @@ button{
 .bigBox{
     height: 250px;
     width: 200px;
-    position: absolute;
-    top: 400px;
-    left: 10px;
+    position: relative;
+
     
     
 }
@@ -171,8 +149,6 @@ button{
     top:225px;
 }
 
-.aCanvas{ 
-}
 
 #fileRef{
     display: none;
@@ -219,9 +195,4 @@ button{
     top: 0px;
 */
     
-}
-#undo{
-    position: absolute;
-    top: 2vw;
-    left: 5px;
 }
