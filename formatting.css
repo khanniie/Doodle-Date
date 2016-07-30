@@ -1,0 +1,154 @@
+::-moz-selection { background:transparent; }
+::selection { background:transparent; }
+
+.tab{
+	padding: 5px;
+	padding-top: 25px;
+	position: absolute;
+	top: 0;
+	box-shadow: 2px 2px 10px #f2f2f2;
+	border-radius: 0 0 20px 20px;
+	overflow: hidden;
+	width: 240px;
+	z-index: 60;
+	animation-duration: 1s;
+	border: 2px solid #b8c5e0;
+	color: #5c5c8a;
+}
+h1{
+	position: absolute;
+	bottom: -15px;
+	padding-left: 1vw;
+	font-size: 1.7rem;
+	font-family: 'Josefin Sans', arial, helvetica, sans-serif;
+}
+body{
+	overflow: hidden;
+	margin: 0;
+	
+}
+.unCanvas{
+	z-index: 55;
+}
+#drawTab{
+		background-image: url("draw-tool-pattern-3.png");
+	}
+#eraserTab{
+	   	background-image: url("draw-tool-pattern.png");
+}
+#colorTab{
+	   	background-image: url("draw-tool-pattern-4.png");
+}
+#layerTab{
+		background-image: url("draw-tool-pattern-5.png");
+}
+#otherTab{
+	   background-image: url("draw-tool-pattern-2.png");
+}
+
+#undo{
+	background-image: url("draw-tool-pattern-2.png");
+}
+#redo{
+	background-image: url("draw-tool-pattern-2.png");
+}
+
+@keyframes tabMovementOpen{
+	0% {z-index: 100;}
+	95%{top: 0px;}
+	100%{top: -5px;}}
+
+@keyframes tabMovementClose{
+	0% {z-index: 60;}
+	100%{top: -100px;}}
+
+@keyframes tabMovementCloseColor{
+	0% {z-index: 60;}
+	100%{top: -250px;}}	
+
+@keyframes tabMovementCloseLayer{
+	0% {z-index: 60;}
+	100%{top: -280px;}}	
+@keyframes tabMovementCloseOther{
+	0% {z-index: 60;}
+	100%{top: -70px;}}	
+
+#drawTab{
+	left: 0vw;
+	height: 130px;
+	top: -115px;
+}
+.open{
+	    animation-name: tabMovementOpen;
+	    z-index: 101;
+}
+.close{
+	animation-name: tabMovementClose;
+	z-index: 60;
+}
+.closeColor{
+	animation-name: tabMovementCloseColor;
+	z-index: 60;
+}
+.closeLayer{
+	animation-name: tabMovementCloseLayer;
+	z-index: 60;
+}
+.closeOther{
+	animation-name: tabMovementCloseOther;
+	z-index: 60;
+}
+
+#eraserTab{
+	left: 18vw;
+	height: 125px;
+	top: -110px;
+}
+#colorTab{
+	left: 36vw;
+	height: 280px;
+	top: -265px;
+}
+#layerTab{
+	left: 54vw;
+	height: 310px;
+	top: -295px;
+}
+#otherTab{
+	left: 72vw;
+	height: 100px;
+	top: -85px;
+}
+#undo{
+	width: 50px;
+	height: 15px;
+	right: 50px;
+	top: 0px;
+}
+#redo{
+	width: 50px;
+	height: 15px;
+	right: 0px;
+	top: 0px;
+	z-index: 56;
+}
+.openPartTwo{
+	top: -5px !important;
+}
+.upDown{
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	margin-left: 20px;
+	background-size: cover;
+	background-color: lightgrey;
+	border: 2px dotted black;
+	border-radius: 50%;
+	background-repeat: no-repeat;
+}
+#download{
+
+}
+.selectedTab{
+	box-shadow: 2px 2px 10px yellow;
+}
