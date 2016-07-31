@@ -2,6 +2,7 @@ var PorE="pen";
 
 $(".upDown").click(function(){
   var a= $(this).parents(".tab");
+  var b=$(this);
 var classCloseName="close";
 if(a.attr("id")=="colorTab"){
   classCloseName= "closeColor";
@@ -17,15 +18,15 @@ if(a.attr("id")=="otherTab"){
     a.removeClass("open");
     a.addClass(classCloseName);
     window.setTimeout( function(){
-    a.removeClass("openPartTwo")}, 1000);
-    // window.setTimeout( function(){
-    // a.addClass("openPartTwo")}, 1000);
+    a.removeClass("openPartTwo");
+    b.removeClass("turnUpsideDown");}, 1000);
   }
   else{
     a.removeClass(classCloseName);
     a.addClass("open");
     window.setTimeout( function(){
-    a.addClass("openPartTwo")}, 1000);
+    a.addClass("openPartTwo");
+    b.addClass("turnUpsideDown"); }, 1000);
   }
 })
 
@@ -62,7 +63,9 @@ var setEraserSettings = function () {
   var layerZ = -999;
   $(".view-icon").click(function(){
     var n=$(this).parents(".preview").attr("id").slice($(this).parents(".preview").attr("id").length -1);
-    $("#canvas" +  n).toggle();});
+    $("#canvas" +  n).toggle();
+    $(this).toggleClass("view-icon-close");
+  });
   var updateCanvas = function(){
    canvas = document.getElementById(currentCanvas);
    ctx= canvas.getContext('2d');
@@ -98,6 +101,7 @@ var setEraserSettings = function () {
       viewIcon.classList.add("view-icon");
       viewIcon.addEventListener("click", function(){
          var n =$(this).parents(".preview").attr("id").slice($(this).parents(".preview").attr("id").length -1);
+         $(this).toggleClass("view-icon-close");
          $("#canvas" +  n).toggle();});
       p.appendChild(viewIcon);
       preview.appendChild(p);
@@ -203,6 +207,31 @@ $(".unCanvas").mouseleave(function(){
   setEraserSettings();
 })
 cover.addEventListener('mousedown', function (event) {
+
+$(".upDown").each(function(){
+
+    var a= $(this).parents(".tab");
+  var b=$(this);
+var classCloseName="close";
+if(a.attr("id")=="colorTab"){
+  classCloseName= "closeColor";
+}
+if(a.attr("id")=="layerTab"){
+  classCloseName= "closeLayer";
+}
+if(a.attr("id")=="otherTab"){
+  classCloseName= "closeOther";
+}
+     if (a.hasClass("open")){
+    a.removeClass("open");
+    a.addClass(classCloseName);
+    window.setTimeout( function(){
+    a.removeClass("openPartTwo");
+    b.removeClass("turnUpsideDown");}, 1000);
+  }
+})
+
+
     mouseIsDown = true;
     updateMousePosition(event);});
 cover.addEventListener('mouseup', function (event) {
@@ -254,7 +283,6 @@ var saveLine = function(drawing){
         while (tempWid > opacityCutoff) {
             ctx.globalAlpha = omo / 100.0;
             line(mpX, mpY, ex, ey, tempWid, color);
-            console.log(mpX);
             tempWid = tempWid - (lineSoft) / 20.0;
             omo = omo + (opacity) * .8;}};
     var drawLine = function(drawing) {    
@@ -348,9 +376,7 @@ var drawing;
         clearScreen();
          $(".savedCanvas").each(function(canvas){
                  var a = this;
-                 console.log(this);
                  var actualCanvas = document.getElementById(this.id.slice(0, this.id.length - 4));
-                 console.log(this.id.slice(0, this.id.length - 4)); 
                  var ctxx= actualCanvas.getContext("2d");
                  ctxx.globalAlpha = 1;
                  ctxx.drawImage(a, 0, 0);})
@@ -485,6 +511,33 @@ jQuery.fn.single_double_click = function (single_click_callback, double_click_ca
   }, function () {
       var colorBox = document.getElementById("colorMem5");
       colorBox.style.backgroundColor = lineCol;});
+    $('#colorMem6').single_double_click(function () {
+      var colorBox = document.getElementById("colorMem6");
+      lineCol = colorBox.style.backgroundColor ? colorBox.style.backgroundColor: "white"; 
+      updateFollower();
+      var colorBox2 = document.getElementById("currentColorBox");
+      colorBox2.style.backgroundColor = colorBox.style.backgroundColor ? lineCol : "white";
+  }, function () {
+      var colorBox = document.getElementById("colorMem6");
+      colorBox.style.backgroundColor = lineCol;});
+      $('#colorMem7').single_double_click(function () {
+      var colorBox = document.getElementById("colorMem7");
+      lineCol = colorBox.style.backgroundColor ? colorBox.style.backgroundColor: "white"; 
+      updateFollower();
+      var colorBox2 = document.getElementById("currentColorBox");
+      colorBox2.style.backgroundColor = colorBox.style.backgroundColor ? lineCol : "white";
+  }, function () {
+      var colorBox = document.getElementById("colorMem7");
+      colorBox.style.backgroundColor = lineCol;});
+        $('#colorMem8').single_double_click(function () {
+      var colorBox = document.getElementById("colorMem8");
+      lineCol = colorBox.style.backgroundColor ? colorBox.style.backgroundColor: "white"; 
+      updateFollower();
+      var colorBox2 = document.getElementById("currentColorBox");
+      colorBox2.style.backgroundColor = colorBox.style.backgroundColor ? lineCol : "white";
+  }, function () {
+      var colorBox = document.getElementById("colorMem8");
+      colorBox.style.backgroundColor = lineCol;});
 
 //******************DOWNLOAD*************************//
 $("#download").click(function(){
@@ -531,11 +584,14 @@ $("#refUrl").keypress(function(e){
        else{
            image.height = 200;
            ratio = iWid/(iHeight + 0.0);
-           image.width = Math.floor(200 * ratio);}    
+           image.width = Math.floor(200 * ratio);} 
+       $("#fileRef").css("width", image.width + 20 + "px");
+       $("#fileRef").css("height", image.height + 20 + "px");   
        file.appendChild(image);  
-       file.setAttribute("width", 250);
        file.style.display="block";}};
-        return false;}});
+       document.getElementById("refUrl").value = "";
+        return false;
+        }});
 
 $("#fileRefButton").click(function(){
      makeRefPopUp();});
