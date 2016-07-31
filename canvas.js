@@ -1,3 +1,47 @@
+var PorE="pen";
+
+$(".upDown").click(function(){
+  var a= $(this).parents(".tab");
+  var b=$(this);
+var classCloseName="close";
+if(a.attr("id")=="colorTab"){
+  classCloseName= "closeColor";
+}
+if(a.attr("id")=="layerTab"){
+  classCloseName= "closeLayer";
+}
+if(a.attr("id")=="otherTab"){
+  classCloseName= "closeOther";
+}
+
+  if (a.hasClass("open")){
+    a.removeClass("open");
+    a.addClass(classCloseName);
+    window.setTimeout( function(){
+    a.removeClass("openPartTwo");
+    b.removeClass("turnUpsideDown");}, 1000);
+  }
+  else{
+    a.removeClass(classCloseName);
+    a.addClass("open");
+    window.setTimeout( function(){
+    a.addClass("openPartTwo");
+    b.addClass("turnUpsideDown"); }, 1000);
+  }
+})
+
+$("#drawTab").click(function(){
+    PorE = "pen";
+    $("#eraserTab").removeClass("selectedTab");
+    $(this).addClass("selectedTab");
+});
+$("#eraserTab").click(function(){
+    PorE = "eraser";
+     $("#drawTab").removeClass("selectedTab");
+    $(this).addClass("selectedTab");
+});
+
+
 //****************FOLLOWER******************//
 var follower = document.querySelector('#follower');
 var updateFollower = function () {
@@ -5,8 +49,11 @@ var updateFollower = function () {
     follower.style.width = lineWid + "px";
     follower.style.height = lineWid + "px";};
 var setEraserSettings = function () {
-    if (document.getElementById("eraserRadio").checked) {
-        follower.style.backgroundColor = "white";};};
+    if (PorE == "eraser") {
+        follower.style.backgroundColor = "white";
+        follower.style.width = lineWidE + "px";
+        follower.style.height = lineWidE + "px";}
+      };
 
 //*******************LAYERS*************************//
   var layerCounter = 1;
@@ -16,7 +63,9 @@ var setEraserSettings = function () {
   var layerZ = -999;
   $(".view-icon").click(function(){
     var n=$(this).parents(".preview").attr("id").slice($(this).parents(".preview").attr("id").length -1);
-    $("#canvas" +  n).toggle();});
+    $("#canvas" +  n).toggle();
+    $(this).toggleClass("view-icon-close");
+  });
   var updateCanvas = function(){
    canvas = document.getElementById(currentCanvas);
    ctx= canvas.getContext('2d');
@@ -34,13 +83,12 @@ var setEraserSettings = function () {
       newC.id = "canvas" + layerCounter;
       newC.classList.add("aCanvas");
       newC.dataset.name = "Layer " + layerCounter;
-      newC.setAttribute("width", 850);
-      newC.setAttribute("height", 400);
+      newC.setAttribute("width", 5000);
+      newC.setAttribute("height", 5000);
       newC.style.zIndex = layerZ;
       newC.style.position = "absolute";
-      newC.style.left = "20%";
-      newC.style.top = "30%";
-      newC.style.border= "1px solid black";
+      newC.style.left = "0";
+      newC.style.top = "0";
       document.body.appendChild(newC);
       currentCanvas= "canvas" + layerCounter;
       updateCanvas(); 
@@ -53,6 +101,7 @@ var setEraserSettings = function () {
       viewIcon.classList.add("view-icon");
       viewIcon.addEventListener("click", function(){
          var n =$(this).parents(".preview").attr("id").slice($(this).parents(".preview").attr("id").length -1);
+         $(this).toggleClass("view-icon-close");
          $("#canvas" +  n).toggle();});
       p.appendChild(viewIcon);
       preview.appendChild(p);
@@ -136,6 +185,11 @@ var lineCol = "#808080";
 var lineWid = 50;
 var lineOpacity = 1;
 var lineSoftness = 20;
+var lineColE = "#000000";
+var lineWidE = 50;
+var lineOpacityE = 1;
+var lineSoftnessE = 20;
+
 var mouseIsDown = false;
 var mousePosition = { x: null, y: null};
 var updateMousePosition = function (event) {
@@ -144,13 +198,40 @@ var updateMousePosition = function (event) {
 var canvas = document.getElementById("canvas0");
 var cover = document.querySelector('#canvasCover');
 var ctx = canvas.getContext('2d');
-cover.addEventListener("mouseenter", function () {
-    follower.classList.add("on");
-    updateFollower();
-    setEraserSettings();});
-cover.addEventListener("mouseleave", function () {
-    follower.classList.remove("on");});
+$(".unCanvas").mouseenter(function(){
+follower.classList.remove("on");
+});
+$(".unCanvas").mouseleave(function(){
+  follower.classList.add("on");
+  updateFollower();
+  setEraserSettings();
+})
 cover.addEventListener('mousedown', function (event) {
+
+$(".upDown").each(function(){
+
+    var a= $(this).parents(".tab");
+  var b=$(this);
+var classCloseName="close";
+if(a.attr("id")=="colorTab"){
+  classCloseName= "closeColor";
+}
+if(a.attr("id")=="layerTab"){
+  classCloseName= "closeLayer";
+}
+if(a.attr("id")=="otherTab"){
+  classCloseName= "closeOther";
+}
+     if (a.hasClass("open")){
+    a.removeClass("open");
+    a.addClass(classCloseName);
+    window.setTimeout( function(){
+    a.removeClass("openPartTwo");
+    b.removeClass("turnUpsideDown");}, 1000);
+  }
+})
+
+
     mouseIsDown = true;
     updateMousePosition(event);});
 cover.addEventListener('mouseup', function (event) {
@@ -202,7 +283,6 @@ var saveLine = function(drawing){
         while (tempWid > opacityCutoff) {
             ctx.globalAlpha = omo / 100.0;
             line(mpX, mpY, ex, ey, tempWid, color);
-            console.log(mpX);
             tempWid = tempWid - (lineSoft) / 20.0;
             omo = omo + (opacity) * .8;}};
     var drawLine = function(drawing) {    
@@ -270,23 +350,18 @@ var saveLine = function(drawing){
         this.lineSoftness = lineSoftness;
         this.isPenOrEraser = isPenOrEraser;
         this.canvas = currentCanvas;};
-    var Layer = function(actionPerformed, layerInvolved) {
-        this.actionPerformed = actionPerformed;
-        this.layerInvolved = layerInvolved;};
-    var MergeLayer = function(layer1, layer2){
-        this.layer1 = layer1;
-        this.layer2 = layer2;};
     cover.addEventListener('mousemove', function(event) {
-        var isPenOrEraser= "pen";
-        if(document.getElementById("eraserRadio").checked){isPenOrEraser= "eraser";}
-        if (mouseIsDown) {
-            var drawing = new Drawing(mousePosition.x, mousePosition.y, event.offsetX, event.offsetY, lineCol, lineWid, lineOpacity, lineSoftness, isPenOrEraser, currentCanvas);
+                if (mouseIsDown) {
+var drawing;
+        if(PorE=="eraser"){
+        drawing= new Drawing(mousePosition.x, mousePosition.y, event.offsetX, event.offsetY, lineColE, lineWidE, lineOpacityE, lineSoftnessE, "eraser", currentCanvas);}
+        else{var drawing = new Drawing(mousePosition.x, mousePosition.y, event.offsetX, event.offsetY, lineCol, lineWid, lineOpacity, lineSoftness, "pen", currentCanvas);}
             drawLine(drawing);
             drawingCommands.push(drawing);
               if(drawingCommands.length>= maxUndo){
                 var piece = drawingCommands[0];
-                if (document.getElementById(piece.canvas + "Save") == null){ var canvasInfinity = document.createElement("canvas"); canvasInfinity.setAttribute("width", 850);
-   canvasInfinity.setAttribute("height", 400); canvasInfinity.id = piece.canvas + "Save"; canvasInfinity.classList.add("savedCanvas"); $(canvasInfinity).hide(); document.body.appendChild(canvasInfinity);} 
+                if (document.getElementById(piece.canvas + "Save") == null){ var canvasInfinity = document.createElement("canvas"); canvasInfinity.setAttribute("width", 5000);
+   canvasInfinity.setAttribute("height", 5000); canvasInfinity.id = piece.canvas + "Save"; canvasInfinity.classList.add("savedCanvas"); $(canvasInfinity).hide(); document.body.appendChild(canvasInfinity);} 
                 saveLine(piece);
                 drawingCommands = drawingCommands.slice(1, drawingCommands.length - 1);};
             updateMousePosition(event);}
@@ -301,9 +376,7 @@ var saveLine = function(drawing){
         clearScreen();
          $(".savedCanvas").each(function(canvas){
                  var a = this;
-                 console.log(this);
                  var actualCanvas = document.getElementById(this.id.slice(0, this.id.length - 4));
-                 console.log(this.id.slice(0, this.id.length - 4)); 
                  var ctxx= actualCanvas.getContext("2d");
                  ctxx.globalAlpha = 1;
                  ctxx.drawImage(a, 0, 0);})
@@ -340,6 +413,12 @@ var softnessSlider = document.getElementById("lineSoftness");
 opacitySlider.value = 100;
 softnessSlider.value = 20;
 
+var widSliderE = document.getElementById("lineWidE");
+var opacitySliderE = document.getElementById("lineOpacityE");
+var softnessSliderE = document.getElementById("lineSoftnessE");
+opacitySliderE.value = 100;
+softnessSliderE.value = 20;
+
 widSlider.addEventListener("change", function () {
     lineWid = widSlider.value;
     var widthPercent = document.querySelector("#widthPercent");
@@ -354,6 +433,22 @@ softnessSlider.addEventListener("change", function () {
     var softnessPercent = document.querySelector("#softnessPercent");
     softnessPercent.innerText = softnessSlider.value + "%";
     lineSoftness = softnessSlider.value;
+    updateFollower();});
+
+widSliderE.addEventListener("change", function () {
+    lineWidE = widSliderE.value;
+    var widthPercentE = document.querySelector("#widthPercentE");
+    widthPercentE.innerText = widSliderE.value + "%";
+    updateFollower();});
+opacitySliderE.addEventListener("change", function () {
+    var opacityPercentE = document.querySelector("#opacityPercentE");
+    opacityPercentE.innerText = opacitySliderE.value + "%";
+    lineOpacityE = opacitySliderE.value / 100.0;
+    updateFollower();});
+softnessSliderE.addEventListener("change", function () {
+    var softnessPercentE = document.querySelector("#softnessPercentE");
+    softnessPercentE.innerText = softnessSliderE.value + "%";
+    lineSoftnessE = softnessSliderE.value;
     updateFollower();});
 
 //*************COLOR WHEEL******************//
@@ -416,12 +511,41 @@ jQuery.fn.single_double_click = function (single_click_callback, double_click_ca
   }, function () {
       var colorBox = document.getElementById("colorMem5");
       colorBox.style.backgroundColor = lineCol;});
+    $('#colorMem6').single_double_click(function () {
+      var colorBox = document.getElementById("colorMem6");
+      lineCol = colorBox.style.backgroundColor ? colorBox.style.backgroundColor: "white"; 
+      updateFollower();
+      var colorBox2 = document.getElementById("currentColorBox");
+      colorBox2.style.backgroundColor = colorBox.style.backgroundColor ? lineCol : "white";
+  }, function () {
+      var colorBox = document.getElementById("colorMem6");
+      colorBox.style.backgroundColor = lineCol;});
+      $('#colorMem7').single_double_click(function () {
+      var colorBox = document.getElementById("colorMem7");
+      lineCol = colorBox.style.backgroundColor ? colorBox.style.backgroundColor: "white"; 
+      updateFollower();
+      var colorBox2 = document.getElementById("currentColorBox");
+      colorBox2.style.backgroundColor = colorBox.style.backgroundColor ? lineCol : "white";
+  }, function () {
+      var colorBox = document.getElementById("colorMem7");
+      colorBox.style.backgroundColor = lineCol;});
+        $('#colorMem8').single_double_click(function () {
+      var colorBox = document.getElementById("colorMem8");
+      lineCol = colorBox.style.backgroundColor ? colorBox.style.backgroundColor: "white"; 
+      updateFollower();
+      var colorBox2 = document.getElementById("currentColorBox");
+      colorBox2.style.backgroundColor = colorBox.style.backgroundColor ? lineCol : "white";
+  }, function () {
+      var colorBox = document.getElementById("colorMem8");
+      colorBox.style.backgroundColor = lineCol;});
 
 //******************DOWNLOAD*************************//
 $("#download").click(function(){
    var canvasInfinity= document.createElement("canvas");
-   canvasInfinity.setAttribute("width", 850);
-   canvasInfinity.setAttribute("height", 400); 
+   var windowWid = $(window).width();
+   var windowHi =$(window).height();
+   canvasInfinity.setAttribute("width", windowWid);
+   canvasInfinity.setAttribute("height", windowHi); 
     $(".aCanvas").each(function(){
     canvasInfinity.getContext("2d").drawImage(this, 0, 0);  
     });
@@ -460,11 +584,14 @@ $("#refUrl").keypress(function(e){
        else{
            image.height = 200;
            ratio = iWid/(iHeight + 0.0);
-           image.width = Math.floor(200 * ratio);}    
+           image.width = Math.floor(200 * ratio);} 
+       $("#fileRef").css("width", image.width + 20 + "px");
+       $("#fileRef").css("height", image.height + 20 + "px");   
        file.appendChild(image);  
-       file.setAttribute("width", 250);
        file.style.display="block";}};
-        return false;}});
+       document.getElementById("refUrl").value = "";
+        return false;
+        }});
 
 $("#fileRefButton").click(function(){
      makeRefPopUp();});
