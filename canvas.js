@@ -365,8 +365,15 @@ var drawing;
                 saveLine(piece);
                 drawingCommands = drawingCommands.slice(1, drawingCommands.length - 1);};
             updateMousePosition(event);}
-     follower.style.left = event.x - .5 * lineWid + "px";
-     follower.style.top = event.y - .5 * lineWid + "px";});
+
+      if(PorE=="eraser"){       
+     follower.style.left = event.x - .5 * lineWidE + "px";
+     follower.style.top = event.y - .5 * lineWidE + "px";}
+     else{
+      follower.style.left = event.x - .5 * lineWid + "px";
+     follower.style.top = event.y - .5 * lineWid + "px";
+   }}
+   );
     var undoHistory= [];
     var undo = document.querySelector('#undo');
     undo.addEventListener('click', function() {
