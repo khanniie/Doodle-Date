@@ -73,13 +73,15 @@ var setEraserSettings = function () {
 //clear
   var clearButton = document.getElementById("clear");
   clearButton.addEventListener('click', function () {
-      var canvas2width = canvas.width;
-      var canvas2height = canvas.height;
-      ctx.clearRect(0, 0, canvas2width, canvas2height);});
+      var layerArray = [currentCanvas];
+      var a = new LayerAction(layerArray, "clear");
+      var b = new Action(a, "connie", "LayerAction");
+      save(b);
+      });
   //add
-  var newLayerButton = document.getElementById("newLayerButton");
-  newLayerButton.addEventListener('click', function () {
-  var newC = document.createElement('canvas');
+
+var addLayer = function(){
+var newC = document.createElement('canvas');
       newC.id = "canvas" + layerCounter;
       newC.classList.add("aCanvas");
       newC.dataset.name = "Layer " + layerCounter;
@@ -119,56 +121,80 @@ var setEraserSettings = function () {
       var box = document.getElementById("previewBox");
       box.insertBefore(preview, box.firstChild);
       layerCounter++;
-      layerZ++;});
+      layerZ++;};
+
+  var newLayerButton = document.getElementById("newLayerButton");
+  newLayerButton.addEventListener('click', function(){
+    var layerArray = ["add"];
+    var a = new LayerAction(layerArray, "add");
+    var b = new Action(a, "connie", "LayerAction");
+    save(b);
+  });
 //delete
+var deleteLayer = function(aCanvas){
+if (aCanvas == "canvas0"){alert("You can't delete the background! Sorry :(");}
+    else{
+        var deleted = document.getElementById(aCanvas);
+        var n = aCanvas.slice(aCanvas.length -1);
+        var deleted2 = document.getElementById("preview" + n );
+        var a = 1;
+        selectedLayer= "preview" + (n-a);
+            var preview = document.getElementById(selectedLayer);
+        while(preview == null){
+            a++;
+            selectedLayer= "preview" + (n-a);
+            var preview = document.getElementById(selectedLayer);}
+        var preview = document.getElementById(selectedLayer);
+        preview.classList.add("selectedLayer");
+        currentCanvas= "canvas" + (n-a);
+        deleted.remove();
+        deleted2.remove();
+        updateCanvas();}}
+
 $("#deleteLayerButton").click(function(){
-    if (currentCanvas == "canvas0"){alert("You can't delete the background! Sorry :(");}
-    else{
-        var deleted = document.getElementById(currentCanvas);
-        var n = currentCanvas.slice(currentCanvas.length -1);
-        var deleted2 = document.getElementById("preview" + n );
-        var a = 1;
-        selectedLayer= "preview" + (n-a);
-            var preview = document.getElementById(selectedLayer);
-        while(preview == null){
-            a++;
-            selectedLayer= "preview" + (n-a);
-            var preview = document.getElementById(selectedLayer);}
-        var preview = document.getElementById(selectedLayer);
-        preview.classList.add("selectedLayer");
-        currentCanvas= "canvas" + (n-a);
-        deleted.remove();
-        deleted2.remove();
-        updateCanvas();}});
+  var layerArray = [currentCanvas];
+  var a = new LayerAction(layerArray, "delete");
+  var b = new Action(a, "connie", "LayerAction");
+  save(b);
+});
+
 //merge down
-$("#mergeLayerButton").click(function(){
-    if (currentCanvas == "canvas0"){alert("You can't merge down! There's nothing below! Sorry :(");}
-    else{
-        var deleted = document.getElementById(currentCanvas);
-        var n = currentCanvas.slice(currentCanvas.length -1);
-        var deleted2 = document.getElementById("preview" + n );
-        var a = 1;
-        selectedLayer= "preview" + (n-a);
-            var preview = document.getElementById(selectedLayer);
-        while(preview == null){
-            a++;
-            selectedLayer= "preview" + (n-a);
-            var preview = document.getElementById(selectedLayer);}
-        var preview = document.getElementById(selectedLayer);
-        preview.classList.add("selectedLayer");
-        currentCanvas= "canvas" + (n-a);
-        var tempCtx = document.getElementById(currentCanvas).getContext('2d');
-        var alphaa= tempCtx.globalAlpha;
-        drawingCommands.forEach(function(drawing){
-          if(drawing.canvas == deleted.id){
-            drawing.canvas = currentCanvas;
-          }});
-        tempCtx.globalAlpha =1;
-        tempCtx.drawImage(deleted, 0, 0);
-        tempCtx.globalAlpha = alphaa;
-        deleted.remove();
-        deleted2.remove();
-        updateCanvas();}});
+
+var mergeLayer = function(layerOne, layerTwo){
+// if (currentCanvas == "canvas0"){alert("You can't merge down! There's nothing below! Sorry :(");}
+//     else{
+//         var deleted = document.getElementById(currentCanvas);
+//         var n = currentCanvas.slice(currentCanvas.length -1);
+//         var deleted2 = document.getElementById("preview" + n );
+//         var a = 1;
+//         selectedLayer= "preview" + (n-a);
+//             var preview = document.getElementById(selectedLayer);
+//         while(preview == null){
+//             a++;
+//             selectedLayer= "preview" + (n-a);
+//             var preview = document.getElementById(selectedLayer);}
+//         var preview = document.getElementById(selectedLayer);
+//         preview.classList.add("selectedLayer");
+//         currentCanvas= "canvas" + (n-a);
+//         var tempCtx = document.getElementById(currentCanvas).getContext('2d');
+//         var alphaa= tempCtx.globalAlpha;
+//         drawingCommands.forEach(function(drawing){
+//           if(drawing.canvas == deleted.id){
+//             drawing.canvas = currentCanvas;
+//           }});
+//         tempCtx.globalAlpha =1;
+//         tempCtx.drawImage(deleted, 0, 0);
+//         tempCtx.globalAlpha = alphaa;
+//         deleted.remove();
+//         deleted2.remove();
+//         updateCanvas();}
+console.log(layerOne, layerTwo);
+      }
+
+$("#mergeLayerButton").click(function(currentCanvas){
+  mergeLayer(currentCanvas, "canvas0");
+
+    });
 //choose layer
   document.getElementById("preview0").addEventListener("click", function(){
    var preview =document.getElementById("preview0");
@@ -188,17 +214,56 @@ $("#mergeLayerButton").click(function(){
  var initialized = false;
  var data = [];
 
-    var initialize = function() {
-        data.forEach(function(action, index){
-            render(item);
-        });
+    // var initialize = function() {
+    //   console.log("initialize");
+    //     data.forEach(function(action, index){
+    //         render(action);
+    //     });
+    //     cover.classList.remove('loading');
+    //     initialized = true;
+    // };
 
-        // Remove the loading class from the canvas element so that it loses its grey background color
-        canvas.classList.remove('loading');
 
-        // And flip our global flag
-        initialized = true;
-    };
+   var render = function(action){
+
+        if(action.type== "ClearAll"){
+          clearAll;
+        }
+        else if (action.type ==  "LayerAction"){
+          var layerAction = action.object;
+           // if(layerAction.type == "merge"){
+           //  processDoubleLayer(layerAction.layerArray[0], layerAction.layerArray[1]);
+           // } 
+           // else{
+            processSingleLayer(layerAction.layerArray[0], layerAction.type);
+           // }
+        }
+
+        else if (action.type == "Drawing"){
+          drawLine(action.object);
+        }
+   };
+
+   var processSingleLayer = function(layer, type){
+        if(type =="add"){
+            addLayer();
+            return;
+        }
+        else if(type =="clear" || type =="delete" || type){
+    var a = document.getElementById(layer);
+    var b = a.getContext("2d");
+
+        if(type == "delete"){
+              deleteLayer(layer);
+        }
+        if(type == "clear"){
+               b.clearRect(0, 0, a.width, a.height);
+        }}
+   };
+
+   var processDoubleLayer = function(layerOne, layerTwo){
+        mergeLayer(layerOne, layerTwo);
+   };
 
    var Drawing = function(x1, y1, x2, y2, lineCol, lineWid, lineOpacity, lineSoftness, isPenOrEraser, currentCanvas) {
         this.x1 = x1;
@@ -211,22 +276,15 @@ $("#mergeLayerButton").click(function(){
         this.lineSoftness = lineSoftness;
         this.isPenOrEraser = isPenOrEraser;
         this.canvas = currentCanvas;};
-    //takes Single or Double layer
-    var LayerAction = function(object){
-        this.object = object;
-    };
-    var SingleLayer = function(layer, action){
-        this.layer = layer;
-        this.action = action;
-    };
-    var DoubleLayer = function(layerTop, layerBottom){
-        this.layerTop = layerTop;
-        this.layerBottom = layerBottom;
+    var LayerAction = function(layerArray, type){
+        this.layerArray = layerArray;
+        this.type = type;
     };
     //takes Drawings and LayerActions
-    var Action =function(object, user){
+    var Action =function(object, user, type){
         this.object = object; 
-        this.user = user;};
+        this.user = user;
+        this.type = type;};
 
 var maxUndo = 200;
 var lineCol = "#808080";
@@ -360,7 +418,8 @@ var drawing;
         if(PorE=="eraser"){
         drawing= new Drawing(mousePosition.x, mousePosition.y, event.offsetX, event.offsetY, lineColE, lineWidE, lineOpacityE, lineSoftnessE, "eraser", currentCanvas);}
         else{var drawing = new Drawing(mousePosition.x, mousePosition.y, event.offsetX, event.offsetY, lineCol, lineWid, lineOpacity, lineSoftness, "pen", currentCanvas);}
-            drawLine(drawing);
+            var a = new Action(drawing, "connie", "Drawing");
+            save(a);
             drawingCommands.push(drawing);
               if(drawingCommands.length>= maxUndo){
                 var piece = drawingCommands[0];
@@ -400,28 +459,12 @@ var drawing;
         undoHistory = [];
         clearScreen();
         redrawLines();});
-
-// function KeyPress(e) {
-//      var evtobj = window.event? event : e;
-//      if (evtobj.keyCode == 90 && evtobj.ctrlKey){
-//          e.preventDefault();
+  
+// window.addEventListener("keypress", function(evtobj){
+//    if (evtobj.keyCode == 90){
 //         undo();
-
-//        // Clear our screen
-//        clearScreen();
-
-//        // Redraw the lines in `drawingCommands`, now `undoLength` elements shorter
-//        redrawLines();
 //      };
-// }
-
-// document.onkeydown = KeyPress;
-    
-window.addEventListener("keypress", function(evtobj){
-   if (evtobj.keyCode == 90){
-        undo();
-     };
-});
+// });
 
 //***************SLIDERS**********************//
 var widSlider = document.getElementById("lineWid");
@@ -636,3 +679,57 @@ document.getElementById('fileRef').onmousedown = function () {
     return false;};
 document.onmousemove = _move_elem;
 document.onmouseup = _destroy;
+
+
+
+
+  fb.on('value', function(snapshot) {
+    console.log("update? value");
+        var currentDB = snapshot.val(); // Grab a copy of the DB
+        if (currentDB) { // If we grabbed one
+            // Update our data array with the list of Drawings in the DB
+            data = Object.keys(currentDB).map(function(key) {
+                // You can read more about Object.keys at https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys
+                // You can read more about map at https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map
+                return currentDB[key];
+            });
+
+        
+        }
+    });
+
+
+      var save = function(drawing) {
+        // A convenience function to save a drawing to Firebase, https://www.firebase.com/docs/web/api/firebase/push.html
+        fb.push(drawing);
+    };
+
+  fb.on('child_added', function(snapshot) {
+    console.log("update? child-add");
+        // Grab the child
+        var child = snapshot.val();
+
+        // Make a new Drawing object with that point
+        var action= new Action(child.object, child.name, child.type);
+        render(action); // Actually draw it
+
+        cover.classList.remove("loading");
+    });
+
+
+  $("#clearAll").click(function(){
+      fb.remove();
+      var a = new Action(null, "connie", "ClearAll");
+      save(a);
+  });
+
+
+  var clearAll = function(){
+       var array = document.querySelectorAll(".aCanvas");
+       array.forEach(function(canvas){
+         console.log(canvas);
+          var b = canvas.getContext("2d");
+          b.clearRect(0, 0, canvas.width, canvas.height);
+       });
+  };
+
