@@ -73,13 +73,15 @@ var setEraserSettings = function () {
 //clear
   var clearButton = document.getElementById("clear");
   clearButton.addEventListener('click', function () {
-      var canvas2width = canvas.width;
-      var canvas2height = canvas.height;
-      ctx.clearRect(0, 0, canvas2width, canvas2height);});
+      var layerArray = [currentCanvas];
+      var a = new LayerAction(layerArray, "clear");
+      var b = new Action(a, "connie", "LayerAction");
+      save(b);
+      });
   //add
-  var newLayerButton = document.getElementById("newLayerButton");
-  newLayerButton.addEventListener('click', function () {
-  var newC = document.createElement('canvas');
+
+var addLayer = function(){
+var newC = document.createElement('canvas');
       newC.id = "canvas" + layerCounter;
       newC.classList.add("aCanvas");
       newC.dataset.name = "Layer " + layerCounter;
@@ -119,56 +121,80 @@ var setEraserSettings = function () {
       var box = document.getElementById("previewBox");
       box.insertBefore(preview, box.firstChild);
       layerCounter++;
-      layerZ++;});
+      layerZ++;};
+
+  var newLayerButton = document.getElementById("newLayerButton");
+  newLayerButton.addEventListener('click', function(){
+    var layerArray = ["add"];
+    var a = new LayerAction(layerArray, "add");
+    var b = new Action(a, "connie", "LayerAction");
+    save(b);
+  });
 //delete
+var deleteLayer = function(aCanvas){
+if (aCanvas == "canvas0"){alert("You can't delete the background! Sorry :(");}
+    else{
+        var deleted = document.getElementById(aCanvas);
+        var n = aCanvas.slice(aCanvas.length -1);
+        var deleted2 = document.getElementById("preview" + n );
+        var a = 1;
+        selectedLayer= "preview" + (n-a);
+            var preview = document.getElementById(selectedLayer);
+        while(preview == null){
+            a++;
+            selectedLayer= "preview" + (n-a);
+            var preview = document.getElementById(selectedLayer);}
+        var preview = document.getElementById(selectedLayer);
+        preview.classList.add("selectedLayer");
+        currentCanvas= "canvas" + (n-a);
+        deleted.remove();
+        deleted2.remove();
+        updateCanvas();}}
+
 $("#deleteLayerButton").click(function(){
-    if (currentCanvas == "canvas0"){alert("You can't delete the background! Sorry :(");}
-    else{
-        var deleted = document.getElementById(currentCanvas);
-        var n = currentCanvas.slice(currentCanvas.length -1);
-        var deleted2 = document.getElementById("preview" + n );
-        var a = 1;
-        selectedLayer= "preview" + (n-a);
-            var preview = document.getElementById(selectedLayer);
-        while(preview == null){
-            a++;
-            selectedLayer= "preview" + (n-a);
-            var preview = document.getElementById(selectedLayer);}
-        var preview = document.getElementById(selectedLayer);
-        preview.classList.add("selectedLayer");
-        currentCanvas= "canvas" + (n-a);
-        deleted.remove();
-        deleted2.remove();
-        updateCanvas();}});
+  var layerArray = [currentCanvas];
+  var a = new LayerAction(layerArray, "delete");
+  var b = new Action(a, "connie", "LayerAction");
+  save(b);
+});
+
 //merge down
-$("#mergeLayerButton").click(function(){
-    if (currentCanvas == "canvas0"){alert("You can't merge down! There's nothing below! Sorry :(");}
-    else{
-        var deleted = document.getElementById(currentCanvas);
-        var n = currentCanvas.slice(currentCanvas.length -1);
-        var deleted2 = document.getElementById("preview" + n );
-        var a = 1;
-        selectedLayer= "preview" + (n-a);
-            var preview = document.getElementById(selectedLayer);
-        while(preview == null){
-            a++;
-            selectedLayer= "preview" + (n-a);
-            var preview = document.getElementById(selectedLayer);}
-        var preview = document.getElementById(selectedLayer);
-        preview.classList.add("selectedLayer");
-        currentCanvas= "canvas" + (n-a);
-        var tempCtx = document.getElementById(currentCanvas).getContext('2d');
-        var alphaa= tempCtx.globalAlpha;
-        drawingCommands.forEach(function(drawing){
-          if(drawing.canvas == deleted.id){
-            drawing.canvas = currentCanvas;
-          }});
-        tempCtx.globalAlpha =1;
-        tempCtx.drawImage(deleted, 0, 0);
-        tempCtx.globalAlpha = alphaa;
-        deleted.remove();
-        deleted2.remove();
-        updateCanvas();}});
+
+var mergeLayer = function(layerOne, layerTwo){
+// if (currentCanvas == "canvas0"){alert("You can't merge down! There's nothing below! Sorry :(");}
+//     else{
+//         var deleted = document.getElementById(currentCanvas);
+//         var n = currentCanvas.slice(currentCanvas.length -1);
+//         var deleted2 = document.getElementById("preview" + n );
+//         var a = 1;
+//         selectedLayer= "preview" + (n-a);
+//             var preview = document.getElementById(selectedLayer);
+//         while(preview == null){
+//             a++;
+//             selectedLayer= "preview" + (n-a);
+//             var preview = document.getElementById(selectedLayer);}
+//         var preview = document.getElementById(selectedLayer);
+//         preview.classList.add("selectedLayer");
+//         currentCanvas= "canvas" + (n-a);
+//         var tempCtx = document.getElementById(currentCanvas).getContext('2d');
+//         var alphaa= tempCtx.globalAlpha;
+//         drawingCommands.forEach(function(drawing){
+//           if(drawing.canvas == deleted.id){
+//             drawing.canvas = currentCanvas;
+//           }});
+//         tempCtx.globalAlpha =1;
+//         tempCtx.drawImage(deleted, 0, 0);
+//         tempCtx.globalAlpha = alphaa;
+//         deleted.remove();
+//         deleted2.remove();
+//         updateCanvas();}
+console.log(layerOne, layerTwo);
+      }
+
+$("#mergeLayerButton").click(function(currentCanvas){
+  mergeLayer(currentCanvas, "canvas0");
+
+    });
 //choose layer
   document.getElementById("preview0").addEventListener("click", function(){
    var preview =document.getElementById("preview0");
@@ -180,24 +206,85 @@ $("#mergeLayerButton").click(function(){
           selectedLayer= a;
           updateCanvas();});
 //**************** LINE*********************//
-//*****************MULTI********************//
 
- // var myName = String(Date.now());
- // var firebaseURL = "https://doodle-date.firebaseio.com/";
- // var fb = new Firebase(firebaseURL);
- // var initialized = false;
- var drawingCommands = [];
+ var myName = String(Date.now());
 
- //    var initialize = function() {
- //        // A function to run once, when the page loads, to render any pre-existing drawings
- //       redrawLines();
+ var firebaseURL = "https://doodle-date.firebaseio.com/";
+ var fb = new Firebase(firebaseURL);
+ var initialized = false;
+ var data = [];
 
- //        // Remove the loading class from the canvas element so that it loses its grey background color
- //        canvas.classList.remove('loading');
+    // var initialize = function() {
+    //   console.log("initialize");
+    //     data.forEach(function(action, index){
+    //         render(action);
+    //     });
+    //     cover.classList.remove('loading');
+    //     initialized = true;
+    // };
 
- //        // And flip our global flag
- //        initialized = true;
- //    };
+
+   var render = function(action){
+
+        if(action.type== "ClearAll"){
+          clearAll;
+        }
+        else if (action.type ==  "LayerAction"){
+          var layerAction = action.object;
+           // if(layerAction.type == "merge"){
+           //  processDoubleLayer(layerAction.layerArray[0], layerAction.layerArray[1]);
+           // } 
+           // else{
+            processSingleLayer(layerAction.layerArray[0], layerAction.type);
+           // }
+        }
+
+        else if (action.type == "Drawing"){
+          drawLine(action.object);
+        }
+   };
+
+   var processSingleLayer = function(layer, type){
+        if(type =="add"){
+            addLayer();
+            return;
+        }
+        else if(type =="clear" || type =="delete" || type){
+    var a = document.getElementById(layer);
+    var b = a.getContext("2d");
+
+        if(type == "delete"){
+              deleteLayer(layer);
+        }
+        if(type == "clear"){
+               b.clearRect(0, 0, a.width, a.height);
+        }}
+   };
+
+   var processDoubleLayer = function(layerOne, layerTwo){
+        mergeLayer(layerOne, layerTwo);
+   };
+
+   var Drawing = function(x1, y1, x2, y2, lineCol, lineWid, lineOpacity, lineSoftness, isPenOrEraser, currentCanvas) {
+        this.x1 = x1;
+        this.y1 = y1;
+        this.x2 = x2;
+        this.y2 = y2;
+        this.lineCol = lineCol;
+        this.lineWid = lineWid;
+        this.lineOpacity = lineOpacity;
+        this.lineSoftness = lineSoftness;
+        this.isPenOrEraser = isPenOrEraser;
+        this.canvas = currentCanvas;};
+    var LayerAction = function(layerArray, type){
+        this.layerArray = layerArray;
+        this.type = type;
+    };
+    //takes Drawings and LayerActions
+    var Action =function(object, user, type){
+        this.object = object; 
+        this.user = user;
+        this.type = type;};
 
 var maxUndo = 200;
 var lineCol = "#808080";
@@ -226,88 +313,28 @@ $(".unCanvas").mouseleave(function(){
   setEraserSettings();
 })
 cover.addEventListener('mousedown', function (event) {
-
 $(".upDown").each(function(){
-
-    var a= $(this).parents(".tab");
-  var b=$(this);
+var a= $(this).parents(".tab");
+var b=$(this);
 var classCloseName="close";
 if(a.attr("id")=="colorTab"){
-  classCloseName= "closeColor";
-}
+  classCloseName= "closeColor";}
 if(a.attr("id")=="layerTab"){
-  classCloseName= "closeLayer";
-}
+  classCloseName= "closeLayer";}
 if(a.attr("id")=="otherTab"){
-  classCloseName= "closeOther";
-}
-     if (a.hasClass("open")){
+  classCloseName= "closeOther";}
+if (a.hasClass("open")){
     a.removeClass("open");
     a.addClass(classCloseName);
     window.setTimeout( function(){
     a.removeClass("openPartTwo");
-    b.removeClass("turnUpsideDown");}, 1000);
-  }
-})
+    b.removeClass("turnUpsideDown");}, 1000);}});
+    mouseIsDown = true; updateMousePosition(event);});
 
-
-    mouseIsDown = true;
-    updateMousePosition(event);});
 cover.addEventListener('mouseup', function (event) {
     mouseIsDown = false;});
-var line = function (x1, y1, x2, y2, lineTemp, color) {
-    ctx.beginPath();
-    ctx.lineCap = "round";
-    ctx.moveTo(x1, y1);
-    ctx.lineWidth = lineTemp;
-    ctx.lineTo(x2, y2);
-    ctx.strokeStyle = color;
-    ctx.stroke();
-    ctx.closePath();};
-var saveLine = function(drawing){
-        currentCanvasSave = drawing.canvas + "Save";
-        canvas =document.getElementById(currentCanvasSave);
-        ctx= canvas.getContext("2d");
-        var color = drawing.lineCol;
-        var width = drawing.lineWid;
-        var opacity = drawing.lineOpacity;
-        var lineSoft = drawing.lineSoftness;
-        var mpX = drawing.x1;
-        var mpY = drawing.y1;
-        var ex = drawing.x2;
-        var ey = drawing.y2;
-        var tempWid = drawing.lineWid;
-        var omo = 0.0;
-        if (lineSoft <= 0 || width <= 3) {
-            ctx.globalAlpha = opacity;
-            line(mpX, mpY, ex, ey, width, color);
-            tempWid = -1;}
-        if (lineSoft > 30) {
-            tempWid = tempWid * 1.4;
-        } else if (lineSoft > 40) {
-            tempWid = tempWid * 1.45;
-        } else if (lineSoft > 50) {
-            tempWid = tempWid * 1.5;
-        } else if (lineSoft > 60) {
-            tempWid = tempWid * 1.6;
-        } else if (lineSoft > 70) {
-            tempWid = tempWid * 1.7;
-        } else if (lineSoft > 80) {
-            tempWid = tempWid * 1.8;
-        } else if (lineSoft > 90) {
-            tempWid = tempWid * 1.9;
-        }
-        if (lineSoft > 100) {lineSoft = 100;}
-        var opacityCutoff = tempWid - ((opacity) * tempWid);
-        while (tempWid > opacityCutoff) {
-            ctx.globalAlpha = omo / 100.0;
-            line(mpX, mpY, ex, ey, tempWid, color);
-            tempWid = tempWid - (lineSoft) / 20.0;
-            omo = omo + (opacity) * .8;}};
-    var drawLine = function(drawing) {    
-        currentCanvas = drawing.canvas;
-        if(document.getElementById(currentCanvas)!= null){
-        updateCanvas();
+
+var doLine = function(drawing){
         var color = drawing.lineCol;
         var width = drawing.lineWid;
         var opacity = drawing.lineOpacity;
@@ -321,7 +348,7 @@ var saveLine = function(drawing){
  if (drawing.isPenOrEraser=="eraser") {
             ctx.globalCompositeOperation = "destination-out";
             follower.style.backgroundColor = "white";}
-        if (lineSoft <= 0 || width <= 3) {
+        if (lineSoft <= 0 || width <= 5) {
             ctx.globalAlpha = opacity;
             line(mpX, mpY, ex, ey, width, color);
             tempWid = -1;}
@@ -347,35 +374,52 @@ var saveLine = function(drawing){
             line(mpX, mpY, ex, ey, tempWid, color);
             tempWid = tempWid - (lineSoft) / 20.0;
             omo = omo + (opacity) * .8;}
-    ctx.globalCompositeOperation = "source-over";}};
+    ctx.globalCompositeOperation = "source-over";}
 
-    var clearScreen = function() {
+var line = function (x1, y1, x2, y2, lineTemp, color) {
+    ctx.beginPath();
+    ctx.lineCap = "round";
+    ctx.moveTo(x1, y1);
+    ctx.lineWidth = lineTemp;
+    ctx.lineTo(x2, y2);
+    ctx.strokeStyle = color;
+    ctx.stroke();
+    ctx.closePath();};
+
+var saveLine = function(drawing){
+        currentCanvasSave = drawing.canvas + "Save";
+        canvas =document.getElementById(currentCanvasSave);
+        ctx= canvas.getContext("2d");
+        doLine(drawing);
+        canvas =document.getElementById(drawing.canvas);
+        ctx= canvas.getContext("2d");};
+
+var drawLine = function(drawing) {    
+        currentCanvas = drawing.canvas;
+  if(document.getElementById(currentCanvas)!= null){
+        updateCanvas();
+        doLine(drawing);}};
+
+var drawingCommands = [];
+
+var clearScreen = function() {
         $(".aCanvas").each(function(canvas){
                  var ctxx= this.getContext("2d");
                  ctxx.clearRect(0, 0, this.width, this.height);})};
-    var redrawLines = function() {
+var redrawLines = function() {
         drawingCommands.forEach(function(drawing) {
             drawLine(drawing);});
         currentCanvas = "canvas" + selectedLayer.slice(selectedLayer.length -1);
         updateCanvas();};
-    var Drawing = function(x1, y1, x2, y2, lineCol, lineWid, lineOpacity, lineSoftness, isPenOrEraser, currentCanvas) {
-        this.x1 = x1;
-        this.y1 = y1;
-        this.x2 = x2;
-        this.y2 = y2;
-        this.lineCol = lineCol;
-        this.lineWid = lineWid;
-        this.lineOpacity = lineOpacity;
-        this.lineSoftness = lineSoftness;
-        this.isPenOrEraser = isPenOrEraser;
-        this.canvas = currentCanvas;};
-    cover.addEventListener('mousemove', function(event) {
+ 
+cover.addEventListener('mousemove', function(event) {
                 if (mouseIsDown) {
 var drawing;
         if(PorE=="eraser"){
         drawing= new Drawing(mousePosition.x, mousePosition.y, event.offsetX, event.offsetY, lineColE, lineWidE, lineOpacityE, lineSoftnessE, "eraser", currentCanvas);}
         else{var drawing = new Drawing(mousePosition.x, mousePosition.y, event.offsetX, event.offsetY, lineCol, lineWid, lineOpacity, lineSoftness, "pen", currentCanvas);}
-            drawLine(drawing);
+            var a = new Action(drawing, "connie", "Drawing");
+            save(a);
             drawingCommands.push(drawing);
               if(drawingCommands.length>= maxUndo){
                 var piece = drawingCommands[0];
@@ -393,6 +437,7 @@ var drawing;
      follower.style.top = event.y - .5 * lineWid + "px";
    }}
    );
+
     var undoHistory= [];
     var undo = document.querySelector('#undo');
     undo.addEventListener('click', function() {
@@ -407,31 +452,20 @@ var drawing;
                  ctxx.globalAlpha = 1;
                  ctxx.drawImage(a, 0, 0);})
         redrawLines();});
+
     var redo = document.querySelector('#redo');
     redo.addEventListener('click', function() {
         drawingCommands = drawingCommands.concat(undoHistory);
         undoHistory = [];
         clearScreen();
         redrawLines();});
-
-//function KeyPress(e) {
-//      var evtobj = window.event? event : e
-//      if (evtobj.keyCode == 90 && evtobj.ctrlKey){
-//          e.preventDefault();
-//          var undoLength = 12; // A variable to set how far back to undo
-//        // Redefine `drawingCommands` as what it was, but `undoLength` shorter
-//        drawingCommands = drawingCommands.slice(0, drawingCommands.length - undoLength);
-//
-//        // Clear our screen
-//        clearScreen();
-//
-//        // Redraw the lines in `drawingCommands`, now `undoLength` elements shorter
-//        redrawLines();
+  
+// window.addEventListener("keypress", function(evtobj){
+//    if (evtobj.keyCode == 90){
+//         undo();
 //      };
-//}
-//
-//document.onkeydown = KeyPress;
-    
+// });
+
 //***************SLIDERS**********************//
 var widSlider = document.getElementById("lineWid");
 var opacitySlider = document.getElementById("lineOpacity");
@@ -645,3 +679,57 @@ document.getElementById('fileRef').onmousedown = function () {
     return false;};
 document.onmousemove = _move_elem;
 document.onmouseup = _destroy;
+
+
+
+
+  fb.on('value', function(snapshot) {
+    console.log("update? value");
+        var currentDB = snapshot.val(); // Grab a copy of the DB
+        if (currentDB) { // If we grabbed one
+            // Update our data array with the list of Drawings in the DB
+            data = Object.keys(currentDB).map(function(key) {
+                // You can read more about Object.keys at https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys
+                // You can read more about map at https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map
+                return currentDB[key];
+            });
+
+        
+        }
+    });
+
+
+      var save = function(drawing) {
+        // A convenience function to save a drawing to Firebase, https://www.firebase.com/docs/web/api/firebase/push.html
+        fb.push(drawing);
+    };
+
+  fb.on('child_added', function(snapshot) {
+    console.log("update? child-add");
+        // Grab the child
+        var child = snapshot.val();
+
+        // Make a new Drawing object with that point
+        var action= new Action(child.object, child.name, child.type);
+        render(action); // Actually draw it
+
+        cover.classList.remove("loading");
+    });
+
+
+  $("#clearAll").click(function(){
+      fb.remove();
+      var a = new Action(null, "connie", "ClearAll");
+      save(a);
+  });
+
+
+  var clearAll = function(){
+       var array = document.querySelectorAll(".aCanvas");
+       array.forEach(function(canvas){
+         console.log(canvas);
+          var b = canvas.getContext("2d");
+          b.clearRect(0, 0, canvas.width, canvas.height);
+       });
+  };
+

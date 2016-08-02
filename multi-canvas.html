@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Doodle Date</title>
+    <link rel="icon" href="images/rainbow_pencil_pixel_by_fonyl.gif">
+    <script type="text/javascript" charset="utf-8" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+        <script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
+<!--    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>--> 
+    <script type="text/javascript" charset="utf-8" src="farbtastic-master/src/farbtastic.js"></script> 
+    <link href='https://fonts.googleapis.com/css?family=Nunito|Josefin+Sans:400,700|Delius+Unicase:400,700' rel='stylesheet' type='text/css'>
+     <link rel="stylesheet" type="text/css" href="multi/multi-canvas.css"/>
+</head>
+
+<body>
+    <div id='follower' class="on"></div>
+    <div id="fileRef" class="unCanvas"><div id= "closeRef"> X </div></div>
+   <!--  <div id = "puppy"></div> -->
+
+        <div id= "drawTab" class="tab unCanvas selectedTab">
+                <!--                width, slider-->
+                <label for="lineWid">width: </label>
+                <input type="range" name="lineWid" id="lineWid" />
+                <label for="lineWid" id="widthPercent">50%</label>
+
+                <!--                opacity, slider-->
+                <label for="lineOpacity">opacity: </label>
+                <input type="range" name="lineOpacity" id="lineOpacity" />
+                <label for="lineOpacity" id="opacityPercent">100%</label>
+
+                <!--                softness (aka the feathering out/gradient effect, slider-->
+                <label for="lineSoftness">softness: </label>
+                <input type="range" name="lineSoftness" id="lineSoftness" />
+                <label for="lineSoftness" id="softnessPercent">20%</label>
+
+                <h1>draw<i class="upDown"></i></h1>
+        </div>
+
+        <div id= "eraserTab" class="tab unCanvas">
+                <!--                width, slider-->
+                <label for="lineWidE">width: </label>
+                <input type="range" name="lineWidE" id="lineWidE" />
+                <label for="lineWidE" id="widthPercentE">50%</label>
+
+                <!--                opacity, slider-->
+                <label for="lineOpacityE">opacity: </label>
+                <input type="range" name="lineOpacityE" id="lineOpacityE" />
+                <label for="lineOpacityE" id="opacityPercentE">100%</label>
+
+                <!--                softness (aka the feathering out/gradient effect, slider-->
+                <label for="lineSoftnessE">softness: </label>
+                <input type="range" name="lineSoftnessE" id="lineSoftnessE" />
+                <label for="lineSoftnessE" id="softnessPercentE">20%</label>
+
+                <h1>erase<i class="upDown"></i></h1></div>
+<!--            <div id ="penOrEraser"><p>Draw Type</p>
+              <input type="radio" name="draw" id="penRadio" value="Pen" checked/><label for="penRadio">Pen</label><br/>
+              <input type="radio" name="draw" id="eraserRadio" value="Eraser"/><label for="eraserRadio">Eraser</label><br/></div> -->     
+               
+       <div id= "colorTab" class= "tab unCanvas">
+       <div class="colorpicker">
+        <div id="colorpicker2"></div>
+        <div id="colorMemHolder">
+        <div id="currentColorBox"></div>
+        <div id="colorMem1" class= "colorMem"></div>
+        <div id="colorMem2" class= "colorMem"></div>         
+        <div id="colorMem3" class= "colorMem"></div>
+        <div id="colorMem4" class= "colorMem"></div>
+        <div id="colorMem5" class= "colorMem"></div>
+         <div id="colorMem6" class= "colorMem"></div>
+        <div id="colorMem7" class= "colorMem"></div>         
+        <div id="colorMem8" class= "colorMem"></div></div>
+           <br><br><br>
+           <h1>color<i class="upDown"></i></h1>
+        </div> </div>
+
+        <div id="layerTab" class="tab unCanvas">
+    <div class = "bigBox"><div class="bigBoxHolder"><div id="previewBox"><div id ="preview0" class = "preview selectedLayer"><p>Background<i class ="view-icon" ></i></p></div></div></div><button type="button" id ="deleteLayerButton">Delete</button><button type="button" id ="newLayerButton">Add</button><button type="button" id ="clear">Clear</button><button type="button" id ="mergeLayerButton">Merge Down</button></div><h1>layers<i class="upDown"></i></h1></div>
+
+    <div id="otherTab" class="tab unCanvas"> <div id = "refButtonHolder"><button type="button" id ="fileRefButton">Add a File Reference (from url)</button><div id ="refPopUp"><label for"refUrl">Url:  </label><input type="textBox" id ="refUrl" name="refUrl"/></div></div>
+    <button type="button" id ="download">Download (opens in new tab)</button> 
+    <button type="button" id ="clearAll">Clear EVERYTHING!</button>
+    <h1>more<i class="upDown"></i></h1></div>
+
+   <div id='undo' class = "tab unCanvas"><img src="images/undo-icon.png" alt="undo icon"/></div><div id="redo" class ="tab unCanvas"><img src="images/redo-icon.png" alt="redo icon"/></div>
+    <!-- the canvas-->
+    <canvas id='canvas0' class = 'aCanvas' display = "block" width="5000px" height = "5000px"></canvas>
+    <!--    the canvas cover, which is the same width and height as the canvas.-->
+    <div id="canvasCover" class="loading"></div>
+ 
+    <script type="text/javascript" src="multi-canvas.js"></script>
+
+</body>
+
+</html>
