@@ -1,3 +1,22 @@
+var firebaseURL = "https://doodle-date.firebaseio.com/";
+ var fb = new Firebase(firebaseURL);
+ var data = [];
+
+var myName = String(Date.now());
+var roomCode = "" + Math.floor(Math.random()*10) + Math.floor(Math.random()*10) + Math.floor(Math.random()*10) + Math.floor(Math.random()*10);
+var together = false;
+
+if(sessionStorage.getItem("roomCode")){
+      myName = sessionStorage.getItem("name");
+      roomCode = sessionStorage.getItem("roomCode");
+      together = true;
+      $("#multi-panel").text("Connected! Room Code: " + roomCode);
+}
+
+var myRef = fb.child(roomCode);
+
+
+
 var PorE="pen";
 
 $(".upDown").click(function(){
@@ -84,6 +103,7 @@ var addLayer = function(){
 var newC = document.createElement('canvas');
       newC.id = "canvas" + layerCounter;
       newC.classList.add("aCanvas");
+      newC.classList.add("aCanvasAdded");
       newC.dataset.name = "Layer " + layerCounter;
       newC.setAttribute("width", 5000);
       newC.setAttribute("height", 5000);
@@ -97,6 +117,7 @@ var newC = document.createElement('canvas');
       var preview = document.createElement('div');
       preview.setAttribute("id", "preview" + layerCounter);
       preview.classList.add("preview"); 
+      preview.classList.add("newPreview"); 
       var p = document.createElement('p');
       p.innerText= newC.dataset.name; 
       var viewIcon= document.createElement("i");
@@ -160,39 +181,47 @@ $("#deleteLayerButton").click(function(){
 
 //merge down
 
-var mergeLayer = function(layerOne, layerTwo){
-// if (currentCanvas == "canvas0"){alert("You can't merge down! There's nothing below! Sorry :(");}
-//     else{
-//         var deleted = document.getElementById(currentCanvas);
-//         var n = currentCanvas.slice(currentCanvas.length -1);
-//         var deleted2 = document.getElementById("preview" + n );
-//         var a = 1;
-//         selectedLayer= "preview" + (n-a);
-//             var preview = document.getElementById(selectedLayer);
-//         while(preview == null){
-//             a++;
-//             selectedLayer= "preview" + (n-a);
-//             var preview = document.getElementById(selectedLayer);}
-//         var preview = document.getElementById(selectedLayer);
-//         preview.classList.add("selectedLayer");
-//         currentCanvas= "canvas" + (n-a);
-//         var tempCtx = document.getElementById(currentCanvas).getContext('2d');
-//         var alphaa= tempCtx.globalAlpha;
-//         drawingCommands.forEach(function(drawing){
-//           if(drawing.canvas == deleted.id){
-//             drawing.canvas = currentCanvas;
-//           }});
-//         tempCtx.globalAlpha =1;
-//         tempCtx.drawImage(deleted, 0, 0);
-//         tempCtx.globalAlpha = alphaa;
-//         deleted.remove();
-//         deleted2.remove();
-//         updateCanvas();}
-console.log(layerOne, layerTwo);
-      }
+var mergeLayer = function(currentCanvas, nextCanvas){
 
-$("#mergeLayerButton").click(function(currentCanvas){
-  mergeLayer(currentCanvas, "canvas0");
+        var deleted = document.getElementById(currentCanvas);
+        var n = currentCanvas.slice(currentCanvas.length -1);
+        var deleted2 = document.getElementById("preview" + n );
+        var next = document.getElementById(nextCanvas);
+        var n2 = nextCanvas.slice(nextCanvas.length -1);
+        selectedLayer= "preview" + n2;
+        var preview = document.getElementById(selectedLayer);
+        preview.classList.add("selectedLayer");
+        var tempCtx = document.getElementById(nextCanvas).getContext('2d');
+        var alphaa= tempCtx.globalAlpha;
+        // drawingCommands.forEach(function(drawing){
+        //   if(drawing.canvas == deleted.id){
+        //     drawing.canvas = currentCanvas;
+        //   }});
+        tempCtx.globalAlpha =1;
+        tempCtx.drawImage(deleted, 0, 0);
+        tempCtx.globalAlpha = alphaa;
+        deleted.remove();
+        deleted2.remove();
+        updateCanvas();}
+
+$("#mergeLayerButton").click(function(){
+  if (currentCanvas == "canvas0"){alert("You can't merge down! There's nothing below! Sorry :(");}
+ else{  var n = currentCanvas.slice(currentCanvas.length -1);
+        var deleted2 = document.getElementById("preview" + n );
+        var a = 1;
+        selectedLayer= "preview" + (n-a);
+            var preview = document.getElementById(selectedLayer);
+        while(preview == null){
+            a++;
+            selectedLayer= "preview" + (n-a);
+            var preview = document.getElementById(selectedLayer);}
+        nextCanvas= "canvas" + (n-a);
+console.log(currentCanvas, nextCanvas);
+var layerArray = [currentCanvas, nextCanvas];
+var b = new LayerAction(layerArray, "merge");
+var a = new Action(b, "connie", "LayerAction");
+save(a);
+;}
 
     });
 //choose layer
@@ -207,12 +236,8 @@ $("#mergeLayerButton").click(function(currentCanvas){
           updateCanvas();});
 //**************** LINE*********************//
 
- var myName = String(Date.now());
 
- var firebaseURL = "https://doodle-date.firebaseio.com/";
- var fb = new Firebase(firebaseURL);
- var initialized = false;
- var data = [];
+ 
 
     // var initialize = function() {
     //   console.log("initialize");
@@ -227,16 +252,19 @@ $("#mergeLayerButton").click(function(currentCanvas){
    var render = function(action){
 
         if(action.type== "ClearAll"){
-          clearAll;
+          clearAll();
+        }
+        if(action.type == "Undo"){
+
         }
         else if (action.type ==  "LayerAction"){
           var layerAction = action.object;
-           // if(layerAction.type == "merge"){
-           //  processDoubleLayer(layerAction.layerArray[0], layerAction.layerArray[1]);
-           // } 
-           // else{
+           if(layerAction.type == "merge"){
+            processDoubleLayer(layerAction.layerArray[0], layerAction.layerArray[1]);
+           } 
+           else{
             processSingleLayer(layerAction.layerArray[0], layerAction.type);
-           // }
+           }
         }
 
         else if (action.type == "Drawing"){
@@ -439,26 +467,29 @@ var drawing;
    );
 
     var undoHistory= [];
-    var undo = document.querySelector('#undo');
-    undo.addEventListener('click', function() {
-        var undoLength = 12;
-        undoHistory = drawingCommands.slice(drawingCommands.length - undoLength, drawingCommands.length);
-        drawingCommands = drawingCommands.slice(0, drawingCommands.length - undoLength);
-        clearScreen();
-         $(".savedCanvas").each(function(canvas){
-                 var a = this;
-                 var actualCanvas = document.getElementById(this.id.slice(0, this.id.length - 4));
-                 var ctxx= actualCanvas.getContext("2d");
-                 ctxx.globalAlpha = 1;
-                 ctxx.drawImage(a, 0, 0);})
-        redrawLines();});
+    $("#undo").click(function(){
+        var a = new Action(null, "connie", "Undo");
+        save(a);
+    });
+    // undo.addEventListener('click', function() {
+    //     var undoLength = 12;
+    //     undoHistory = drawingCommands.slice(drawingCommands.length - undoLength, drawingCommands.length);
+    //     drawingCommands = drawingCommands.slice(0, drawingCommands.length - undoLength);
+    //     clearScreen();
+    //      $(".savedCanvas").each(function(canvas){
+    //              var a = this;
+    //              var actualCanvas = document.getElementById(this.id.slice(0, this.id.length - 4));
+    //              var ctxx= actualCanvas.getContext("2d");
+    //              ctxx.globalAlpha = 1;
+    //              ctxx.drawImage(a, 0, 0);})
+    //     redrawLines();});
 
-    var redo = document.querySelector('#redo');
-    redo.addEventListener('click', function() {
-        drawingCommands = drawingCommands.concat(undoHistory);
-        undoHistory = [];
-        clearScreen();
-        redrawLines();});
+    // var redo = document.querySelector('#redo');
+    // redo.addEventListener('click', function() {
+    //     drawingCommands = drawingCommands.concat(undoHistory);
+    //     undoHistory = [];
+    //     clearScreen();
+    //     redrawLines();});
   
 // window.addEventListener("keypress", function(evtobj){
 //    if (evtobj.keyCode == 90){
@@ -683,7 +714,7 @@ document.onmouseup = _destroy;
 
 
 
-  fb.on('value', function(snapshot) {
+  myRef.on('value', function(snapshot) {
     console.log("update? value");
         var currentDB = snapshot.val(); // Grab a copy of the DB
         if (currentDB) { // If we grabbed one
@@ -701,10 +732,10 @@ document.onmouseup = _destroy;
 
       var save = function(drawing) {
         // A convenience function to save a drawing to Firebase, https://www.firebase.com/docs/web/api/firebase/push.html
-        fb.push(drawing);
+        myRef.push(drawing);
     };
 
-  fb.on('child_added', function(snapshot) {
+  myRef.on('child_added', function(snapshot) {
     console.log("update? child-add");
         // Grab the child
         var child = snapshot.val();
@@ -718,7 +749,7 @@ document.onmouseup = _destroy;
 
 
   $("#clearAll").click(function(){
-      fb.remove();
+      myRef.remove();
       var a = new Action(null, "connie", "ClearAll");
       save(a);
   });
@@ -726,10 +757,23 @@ document.onmouseup = _destroy;
 
   var clearAll = function(){
        var array = document.querySelectorAll(".aCanvas");
-       array.forEach(function(canvas){
-         console.log(canvas);
-          var b = canvas.getContext("2d");
-          b.clearRect(0, 0, canvas.width, canvas.height);
-       });
+       $(".aCanvasAdded").remove();
+       currentCanvas = "canvas0";
+       selectedLayer = "preview0";
+       layerCounter = 1;
+       updateCanvas();
+       var canvasInfinity = document.getElementById("canvas0");
+       canvasInfinity.getContext("2d").clearRect(0,0, canvasInfinity.width, canvasInfinity.height);
+       $(".newPreview").remove();
+       $("#preview0").addClass("selectedLayer");
   };
+
+
+  $("#multi-panel").click(function(){
+          if (!together){
+              alert("Your room code is " + roomCode);
+                   $("#multi-panel").text("Connected! Room Code: " + roomCode)
+                   together = true;
+          }
+  });
 

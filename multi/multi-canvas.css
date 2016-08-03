@@ -330,9 +330,11 @@ body{
 }
 .upDown{
 	display: inline-block;
-	width: 30px;
-	height: 30px;
-	margin-left: 100px;
+  width: 33px;
+  height: 33px;
+	max-width: 33px;
+	max-height: 33px;
+  margin-left: 70px;
 	background-size: cover;
 	background-image: url("../images/up-down-icon.png");
 	border-radius: 50%;
@@ -380,4 +382,14 @@ button:hover {
         /*Style the canvas's background to indicate that the content is still loading (make it grey)*/
         background-color: rgba(0, 0, 0, 0.1);
     }
+
+#multi-panel{
+  text-align: center;
+  font-weight: 600;
+  right: 2vw;
+  bottom: 0;
+  top: auto;
+  border-radius: 20px 20px 0 0;
+    background-image: url("../images/draw-tool-pattern-5.png");
+}
     

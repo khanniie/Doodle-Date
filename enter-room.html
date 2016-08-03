@@ -2,128 +2,63 @@
 <head>
     <title>Doodle Date</title>
     <link rel="icon" href="images/rainbow_pencil_pixel_by_fonyl.gif">
+    <script type="text/javascript" charset="utf-8" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
    	<style>
 
 body{
-	margin: 0px;
-	background-color: 	#ebebfa;
+    font-family: arial, helvetica, sans-serif;
+	background-color: #ebebfa;
+    text-align: center;
 }
-/*.moveable{
-	transition-duration: 2s;
-}*/
-
-
-#contain{
-	width: 30vw;
-	height: 20vw;
-	position: absolute;
-	top: 30%;
-	left: 35%;
-	z-index: 10;
-	display: block;
+#holder{
+    position: relative;
+    top: 40%;
 }
 
-#button-before{
-	max-width: 30vw;
-	position: absolute;
-	top: 0;
-	left: 0;
-	z-index: 10;
-	display: block;
-}
-#contain:hover #button-before{
-	display: none;
+#joinInfo{
+    display: none;
 }
 
-
-
-#button-after{
-	max-width: 30vw;
-	position: absolute;
-	top: 1vw;
-	left: -1vw;
-	z-index: 9;
-	display: none;}
-
-#contain:hover #button-after{
-	display: block;
+button{
+    font-size: 3rem;
+    margin: 2vw;
 }
-
-
-#person-one{
-	max-width: 50vw;
-	position: absolute;
-	bottom: -10px;
-	left: -10px;
-	z-index: 5;
-}
-#person-two{
-	max-width: 50vw;
-	position: absolute;
-	bottom: -10px;
-	right: -10px;
-	z-index: 5;
-}
-#pen{
-	max-width: 50vw;
-	position: absolute;
-	top: 20%;
-	left: 25%;
-	z-index: 6;
-}
-#blue-paint{
-	max-width: 40vw;
-	position: absolute;
-	top: -10px;
-	right: -10px;
-	z-index: 0;
-}
-#lemon-paint{
-	max-width: 60vw;
-	position: absolute;
-	bottom: -10px;
-	left: -10px;
-	z-index: 0;}
-
-/*.downTop{
-	top: 0px;
-}
-.downBottom{
-	bottom: -20px;
-}
-.upTop{
-	top: -20px;
-}
-.upBottom{
-	bottom: 0px;
-}
-.leftLeft{
-   left: -20px;
-}
-.leftRight{
-    right: 0px;
-
-}
-.rightLeft{
-    left: 0px;
-}
-.rightRight{
-    right: -20px;
-}*/
-
-
    	</style>
     </head>
 
 <body>
-    <div id="contain"><img src="homepage-images/button-before.png" id="button-before"/>
-     <a href= "https://khanniie.github.io/draw-tool/enter-room.html" ><img src="homepage-images/button-after.png" id="button-after"/></a></div>
-    <img src="homepage-images/person-one.png" id="person-one" class="moveable"/>
-     <img src="homepage-images/person-two.png" id="person-two" class="moveable"/>
-      <img src="homepage-images/pen.png" id="pen"/>
-     <img src="homepage-images/blu-paint.png" id="blue-paint" class="moveable"/>
-     <img src="homepage-images/lemon-paint.png" id="lemon-paint" class="moveable"/>
-    
+<div id="holder">
+<a href="multi-canvas.html"> <button id="new">New Room</button></a><button id="join">Join Room</button>
+
+<div id="joinInfo">
+   <form id="form">
+  Name:<br>
+  <input type="text" name="name" id="name"><br>
+  Room Code:<br>
+  <input type="text" name="roomCode" id="roomCode">
+  <br>
+</form>
+ <a href="multi-canvas.html"> <button id="go">go!</button></a>
+    </div>
+
+    <script type="text/javascript">
+    $("#new").click(function(){
+            sessionStorage.removeItem("name");
+            sessionStorage.removeItem("roomCode");
+    });
+
+        $("#join").click(function(){
+                $("#new").css("display", "none");
+                $("#joinInfo").css("display", "block");
+        });
+ $("#go").click(function(){
+    var name = document.getElementById("name");
+    var roomCode = document.getElementById("roomCode");
+  sessionStorage.setItem("name", name.value);
+  sessionStorage.setItem("roomCode", roomCode.value);
+ });
+
+    </script>
 
 <!--     <script>
         var isHover = function (dogg, x1, y1) {
