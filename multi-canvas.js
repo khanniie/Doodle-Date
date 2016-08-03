@@ -255,7 +255,7 @@ save(a);
           clearAll();
         }
         if(action.type == "Undo"){
-
+            undo();
         }
         else if (action.type ==  "LayerAction"){
           var layerAction = action.object;
@@ -428,17 +428,17 @@ var drawLine = function(drawing) {
         updateCanvas();
         doLine(drawing);}};
 
-var drawingCommands = [];
+// var drawingCommands = [];
 
-var clearScreen = function() {
-        $(".aCanvas").each(function(canvas){
-                 var ctxx= this.getContext("2d");
-                 ctxx.clearRect(0, 0, this.width, this.height);})};
-var redrawLines = function() {
-        drawingCommands.forEach(function(drawing) {
-            drawLine(drawing);});
-        currentCanvas = "canvas" + selectedLayer.slice(selectedLayer.length -1);
-        updateCanvas();};
+// var clearScreen = function() {
+//         $(".aCanvas").each(function(canvas){
+//                  var ctxx= this.getContext("2d");
+//                  ctxx.clearRect(0, 0, this.width, this.height);})};
+// var redrawLines = function() {
+//         drawingCommands.forEach(function(drawing) {
+//             drawLine(drawing);});
+//         currentCanvas = "canvas" + selectedLayer.slice(selectedLayer.length -1);
+//         updateCanvas();};
  
 cover.addEventListener('mousemove', function(event) {
                 if (mouseIsDown) {
@@ -448,13 +448,13 @@ var drawing;
         else{var drawing = new Drawing(mousePosition.x, mousePosition.y, event.offsetX, event.offsetY, lineCol, lineWid, lineOpacity, lineSoftness, "pen", currentCanvas);}
             var a = new Action(drawing, "connie", "Drawing");
             save(a);
-            drawingCommands.push(drawing);
-              if(drawingCommands.length>= maxUndo){
-                var piece = drawingCommands[0];
-                if (document.getElementById(piece.canvas + "Save") == null){ var canvasInfinity = document.createElement("canvas"); canvasInfinity.setAttribute("width", 5000);
-   canvasInfinity.setAttribute("height", 5000); canvasInfinity.id = piece.canvas + "Save"; canvasInfinity.classList.add("savedCanvas"); $(canvasInfinity).hide(); document.body.appendChild(canvasInfinity);} 
-                saveLine(piece);
-                drawingCommands = drawingCommands.slice(1, drawingCommands.length - 1);};
+   //          drawingCommands.push(drawing);
+   //            if(drawingCommands.length>= maxUndo){
+   //              var piece = drawingCommands[0];
+   //              if (document.getElementById(piece.canvas + "Save") == null){ var canvasInfinity = document.createElement("canvas"); canvasInfinity.setAttribute("width", 5000);
+   // canvasInfinity.setAttribute("height", 5000); canvasInfinity.id = piece.canvas + "Save"; canvasInfinity.classList.add("savedCanvas"); $(canvasInfinity).hide(); document.body.appendChild(canvasInfinity);} 
+   //              saveLine(piece);
+   //              drawingCommands = drawingCommands.slice(1, drawingCommands.length - 1);};
             updateMousePosition(event);}
 
       if(PorE=="eraser"){       
@@ -466,11 +466,15 @@ var drawing;
    }}
    );
 
-    var undoHistory= [];
+    // var undoHistory= [];
     $("#undo").click(function(){
         var a = new Action(null, "connie", "Undo");
         save(a);
     });
+
+    var undo = function(){
+        console.log("hahahaha you cant't undo your mistakes. but you will be able to soon! I'm still reworking the undo currently");
+    };
     // undo.addEventListener('click', function() {
     //     var undoLength = 12;
     //     undoHistory = drawingCommands.slice(drawingCommands.length - undoLength, drawingCommands.length);

@@ -20,8 +20,9 @@ body{
 }
 
 button{
-    font-size: 3rem;
+    font-size: 2.5rem;
     margin: 2vw;
+    border-radius: 4px;
 }
    	</style>
     </head>
@@ -49,6 +50,7 @@ button{
 
         $("#join").click(function(){
                 $("#new").css("display", "none");
+                 $("#join").css("display", "none");
                 $("#joinInfo").css("display", "block");
         });
  $("#go").click(function(){
@@ -59,87 +61,6 @@ button{
  });
 
     </script>
-
-<!--     <script>
-        var isHover = function (dogg, x1, y1) {
-
-            var leftPos = dogg.getBoundingClientRect().left;
-            var topPos = dogg.getBoundingClientRect().top;
-
-            var dogWidth = dogg.getBoundingClientRect().width;
-            var dogHeight = dogg.getBoundingClientRect().height;
-            
-            if(x1 >= leftPos & x1 <= leftPos + dogWidth & y1 >= topPos & y1 <= topPos + dogHeight){
-                return true;
-                
-            }
-            else{
-                return false;
-            }
-        };
-
-
-        var move = function (x1, y1, dogVar) {
-
-            var leftPos = dogVar.getBoundingClientRect().left;
-            var topPos = dogVar.getBoundingClientRect().top;
-
-            var dogWidth = dogVar.getBoundingClientRect().width;
-            var dogHeight = dogVar.getBoundingClientRect().height;
-
-            if (isHover(dogVar, x1, y1)) {
-
-                if (x1 < (leftPos + dogWidth * .35)) {
-
-
-                    if (y1 < topPos + dogHeight * .35) {
-                        dogVar.style.transform = "translate(15vw, 15vw)";
-                        dogVar.classList.add=
-                    } else if (y1 < topPos + dogHeight * .65) {
-                        dogVar.style.transform = "translate(20vw, 0vw)";
-                    } else {
-                        dogVar.style.transform = "translate(15vw, -15vw)";
-                    }
-                } else if (x1 < (leftPos + dogWidth * .65)) {
-
-
-                    if (y1 < topPos + dogHeight * .35) {
-                        dogVar.style.transform = "translate(0vw, 20vw)";
-                    } else if (y1 < topPos + dogHeight * .65) {
-                        dogVar.style.transform = "translate(20vw, 0vw)";
-                    } else {
-                        dogVar.style.transform = "translate(0vw, -20vw)";
-                    }
-                } else {
-
-
-                    if (y1 < topPos + dogHeight * .35) {
-                        dogVar.style.transform = "translate(-15vw, 15vw)";
-                    } else if (y1 < topPos + dogHeight * .65) {
-                        dogVar.style.transform = "translate(-20vw, 0vw)";
-                    } else {
-                        dogVar.style.transform = "translate(-15vw, -15vw)";
-                    }
-                }
-
-            }
-
-
-
-        }
-
-        document.body.addEventListener('mousemove', function (event) {
-            
-        var moveable = document.querySelectorAll(".moveable");
-		Array.prototype.forEach.call(moveable, function(elements, index) {
-				move(event.y, event.x, elements);
-		});
-  
-
-        });
-        
-        
-    </script> -->
 
     </body>
 
