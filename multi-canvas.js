@@ -13,8 +13,22 @@ if(sessionStorage.getItem("roomCode")){
       $("#multi-panel").text("Connected! Room Code: " + roomCode);
 }
 
+sessionStorage.setItem("roomCode", roomCode);
+
 var myRef = fb.child(roomCode);
 
+// if(myRef.child("userList").exists()){
+// myRef.child("userList").push(myName);
+// }
+// else{
+// var userList = myRef.child("userList");
+// userList.push(myName);}
+
+
+// userList.on('child_added', function(snapshot) {
+//         var child = snapshot.val();
+// console.log(child);
+//     });
 
 
 var PorE="pen";
@@ -719,7 +733,6 @@ document.onmouseup = _destroy;
 
 
   myRef.on('value', function(snapshot) {
-    console.log("update? value");
         var currentDB = snapshot.val(); // Grab a copy of the DB
         if (currentDB) { // If we grabbed one
             // Update our data array with the list of Drawings in the DB
