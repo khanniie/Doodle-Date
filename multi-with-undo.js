@@ -1,36 +1,37 @@
 var firebaseURL = "https://doodle-date.firebaseio.com/";
-var fb = new Firebase(firebaseURL);
-var data = [];
-sessionStorage.setItem("beenBefore", true);
+ var fb = new Firebase(firebaseURL);
+ var data = [];
 
+var myName = String(Date.now());
 var roomCode = "" + Math.floor(Math.random()*10) + Math.floor(Math.random()*10) + Math.floor(Math.random()*10) + Math.floor(Math.random()*10);
 var together = sessionStorage.getItem("together");
 
 if(sessionStorage.getItem("roomCode")){
       myName = sessionStorage.getItem("name");
-      roomCode = sessionStorage.getItem("roomCode");}      
+      roomCode = sessionStorage.getItem("roomCode");
+
+}
+if(together){
+        $("#multi-panel").text("Connected! Room Code: " + roomCode);
+}
 
 sessionStorage.setItem("roomCode", roomCode);
+
 var myRef = fb.child(roomCode);
 
-var myName = "UnknownUser";
+// if(myRef.child("userList").exists()){
+// myRef.child("userList").push(myName);
+// }
+// else{
 // var userList = myRef.child("userList");
-// var userAmount = 0;
-
-// if(!sessionStorage.getItem("beenBefore")){
 // userList.push(myName);}
 
 
-// userList.on('value', function(snapshot) {
-//   console.log(userList.toString());
-//   userAmount++;
+// userList.on('child_added', function(snapshot) {
 //         var child = snapshot.val();
-// if(together == "true"){
-//         $("#multi-panel").text("Connected! Room Code: " + roomCode + "  Users: " + userAmount);}
+// console.log(child);
 //     });
 
-if(together == "true"){
-        $("#multi-panel").text("Connected! Room Code: " + roomCode);}
 
 var PorE="pen";
 
@@ -741,8 +742,12 @@ document.onmouseup = _destroy;
     };
 
   myRef.on('child_added', function(snapshot) {
+    console.log("update? child-add");
+        // Grab the child
         var child = snapshot.val();
         cover.classList.remove("loading");
+
+        // Make a new Drawing object with that point
         var action= new Action(child.object, child.name, child.type);
         render(action); // Actually draw it
 
@@ -770,11 +775,11 @@ document.onmouseup = _destroy;
        $("#preview0").addClass("selectedLayer");
   };
 
-  $("#multi-panel").click(function(){
 
-          if(together == "false"){
+  $("#multi-panel").click(function(){
+          if (!together){
               alert("Your room code is " + roomCode + ". Give your friend this code and tell them to join! :)");
-                   $("#multi-panel").text("Connected! Room Code: " + roomCode);
+                   $("#multi-panel").text("Connected! Room Code: " + roomCode)
                    together = true;
                    sessionStorage.setItem("together", true);
           }

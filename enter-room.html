@@ -46,9 +46,12 @@ img{
     </div>
 
     <script type="text/javascript">
+
     $("#new").click(function(){
+            sessionStorage.setItem("beenBefore", false);
             sessionStorage.removeItem("name");
             sessionStorage.removeItem("roomCode");
+            sessionStorage.setItem("together", false);
     });
 
         $("#join").click(function(){
@@ -57,10 +60,12 @@ img{
                 $("#joinInfo").css("display", "block");
         });
  $("#go").click(function(){
+  sessionStorage.setItem("beenBefore", false);
     var name = document.getElementById("name");
     var roomCode = document.getElementById("roomCode");
   sessionStorage.setItem("name", name.value);
   sessionStorage.setItem("roomCode", roomCode.value);
+  sessionStorage.setItem("together", true);
  });
 
     </script>

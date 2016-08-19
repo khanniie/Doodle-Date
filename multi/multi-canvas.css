@@ -236,12 +236,12 @@ body{
 	   background-image: url("../images/draw-tool-pattern-2.png");
 }
 
-#undo{
+/*#undo{
 	background-image: url("../images/draw-tool-pattern-2.png");
 }
 #redo{
 	background-image: url("../images/draw-tool-pattern-2.png");
-}
+}*/
 
 @keyframes tabMovementOpen{
 	0% {z-index: 100;}
@@ -290,27 +290,27 @@ body{
 }
 
 #eraserTab{
-	left: 18vw;
+	left: 20vw;
 	height: 125px;
 	top: -110px;
 }
 #colorTab{
-	left: 36vw;
+	left: 40vw;
 	height: 280px;
 	top: -265px;
 }
 #layerTab{
-	left: 54vw;
+	left: 60vw;
 	height: 310px;
 	top: -295px;
 }
 #otherTab{
-	left: 72vw;
+	left: 80vw;
 	height: 100px;
 	top: -150px;
 	padding-bottom: 70px;
 }
-#undo{
+/*#undo{
 	width: 50px;
 	height: 50px;
 	right: 65px;
@@ -324,7 +324,7 @@ body{
 	top: 0px;
 	z-index: 56;
 	padding-top: 0;
-}
+}*/
 .openPartTwo{
 	top: -5px !important;
 }
@@ -376,7 +376,10 @@ button:hover {
 }
 
 .selectedTab{
-	box-shadow: 2px 2px 10px yellow;
+  box-shadow: 2px 2px 10px yellow;
+  background-image: none !important;
+  background-color: #3c5896;
+  color: white;
 }
   .loading {
         /*Style the canvas's background to indicate that the content is still loading (make it grey)*/
