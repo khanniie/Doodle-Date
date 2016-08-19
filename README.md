@@ -3,7 +3,6 @@ This was my final project for the summer DGMD S-15 class at Harvard Summer Schoo
 
 Find a working version at: khanniie.github.io/Doodle-Date
 
-## hello
-This uses-
+## This uses
 -- farbtastic color wheel by Steve Wittens
 -- jquery
