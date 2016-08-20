@@ -7,42 +7,55 @@
 
 body{
     font-family: arial, helvetica, sans-serif;
+    font-weight: 700;
 	background-color: #ebebfa;
     text-align: center;
 }
 #holder{
     position: relative;
-    top: 40%;
+    top: 30%;
+
 }
 
 #joinInfo{
     display: none;
+    background-color: #f8f4ff;
+    background-image: url("images/rubix.png");
+    background-position: center;
+    background-size: cover;
+    padding: 40px;
 }
 
 button{
-    font-size: 2.5rem;
-    margin: 2vw;
-    border-radius: 4px;
+    font-size: 2rem;
+    border-radius: 7px;
+    background-color: white;
+    box-shadow: 2px 2px 7px rgba(0,0,0,0.2);
 }
 img{
     width: 30%;
+}
+img:hover{
+  cursor: hand;
 }
    	</style>
     </head>
 
 <body>
 <div id="holder">
-<a href="multi-canvas.html"> <img id="new" src="alone.png"></a><img id="join" src="joinRoom.png"/>
+<a href="multi-canvas.html"> <img id="new" src="images/alone.png"></a><img id="join" src="images/together.png"/>
 
 <div id="joinInfo">
    <form id="form">
-  Name:<br>
-  <input type="text" name="name" id="name"><br>
-  Room Code:<br>
+
+   <h2> Join Room </h2>
+  <label for"name">Name: </label> 
+  <input type="text" name="name" id="name"><br><br>
+  <label for "roomCode">Room Code: </label>
   <input type="text" name="roomCode" id="roomCode">
   <br>
 </form>
- <a href="multi-canvas.html"> <button id="go">go!</button></a>
+ <a href="enter-room.html"><button id="back">back</button></a><a href="multi-canvas.html"><button id="go">go!</button></a>
     </div>
 
     <script type="text/javascript">
@@ -67,6 +80,13 @@ img{
   sessionStorage.setItem("roomCode", roomCode.value);
   sessionStorage.setItem("together", true);
  });
+
+ // $("#back").click(function(){
+ //                  $("#joinInfo").css("display", "none");
+ //                  $("#new").css("display", "block");
+ //                  $("#join").css("display", "block");
+
+ // })
 
     </script>
 
