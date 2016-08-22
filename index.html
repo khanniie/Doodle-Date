@@ -1,226 +1,124 @@
+<!DOCTYPE html>
 <html>
+
 <head>
-    <title>Doodle Date</title>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Doodle Date: An online multiuser drawing tool</title>
+    <meta name="description" content="An online multiuser drawing tool">
+    <meta name="author" content="Constance Connie Ye">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="images/rainbow_pencil_pixel_by_fonyl.gif">
-   	<style>
-
-body{
-	margin: 0px;
-	background: #eeeef6;
-}
-/*.moveable{
-	transition-duration: 2s;
+    <style>
+    body {
+        margin: 0px;
+        background: #eeeef6;
+    }
+    /*.moveable{
+    transition-duration: 2s;
 }*/
-
-
-#contain{
-	width: 30vw;
-	height: 20vw;
-	position: absolute;
-	top: 30%;
-	left: 35%;
-	z-index: 10;
-	display: block;
-}
-
-.madeBy{
-    font-family: arial, helvetica, sans-serif;
-    padding-left: 20px;
-    padding-top: 20px;
-    color: #555976; 
-    font-size: 0.85em;
-}
-
-.madeBy a{
-    text-decoration: none;
-    color: #545294;
-}
-
-#button-before{
-	max-width: 30vw;
-	position: absolute;
-	top: 0;
-	left: 0;
-	z-index: 10;
-	display: block;
-}
-#contain:hover #button-before{
-	display: none;
-}
-
-
-
-#button-after{
-	max-width: 30vw;
-	position: absolute;
-	top: 1vw;
-	left: -1vw;
-	z-index: 9;
-	display: none;}
-
-#contain:hover #button-after{
-	display: block;
-}
-
-
-#person-one{
-	max-width: 50vw;
-	position: absolute;
-	bottom: -10px;
-	left: -10px;
-	z-index: 5;
-}
-#person-two{
-	max-width: 50vw;
-	position: absolute;
-	bottom: -10px;
-	right: -10px;
-	z-index: 5;
-}
-#pen{
-	max-width: 50vw;
-	position: absolute;
-	top: 20%;
-	left: 25%;
-	z-index: 6;
-}
-#blue-paint{
-	max-width: 40vw;
-	position: absolute;
-	top: -10px;
-	right: -10px;
-	z-index: 0;
-}
-#lemon-paint{
-	max-width: 60vw;
-	position: absolute;
-	bottom: -10px;
-	left: -10px;
-	z-index: 0;}
-
-/*.downTop{
-	top: 0px;
-}
-.downBottom{
-	bottom: -20px;
-}
-.upTop{
-	top: -20px;
-}
-.upBottom{
-	bottom: 0px;
-}
-.leftLeft{
-   left: -20px;
-}
-.leftRight{
-    right: 0px;
-
-}
-.rightLeft{
-    left: 0px;
-}
-.rightRight{
-    right: -20px;
-}*/
-
-
-   	</style>
-    </head>
+    
+    #contain {
+        width: 30vw;
+        height: 20vw;
+        position: absolute;
+        top: 30%;
+        left: 35%;
+        z-index: 10;
+        display: block;
+    }
+    
+    .madeBy {
+        font-family: arial, helvetica, sans-serif;
+        padding-left: 20px;
+        padding-top: 20px;
+        color: #555976;
+        font-size: 0.85em;
+    }
+    
+    .madeBy a {
+        text-decoration: none;
+        color: #545294;
+    }
+    
+    #button-before {
+        max-width: 30vw;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 10;
+        display: block;
+    }
+    
+    #contain:hover #button-before {
+        display: none;
+    }
+    
+    #button-after {
+        max-width: 30vw;
+        position: absolute;
+        top: 1vw;
+        left: -1vw;
+        z-index: 9;
+        display: none;
+    }
+    
+    #contain:hover #button-after {
+        display: block;
+    }
+    
+    #person-one {
+        max-width: 50vw;
+        position: absolute;
+        bottom: -10px;
+        left: -10px;
+        z-index: 5;
+    }
+    
+    #person-two {
+        max-width: 50vw;
+        position: absolute;
+        bottom: -10px;
+        right: -10px;
+        z-index: 5;
+    }
+    
+    #pen {
+        max-width: 50vw;
+        position: absolute;
+        top: 20%;
+        left: 25%;
+        z-index: 6;
+    }
+    
+    #blue-paint {
+        max-width: 40vw;
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        z-index: 0;
+    }
+    
+    #lemon-paint {
+        max-width: 60vw;
+        position: absolute;
+        bottom: -10px;
+        left: -10px;
+        z-index: 0;
+    }
+    </style>
+</head>
 
 <body>
-    <div class= "madeBy">Made by <a href="https://khanniie.github.io">Constance Ye</a></div>
-    <div id="contain"><img src="homepage-images/button-before.png" id="button-before"/>
-     <a href= "https://khanniie.github.io/Doodle-Date/enter-room.html" ><img src="homepage-images/button-after.png" id="button-after"/></a></div>
-    <img src="homepage-images/person-one.png" id="person-one" class="moveable"/>
-     <img src="homepage-images/person-two.png" id="person-two" class="moveable"/>
-      <img src="homepage-images/pen.png" id="pen"/>
-     <img src="homepage-images/blu-paint.png" id="blue-paint" class="moveable"/>
-     <img src="homepage-images/lemon-paint.png" id="lemon-paint" class="moveable"/>
-    
-
-<!--     <script>
-        var isHover = function (dogg, x1, y1) {
-
-            var leftPos = dogg.getBoundingClientRect().left;
-            var topPos = dogg.getBoundingClientRect().top;
-
-            var dogWidth = dogg.getBoundingClientRect().width;
-            var dogHeight = dogg.getBoundingClientRect().height;
-            
-            if(x1 >= leftPos & x1 <= leftPos + dogWidth & y1 >= topPos & y1 <= topPos + dogHeight){
-                return true;
-                
-            }
-            else{
-                return false;
-            }
-        };
-
-
-        var move = function (x1, y1, dogVar) {
-
-            var leftPos = dogVar.getBoundingClientRect().left;
-            var topPos = dogVar.getBoundingClientRect().top;
-
-            var dogWidth = dogVar.getBoundingClientRect().width;
-            var dogHeight = dogVar.getBoundingClientRect().height;
-
-            if (isHover(dogVar, x1, y1)) {
-
-                if (x1 < (leftPos + dogWidth * .35)) {
-
-
-                    if (y1 < topPos + dogHeight * .35) {
-                        dogVar.style.transform = "translate(15vw, 15vw)";
-                        dogVar.classList.add=
-                    } else if (y1 < topPos + dogHeight * .65) {
-                        dogVar.style.transform = "translate(20vw, 0vw)";
-                    } else {
-                        dogVar.style.transform = "translate(15vw, -15vw)";
-                    }
-                } else if (x1 < (leftPos + dogWidth * .65)) {
-
-
-                    if (y1 < topPos + dogHeight * .35) {
-                        dogVar.style.transform = "translate(0vw, 20vw)";
-                    } else if (y1 < topPos + dogHeight * .65) {
-                        dogVar.style.transform = "translate(20vw, 0vw)";
-                    } else {
-                        dogVar.style.transform = "translate(0vw, -20vw)";
-                    }
-                } else {
-
-
-                    if (y1 < topPos + dogHeight * .35) {
-                        dogVar.style.transform = "translate(-15vw, 15vw)";
-                    } else if (y1 < topPos + dogHeight * .65) {
-                        dogVar.style.transform = "translate(-20vw, 0vw)";
-                    } else {
-                        dogVar.style.transform = "translate(-15vw, -15vw)";
-                    }
-                }
-
-            }
-
-
-
-        }
-
-        document.body.addEventListener('mousemove', function (event) {
-            
-        var moveable = document.querySelectorAll(".moveable");
-		Array.prototype.forEach.call(moveable, function(elements, index) {
-				move(event.y, event.x, elements);
-		});
-  
-
-        });
-        
-        
-    </script> -->
-
-    </body>
-
+    <div class="madeBy">Made by <a href="https://khanniie.github.io">Constance Ye</a></div>
+    <div id="contain"><img src="images/homepage-images/button-before.png" id="button-before" />
+        <a href="https://khanniie.github.io/Doodle-Date/pages/enter-room.html"><img src="images/homepage-images/button-after.png" id="button-after" /></a>
+    </div>
+    <img src="images/homepage-images/person-one.png" id="person-one" class="moveable" />
+    <img src="images/homepage-images/person-two.png" id="person-two" class="moveable" />
+    <img src="images/homepage-images/pen.png" id="pen" />
+    <img src="images/homepage-images/blu-paint.png" id="blue-paint" class="moveable" />
+    <img src="images/homepage-images/lemon-paint.png" id="lemon-paint" class="moveable" />
+</body>
 
 </html>

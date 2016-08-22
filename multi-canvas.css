@@ -1,0 +1,435 @@
+ p {
+     margin: 0px;
+ }
+ 
+ html {
+     font-family: arial, times, sans-serif;
+ }
+ 
+ #canvas0 {
+     position: absolute;
+     display: block;
+     left: 0;
+     top: 0;
+     z-index: -1000;
+ }
+ 
+ #canvasCover {
+     height: 5000px;
+     width: 5000px;
+     position: absolute;
+     left: 0;
+     top: 0;
+     cursor: none;
+     z-index: 40;
+ }
+ 
+ #follower {
+     display: none;
+     width: 50px;
+     height: 50px;
+     border-radius: 50%;
+     background-color: #808080;
+     border: 2px dotted grey;
+     position: absolute;
+     cursor: none;
+     position: absolute;
+     left: 40%;
+     top: 40%;
+     z-index: 1;
+ }
+ 
+ #follower.on {
+     display: block;
+ }
+ 
+ .colorpicker {
+     float: left;
+     margin: 1em;
+     z-index: 10;
+ }
+ 
+ form {
+     margin: 2em 1em 0 1;
+     text-align: center;
+ }
+ 
+ #currentColorBox {
+     height: 52px;
+     width: 50px;
+     background-color: #808080;
+     border: 1px solid grey;
+     float: left;
+     clear: bottom;
+ }
+ 
+ #colorMemHolder {
+     margin-top: 10px;
+     height: 50px;
+     width: 175px;
+ }
+ 
+ .colorMem {
+     height: 25px;
+     width: 25px;
+     border: 1px solid grey;
+     float: left;
+ }
+ 
+ .colorMem {
+     background-color: #FFFFFF;
+ }
+ 
+ #previewBox {
+     height: 200px;
+     width: 200px;
+     position: absolute;
+ }
+ 
+ .preview {
+     padding-left: 10px;
+     height: 35px;
+     width: 200px;
+     border: 1px solid black;
+ }
+ 
+ .selectedLayer {
+     background-color: lightgoldenrodyellow;
+ }
+ 
+ .bigBox {
+     height: 250px;
+     width: 200px;
+     position: relative;
+ }
+ 
+ .bigBoxHolder {
+     height: 200px;
+     width: 200px;
+     position: absolute;
+     top: 0;
+     left: 0;
+     overflow: auto;
+ }
+ 
+ .bigBox button {
+     position: absolute;
+     top: 200px;
+     z-index: 10;
+ }
+ 
+ #newLayerButton {
+     left: 100px;
+ }
+ 
+ #clear {
+     left: 0px;
+     top: 225px;
+ }
+ 
+ #mergeLayerButton {
+     left: 100px;
+     top: 225px;
+ }
+ 
+ #fileRef {
+     display: none;
+     position: absolute;
+     top: 2%;
+     right: 2%;
+     max-height: 230px;
+     background-color: #d9d9d9;
+     border-radius: 20px;
+     padding: 10px;
+     z-index: 105;
+     box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.3);
+ }
+ 
+ #refPopUp {
+     display: none;
+     padding: 10px;
+     max-width: 200px;
+ }
+ 
+ #closeRef {
+     border: 1px solid black;
+     padding: 5px;
+     border-radius: 20%;
+     background-color: lightpink;
+     z-index: 101;
+     position: absolute;
+     right: 5px;
+ }
+ 
+ .view-icon {
+     margin-left: 50px;
+     background-repeat: no-repeat;
+     background-image: url("images/view-icon-open.png");
+     background-size: contain;
+     height: 30px;
+     width: 30px;
+     display: inline-block;
+     z-index: 101;
+ }
+ 
+ .view-icon-close {
+     background-image: url("images/view-icon-closed.png");
+ }
+ 
+ ::-moz-selection {
+     background: transparent;
+ }
+ 
+ ::selection {
+     background: transparent;
+ }
+ 
+ .tab {
+     padding: 5px;
+     padding-top: 25px;
+     position: absolute;
+     top: 0;
+     box-shadow: 2px 2px 2px #f2f2f2;
+     box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.3);
+     border-radius: 0 0 20px 20px;
+     overflow: hidden;
+     width: 240px;
+     z-index: 60;
+     animation-duration: 1s;
+     border: 1px solid #b8c5e0;
+     color: #5c5c8a;
+ }
+ 
+ h1 {
+     position: absolute;
+     bottom: -15px;
+     padding-left: 1vw;
+     font-size: 1.7rem;
+     font-family: 'Josefin Sans', arial, helvetica, sans-serif;
+ }
+ 
+ body {
+     overflow: hidden;
+     margin: 0;
+ }
+ 
+ .unCanvas {
+     z-index: 55;
+ }
+ 
+ #drawTab {
+     background-image: url("images/draw-tool-pattern-3.png");
+ }
+ 
+ #eraserTab {
+     background-image: url("images/draw-tool-pattern.png");
+ }
+ 
+ #colorTab {
+     background-image: url("images/draw-tool-pattern-4.png");
+ }
+ 
+ #layerTab {
+     background-image: url("images/draw-tool-pattern-5.png");
+ }
+ 
+ #otherTab {
+     background-image: url("images/draw-tool-pattern-2.png");
+ }
+ /*#undo{
+  background-image: url("images/draw-tool-pattern-2.png");
+}
+#redo{
+  background-image: url("images/draw-tool-pattern-2.png");
+}*/
+ 
+ @keyframes tabMovementOpen {
+     0% {
+         z-index: 100;
+     }
+     95% {
+         top: 0px;
+     }
+     100% {
+         top: -5px;
+     }
+ }
+ 
+ @keyframes tabMovementClose {
+     0% {
+         z-index: 60;
+     }
+     100% {
+         top: -100px;
+     }
+ }
+ 
+ @keyframes tabMovementCloseColor {
+     0% {
+         z-index: 60;
+     }
+     100% {
+         top: -250px;
+     }
+ }
+ 
+ @keyframes tabMovementCloseLayer {
+     0% {
+         z-index: 60;
+     }
+     100% {
+         top: -280px;
+     }
+ }
+ 
+ @keyframes tabMovementCloseOther {
+     0% {
+         z-index: 60;
+     }
+     100% {
+         top: -140px;
+     }
+ }
+ 
+ #drawTab {
+     left: 0vw;
+     height: 130px;
+     top: -115px;
+ }
+ 
+ .open {
+     animation-name: tabMovementOpen;
+     z-index: 101;
+ }
+ 
+ .close {
+     animation-name: tabMovementClose;
+     z-index: 60;
+ }
+ 
+ .closeColor {
+     animation-name: tabMovementCloseColor;
+     z-index: 60;
+ }
+ 
+ .closeLayer {
+     animation-name: tabMovementCloseLayer;
+     z-index: 60;
+ }
+ 
+ .closeOther {
+     animation-name: tabMovementCloseOther;
+     z-index: 60;
+ }
+ 
+ #eraserTab {
+     left: 20vw;
+     height: 125px;
+     top: -110px;
+ }
+ 
+ #colorTab {
+     left: 40vw;
+     height: 280px;
+     top: -265px;
+ }
+ 
+ #layerTab {
+     left: 60vw;
+     height: 310px;
+     top: -295px;
+ }
+ 
+ #otherTab {
+     left: 80vw;
+     height: 100px;
+     top: -150px;
+     padding-bottom: 70px;
+ }
+ /*#undo{
+  width: 50px;
+  height: 50px;
+  right: 65px;
+  top: 0px;
+  padding-top: 0;
+}
+#redo{
+  width: 50px;
+  height: 50px;
+  right: 0px;
+  top: 0px;
+  z-index: 56;
+  padding-top: 0;
+}*/
+ 
+ .openPartTwo {
+     top: -5px !important;
+ }
+ 
+ .upDown {
+     display: inline-block;
+     width: 33px;
+     height: 33px;
+     max-width: 33px;
+     max-height: 33px;
+     margin-left: 70px;
+     background-size: cover;
+     background-image: url("images/up-down-icon.png");
+     border-radius: 50%;
+     background-repeat: no-repeat;
+ }
+ 
+ .turnUpsideDown {
+     -webkit-transform: rotate(180deg);
+     -moz-transform: rotate(180deg);
+     -o-transform: rotate(180deg);
+     -ms-transform: rotate(180deg);
+     transform: rotate(180deg);
+ }
+ 
+ button {
+     color: #5c5c8a;
+     background: #eeb3f5;
+     background-image: -webkit-linear-gradient(top, #eeb3f5, #f5e2ee);
+     background-image: -moz-linear-gradient(top, #eeb3f5, #f5e2ee);
+     background-image: -ms-linear-gradient(top, #eeb3f5, #f5e2ee);
+     background-image: -o-linear-gradient(top, #eeb3f5, #f5e2ee);
+     background-image: linear-gradient(to bottom, #eeb3f5, #f5e2ee);
+     -webkit-border-radius: 19;
+     -moz-border-radius: 19;
+     border-radius: 19px;
+     font-size: 0.7rem;
+     padding: 5px 10px 5px 10px;
+     text-decoration: none;
+ }
+ 
+ button:hover {
+     background: #c8d1d9;
+     background-image: -webkit-linear-gradient(top, #c8d1d9, #98bdd6);
+     background-image: -moz-linear-gradient(top, #c8d1d9, #98bdd6);
+     background-image: -ms-linear-gradient(top, #c8d1d9, #98bdd6);
+     background-image: -o-linear-gradient(top, #c8d1d9, #98bdd6);
+     background-image: linear-gradient(to bottom, #c8d1d9, #98bdd6);
+     text-decoration: none;
+ }
+ 
+ .selectedTab {
+     box-shadow: 2px 2px 10px yellow;
+     background-image: none !important;
+     background-color: #3c5896;
+     color: white;
+ }
+ 
+ .loading {
+     background-color: rgba(0, 0, 0, 0.1);
+ }
+ 
+ #multi-panel {
+     text-align: center;
+     font-weight: 600;
+     right: 2vw;
+     bottom: 0;
+     top: auto;
+     border-radius: 20px 20px 0 0;
+     background-image: url("images/draw-tool-pattern-5.png");
+ }

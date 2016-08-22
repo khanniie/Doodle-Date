@@ -8,7 +8,7 @@
         left: 50%; 
         display: block;
         position: absolute;
-        background: url(homepage-images/doodle-date.png) no-repeat center center;
+        background: url(../images/homepage-images/doodle-date.png) no-repeat center center;
         background-size: contain;
         width: 251px;
         height: 208.5px;
