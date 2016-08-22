@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>jQuery UI Tabs - Default functionality</title>
+    <link rel="stylesheet" href="jquery-ui-base.css">
+    <link rel="stylesheet" href="about-page.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+    <script>
+    $(function() {
+        $("#tabs").tabs();
+    });
+    </script>
+</head>
+
+<body>
+    <div id="header-image"></div>
+    <a href="enter-room.html" id="startUsing"> Click here to start using the tool! </a>
+    <div id="tabs">
+        <ul>
+            <li><a href="#tabs-1">About Doodle Date</a></li>
+            <li><a href="#tabs-2">Example Art</a></li>
+            <li><a href="#tabs-3">Code, Credits, Creator</a></li>
+        </ul>
+        <div id="tabs-1">
+            <h1>Doodle Date is a multiuser online drawing tool.</h1>
+            <p>However, it can be used alone if you want to Doodle Date yourself! All your work is saved even after you leave as long as you remember your room code.</p>
+            <p>The usage itself is pretty simple. Just drag your mouse around to draw or erase things. Line color, width, softness and opacity are changable. The tool also includes layers, image references and download. Have fun!</p>
+            <h4>Note: This currently isn't supported on tablets or phones. Hopefully it will be in the future :) </h4>
+            <h4>Note #2: Although this tool is fully functional, it is still very much a work in progress! It can be laggy sometimes, and the line opacity is not perfect. I'm also working on the fixing the undo/redo function, which was so dysfunctional I had to take it out. I apologize for any inconvience, but I'm working hard to fix these things!</h4>
+            <h2>How it works</h2>
+            <ol>
+                <li><a href="#draw">Drawing and Erasing</a></li>
+                <li><a href="#color">Color</a></li>
+                <li><a href="#layers">Layers</a></li>
+                <li><a href="#more">More: Image Reference, Download, Clear all</a></li>
+                <li><a href="#invite">Inviting other users</a></li>
+            </ol>
+            <h3 id="draw">Drawing and Erasing</h3>
+            <img src="tutorial-images/draw.png" alt="image of draw tab" width="200px"><img src="tutorial-images/erase.png" alt="image of erase tab" width="200px">
+            <p>The "Draw" and "Erase" tabs allow you to manipulate line width, opacity and softness. I recommend sticking to an opacity of 100% for drawing. To draw, just drag your cursor across the screen. To switch between drawing and erasing, click on the tab.</p>
+            <h3 id="color">Color</h3>
+            <img src="tutorial-images/colors.png" alt="image of color tab" width="200px">
+            <p>The color tab comes with a color wheel, and the current color will be displayed in the big box on the left. There is also a "color memory" to store colors that you'd like to use again later. <i>Click once to grab the color, click twice to set a color.</i></p>
+            <h3 id="layers">Layers</h3>
+            <img src="tutorial-images/layers.png" alt="image of layer tab" width="200px">
+            <p>"Layers" are used to keep parts of your drawing separate. While on a layer, you can only erase things drawn on that layer. You can add, clear, delete and merge down layers. You can switch between layers and click on the eye to hide/display the content on them.</p>
+            <h3 id="more">More: Image Reference, Download, Clear All</h3>
+            <img src="tutorial-images/more.png" alt="image of more tab" width="350px">
+            <p>Additionally, you can import a file reference to draw with using an image URL. You can also download your drawing, and it'll open a copy if it in a new tab so you can right click to "save as image". If you absolutely hate your drawing and want to reset everything (but not the room code), hit "clear EVERYTHING!". </p>
+            <h3 id="invite">Inviting Other Users</h3>
+            <img src="tutorial-images/invite.png" alt="image of invite tab" width="200px">
+            <p>If you want to draw with friends, start a room by clicking "new room". You can find your room code by clicking on "invite your friends" in the bottom right corner". Then, send your room code to your friends (as many as you want) and have them join through "join room".</p>
+            <h2> And that's it! Enjoy!</h2>
+        </div>
+        <div id="tabs-2">
+            <h1>Here is some example artwork. All of them were done by me alone, during the creation of the program. I made doodles to test out the functionality of the program, so you can see as different parts are being added. The last done I did with a friend after it was fully functional!</h1>
+            <img class="doodle" alt="testing doodle" src="tool-doodles/Screen%20Shot%202016-07-14%20at%202.26.16%20AM.png" />
+            <br>
+            <img class="doodle" alt="testing doodle" src="tool-doodles/Screen%20Shot%202016-07-15%20at%201.46.01%20AM.png" />
+            <br>
+            <img class="doodle" alt="testing doodle" src="tool-doodles/Screen%20Shot%202016-07-17%20at%203.13.22%20AM.png" />
+            <br>
+            </p>
+           <!--  <img class="doodle" alt="testing doodle" src="tool-doodles/Screen%20Shot%202016-07-17%20at%204.59.02%20PM.png" /> -->
+            <img class="doodle" alt="testing doodle" src="tool-doodles/Screen%20Shot%202016-07-17%20at%205.11.18%20PM.png" />
+            <img class="doodle" alt="testing doodle" src="tool-doodles/Screen%20Shot%202016-07-17%20at%205.17.29%20PM.png" />
+            <img class="doodle" alt="testing doodle" src="tool-doodles/Screen%20Shot%202016-07-22%20at%204.29.41%20AM.png" />
+            <img class="doodle" alt="testing doodle" src="tool-doodles/doodle7-21-17.png" />
+            <img class="doodle" alt="testing doodle" src="tool-doodles/kimk.png" />
+             <img class="doodle" alt="testing doodle" src="tool-doodles/rebecca.png" />
+        </div>
+        <div id="tabs-3">
+            <h1>Constance Ye</h1><h2><a href="khanniie.github.io">* My Site *</a></h2>
+            <img src="extra/connie-self.jpg" class="profile">
+            <br>
+            <p>I'm a high school senior who lives in California! I love dogs, coding and art, and my dream is to develop software to help artists in the new age. <br><br>
+            I made this program as a way to keep in touch with my friends and significant other who live on the east coast. I hope my small program will be able to help you and your friends to connect, however far away you guys live from each other.</p>
+      		<br> <br><br>
+      		
+      		<h1>Credit and Code</h1>
+      		<p>Although the design, code and art within this program are all created by me, I want to thank the Harvard DGMD S-15 Class for all their support during those seven weeks!<p>
+      		<p>Within the program, I used the Farbtastic color wheel made by <a href="https://acko.net/blog/farbtastic-jquery-color-picker-plug-in/">Steven Wittens</a>.</p>
+      		<p><br>The code is written in a mix of Javascript and Jquery. All of the source code can be found <a href="https://github.com/khanniie/Doodle-Date">here</a>.</p>
+
+        </div>
+    </div>
+</body>
+
+</html>
