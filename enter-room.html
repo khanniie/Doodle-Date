@@ -1,0 +1,116 @@
+<html>
+<head>
+    <title>Doodle Date</title>
+    <link rel="icon" href="images/rainbow_pencil_pixel_by_fonyl.gif">
+    <script type="text/javascript" charset="utf-8" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+   	<style>
+
+body{
+    font-family: arial, helvetica, sans-serif;
+    font-weight: 700;
+	  background: #eeeef6;
+    text-align: center;
+    margin: 0px;
+}
+#holder{
+    position: relative;
+    top: 10%;
+
+}
+
+#joinInfo{
+    display: none;
+    background-color: #f8f4ff;
+    background-image: url("images/rubix.png");
+    background-position: center;
+    background-size: cover;
+    padding: 40px;
+}
+
+button{
+    font-size: 2rem;
+    border-radius: 7px;
+    background-color: white;
+    box-shadow: 2px 2px 7px rgba(0,0,0,0.2);
+}
+img{
+    width: 30%;
+}
+img:hover{
+  cursor: hand;
+}
+.madeBy{
+    font-family: arial, helvetica, sans-serif;
+    padding-left: 20px;
+    padding-top: 20px;
+    color: #555976; 
+    font-size: 0.85em;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+.madeBy a{
+    text-decoration: none;
+    color: #545294;
+}
+
+
+   	</style>
+    </head>
+
+<body>
+ <div class= "madeBy">Made by <a href="https://khanniie.github.io">Constance Ye</a></div>
+<a href="about-page.html"><img  id="about" src="images/about.png"></a>
+<div id="holder">
+<a href="multi-canvas.html"> <img id="new" src="images/alone.png"></a><img id="join" src="images/together.png"/>
+
+<div id="joinInfo">
+   <form id="form">
+
+   <h2> Join Room </h2>
+  <label for"name">Name: </label> 
+  <input type="text" name="name" id="name"><br><br>
+  <label for "roomCode">Room Code: </label>
+  <input type="text" name="roomCode" id="roomCode">
+  <br>
+</form>
+ <a href="enter-room.html"><button id="back">back</button></a><a href="multi-canvas.html"><button id="go">go!</button></a>
+    </div>
+
+    <script type="text/javascript">
+
+    $("#new").click(function(){
+            sessionStorage.setItem("beenBefore", false);
+            sessionStorage.removeItem("name");
+            sessionStorage.removeItem("roomCode");
+            sessionStorage.setItem("together", false);
+    });
+
+        $("#join").click(function(){
+                $("#new").css("display", "none");
+                 $("#join").css("display", "none");
+                $("#joinInfo").css("display", "block");
+        });
+ $("#go").click(function(){
+  sessionStorage.setItem("beenBefore", false);
+    var name = document.getElementById("name");
+    var roomCode = document.getElementById("roomCode");
+  sessionStorage.setItem("name", name.value);
+  sessionStorage.setItem("roomCode", roomCode.value);
+  sessionStorage.setItem("together", true);
+ });
+
+ // $("#back").click(function(){
+ //                  $("#joinInfo").css("display", "none");
+ //                  $("#new").css("display", "block");
+ //                  $("#join").css("display", "block");
+
+ // })
+
+    </script>
+
+    </body>
+
+
+</html>

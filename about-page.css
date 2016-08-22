@@ -1,0 +1,43 @@
+.ui-tabs-active{
+	background-color: #9999ff !important;
+	border: #ccccff !important;
+}
+/*@media (min-width: 480px) {*/
+    #header-image {
+        top: 0;
+        left: 50%; 
+        display: block;
+        position: absolute;
+        background: url(homepage-images/doodle-date.png) no-repeat center center;
+        background-size: contain;
+        width: 251px;
+        height: 208.5px;
+        margin-left: -104.25px;
+    }
+    #tabs{
+    	position: absolute;
+    	top: 220px;
+    }
+
+    body{
+    	background: #eeeef6;
+    }
+    h1{
+    	font-size: 1.5em;
+    }
+    #startUsing{
+    	font-family: arial, helvetica, sans-serif;
+    	font-size: 1.25em;
+    	position: absolute;
+    	top: 200px;
+    	left: 2%;
+    }
+   .doodle{
+   	width: 80%;
+   }
+   .profile{
+   	border-radius: 3px;
+   	margin: 10px;
+   	width: 80px;
+   	float: left;
+   }

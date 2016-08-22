@@ -1,0 +1,199 @@
+<html>
+
+<head>
+    <style>
+    canvas {
+        border: 1px black dotted;
+        /* A bit of border so that we can see our canvas */
+    }
+    </style>
+
+    <script   src="https://code.jquery.com/jquery-3.1.0.min.js"   integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="   crossorigin="anonymous"></script><script   src="https://code.jquery.com/jquery-3.1.0.min.js"   integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="   crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <canvas width='500px' height='500px' id='myCanvas'></canvas>
+      <button id='undo'>↩</button>
+    <script>
+    var canvas = document.querySelector('#myCanvas'); // Grab a JS hook into our canvas element
+    var ctx = canvas.getContext('2d'); // Grab the rendering context, which we actually use to draw
+
+    var mouseIsDown = false; // a variable we'll toggle to keep track of whether the mouse is down
+    canvas.addEventListener('mousedown', function (event) {
+   // drawSegment=[];
+    mouseIsDown = true;
+    updateMousePosition(event);});
+canvas.addEventListener('mouseup', function (event) {
+    mouseIsDown = false;
+   // drawingCommands= drawingCommands.concat(drawSegment);
+});
+
+    var mousePosition = { // a convenience dictionary for storing our mouse's x- and y-coordinates
+        x: null,
+        y: null
+    };
+    var updateMousePosition = function(event) { // a function to take a MouseEvent and update our mousePosition dictionary with the right x- and y-coordinates from the MouseEvent
+        mousePosition.x = event.offsetX;
+        mousePosition.y = event.offsetY;};
+
+
+var currentCanvas= "myCanvas";
+var currentCanvassave;
+var lineCol = "#808080";
+var lineWid = 50;
+var lineOpacity = 1;
+var lineSoftness = 20;
+
+var maxUndo = 200;
+
+var line = function (x1, y1, x2, y2, lineTemp, color) {
+    ctx.beginPath();
+    ctx.lineCap = "round";
+    ctx.moveTo(x1, y1);
+    ctx.lineWidth = lineTemp;
+    ctx.lineTo(x2, y2);
+    ctx.strokeStyle = color;
+    ctx.stroke();
+    ctx.closePath();};
+var saveLine = function(drawing){
+        currentCanvassave = drawing.canvas + "save";
+        canvas =document.getElementById(currentCanvassave);
+        ctx= canvas.getContext("2d");
+        var color = drawing.lineCol;
+        var width = drawing.lineWid;
+        var opacity = drawing.lineOpacity;
+        var lineSoft = drawing.lineSoftness;
+        var mpX = drawing.x1;
+        var mpY = drawing.y1;
+        var ex = drawing.x2;
+        var ey = drawing.y2;
+        var tempWid = drawing.lineWid;
+        var omo = 0.0;
+        if (lineSoft <= 0 || width <= 3) {
+            ctx.globalAlpha = opacity;
+            line(mpX, mpY, ex, ey, width, color);
+            tempWid = -1;}
+        if (lineSoft > 30) {
+            tempWid = tempWid * 1.4;
+        } else if (lineSoft > 40) {
+            tempWid = tempWid * 1.45;
+        } else if (lineSoft > 50) {
+            tempWid = tempWid * 1.5;
+        } else if (lineSoft > 60) {
+            tempWid = tempWid * 1.6;
+        } else if (lineSoft > 70) {
+            tempWid = tempWid * 1.7;
+        } else if (lineSoft > 80) {
+            tempWid = tempWid * 1.8;
+        } else if (lineSoft > 90) {
+            tempWid = tempWid * 1.9;
+        }
+        if (lineSoft > 100) {lineSoft = 100;}
+        var opacityCutoff = tempWid - ((opacity) * tempWid);
+        while (tempWid > opacityCutoff) {
+            ctx.globalAlpha = omo / 100.0;
+            line(mpX, mpY, ex, ey, tempWid, color);
+            console.log(mpX);
+            tempWid = tempWid - (lineSoft) / 20.0;
+            omo = omo + (opacity) * .8;}};
+var drawLine = function(drawing) {    
+        currentCanvas = drawing.canvas;
+        canvas =document.getElementById(currentCanvas);
+        ctx= canvas.getContext("2d");
+        var color = drawing.lineCol;
+        var width = drawing.lineWid;
+        var opacity = drawing.lineOpacity;
+        var lineSoft = drawing.lineSoftness;
+        var mpX = drawing.x1;
+        var mpY = drawing.y1;
+        var ex = drawing.x2;
+        var ey = drawing.y2;
+        var tempWid = drawing.lineWid;
+        var omo = 0.0;
+        if (lineSoft <= 0 || width <= 3) {
+            ctx.globalAlpha = opacity;
+            line(mpX, mpY, ex, ey, width, color);
+            tempWid = -1;}
+        if (lineSoft > 30) {
+            tempWid = tempWid * 1.4;
+        } else if (lineSoft > 40) {
+            tempWid = tempWid * 1.45;
+        } else if (lineSoft > 50) {
+            tempWid = tempWid * 1.5;
+        } else if (lineSoft > 60) {
+            tempWid = tempWid * 1.6;
+        } else if (lineSoft > 70) {
+            tempWid = tempWid * 1.7;
+        } else if (lineSoft > 80) {
+            tempWid = tempWid * 1.8;
+        } else if (lineSoft > 90) {
+            tempWid = tempWid * 1.9;
+        }
+        if (lineSoft > 100) {lineSoft = 100;}
+        var opacityCutoff = tempWid - ((opacity) * tempWid);
+        while (tempWid > opacityCutoff) {
+            ctx.globalAlpha = omo / 100.0;
+            line(mpX, mpY, ex, ey, tempWid, color);
+            tempWid = tempWid - (lineSoft) / 20.0;
+            omo = omo + (opacity) * .8;}};
+  // An array to hold our drawing commands
+    var drawingCommands = [];
+    var clearScreen = function() {
+        var canvass= document.getElementById("myCanvas");
+        var ctxx= canvass.getContext("2d");
+        ctxx.clearRect(0, 0, canvass.width, canvass.height);};
+    var redrawLines = function() {
+        drawingCommands.forEach(function(drawing) {
+            drawLine(drawing);});};
+    var Drawing = function(x1, y1, x2, y2, lineCol, lineWid, lineOpacity, lineSoftness, isPenOrEraser, currentCanvas) {
+        this.x1 = x1;
+        this.y1 = y1;
+        this.x2 = x2;
+        this.y2 = y2;
+        this.lineCol = lineCol;
+        this.lineWid = lineWid;
+        this.lineOpacity = lineOpacity;
+        this.lineSoftness = lineSoftness;
+        this.isPenOrEraser = isPenOrEraser;
+        this.canvas = currentCanvas;};
+
+    canvas.addEventListener('mousemove', function(event) {
+        var isPenOrEraser= "pen";
+        if (mouseIsDown) {
+            var drawing = new Drawing(mousePosition.x, mousePosition.y, event.offsetX, event.offsetY, lineCol, lineWid, lineOpacity, lineSoftness, isPenOrEraser, currentCanvas);
+
+            drawLine(drawing);
+            drawingCommands.push(drawing)
+            if(drawingCommands.length>= maxUndo){
+                var piece = drawingCommands[0];
+                console.log(piece);
+                console.log(piece.canvas + "save")
+                if (document.getElementById(piece.canvas + "save") == null){ var canvasInfinity = document.createElement("canvas"); canvasInfinity.setAttribute("width", 500);
+   canvasInfinity.setAttribute("height", 500); canvasInfinity.id = "myCanvassave"; document.body.appendChild(canvasInfinity);} 
+                saveLine(piece);
+                drawingCommands = drawingCommands.slice(1, drawingCommands.length - 1);
+            };
+            updateMousePosition(event);} });
+
+    var undo = document.querySelector('#undo');
+    undo.addEventListener('click', function() {
+        var undoLength = 12;
+        drawingCommands = drawingCommands.slice(0, drawingCommands.length - undoLength);
+
+        clearScreen();
+        var a = document.getElementById(currentCanvas);
+        var aa= a.getContext("2d");
+        var b = document.getElementById(currentCanvassave);
+        aa.globalAlpha=1;
+        aa.drawImage(b, 0, 0);
+        redrawLines();});
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>
