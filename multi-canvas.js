@@ -331,11 +331,11 @@ var maxUndo = 200;
 var lineCol = "#808080";
 var lineWid = 50;
 var lineOpacity = 1;
-var lineSoftness = 20;
+var lineSoftness = 0;
 var lineColE = "#000000";
 var lineWidE = 50;
 var lineOpacityE = 1;
-var lineSoftnessE = 20;
+var lineSoftnessE = 0;
 
 var mouseIsDown = false;
 var mousePosition = { x: null, y: null };
@@ -400,7 +400,7 @@ var doLine = function(drawing) {
         ctx.globalCompositeOperation = "destination-out";
         follower.style.backgroundColor = "white";
     }
-    if (lineSoft <= 0 || width <= 5) {
+    if (lineSoft <= 0 || width <= 10) {
         ctx.globalAlpha = opacity;
         line(mpX, mpY, ex, ey, width, color);
         tempWid = -1;
@@ -425,8 +425,8 @@ var doLine = function(drawing) {
     while (tempWid > opacityCutoff) {
         ctx.globalAlpha = omo / 100.0;
         line(mpX, mpY, ex, ey, tempWid, color);
-        tempWid = tempWid - (lineSoft) / 20.0;
-        omo = omo + (opacity) * .8;
+        tempWid = tempWid - (lineSoft) / 33.0;
+        omo = omo + (opacity);
     }
     ctx.globalCompositeOperation = "source-over";
 }
@@ -539,13 +539,17 @@ var widSlider = document.getElementById("lineWid");
 var opacitySlider = document.getElementById("lineOpacity");
 var softnessSlider = document.getElementById("lineSoftness");
 opacitySlider.value = 100;
-softnessSlider.value = 20;
+softnessSlider.value = 0;
+opacitySlider.min = 60;
+softnessSlider.max = 80;
 
 var widSliderE = document.getElementById("lineWidE");
 var opacitySliderE = document.getElementById("lineOpacityE");
 var softnessSliderE = document.getElementById("lineSoftnessE");
 opacitySliderE.value = 100;
-softnessSliderE.value = 20;
+softnessSliderE.value = 0;
+opacitySliderE.min = 60;
+softnessSliderE.max = 80;
 
 widSlider.addEventListener("change", function() {
     lineWid = widSlider.value;
@@ -555,7 +559,7 @@ widSlider.addEventListener("change", function() {
 });
 opacitySlider.addEventListener("change", function() {
     var opacityPercent = document.querySelector("#opacityPercent");
-    opacityPercent.innerText = opacitySlider.value + "%";
+    opacityPercent.innerText = Math.floor((((opacitySlider.value-60) / 40)*100)) + "%";
     lineOpacity = opacitySlider.value / 100.0;
     updateFollower();
 });
@@ -847,12 +851,12 @@ var clearAll = function() {
 
 $("#multi-panel").click(function() {
 
-    if (together == "false") {
+    // if (together == "false") {
         alert("Your room code is " + roomCode + ". Give your friend this code and tell them to join! :)");
         $("#multi-panel").text("Connected! Room Code: " + roomCode);
         together = true;
         sessionStorage.setItem("together", true);
-    }
+    //}
 });
 
 $(document).ready(function() {
