@@ -541,7 +541,7 @@ var softnessSlider = document.getElementById("lineSoftness");
 opacitySlider.value = 100;
 softnessSlider.value = 0;
 opacitySlider.min = 60;
-softnessSlider.max = 80;
+softnessSlider.max = 70;
 
 var widSliderE = document.getElementById("lineWidE");
 var opacitySliderE = document.getElementById("lineOpacityE");
@@ -549,7 +549,7 @@ var softnessSliderE = document.getElementById("lineSoftnessE");
 opacitySliderE.value = 100;
 softnessSliderE.value = 0;
 opacitySliderE.min = 60;
-softnessSliderE.max = 80;
+softnessSliderE.max = 70;
 
 widSlider.addEventListener("change", function() {
     lineWid = widSlider.value;
@@ -565,7 +565,7 @@ opacitySlider.addEventListener("change", function() {
 });
 softnessSlider.addEventListener("change", function() {
     var softnessPercent = document.querySelector("#softnessPercent");
-    softnessPercent.innerText = softnessSlider.value + "%";
+    softnessPercent.innerText = Math.floor((((softnessSlider.value) / 70)*100)) + "%";
     lineSoftness = softnessSlider.value;
     updateFollower();
 });
@@ -578,13 +578,13 @@ widSliderE.addEventListener("change", function() {
 });
 opacitySliderE.addEventListener("change", function() {
     var opacityPercentE = document.querySelector("#opacityPercentE");
-    opacityPercentE.innerText = opacitySliderE.value + "%";
+    opacityPercentE.innerText = Math.floor((((opacitySlider.value - 60) / 40)*100)) + "%";
     lineOpacityE = opacitySliderE.value / 100.0;
     updateFollower();
 });
 softnessSliderE.addEventListener("change", function() {
     var softnessPercentE = document.querySelector("#softnessPercentE");
-    softnessPercentE.innerText = softnessSliderE.value + "%";
+    softnessPercentE.innerText = Math.floor((((softnessSliderE.value) / 70)*100)) + "%";
     lineSoftnessE = softnessSliderE.value;
     updateFollower();
 });
