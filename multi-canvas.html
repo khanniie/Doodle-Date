@@ -27,7 +27,7 @@
         <label for="lineSoftness">softness: </label>
         <input type="range" name="lineSoftness" id="lineSoftness" />
         <label for="lineSoftness" id="softnessPercent">0%</label>
-        <h1>draw<i class="upDown"></i></h1>
+        <h1 class = "clickTrigger">draw<i class="upDown"></i></h1>
     </div>
     <div id="eraserTab" class="tab unCanvas">
         <label for="lineWidE">width: </label>
@@ -39,7 +39,7 @@
         <label for="lineSoftnessE">softness: </label>
         <input type="range" name="lineSoftnessE" id="lineSoftnessE" />
         <label for="lineSoftnessE" id="softnessPercentE">0%</label>
-        <h1>erase<i class="upDown"></i></h1></div>
+        <h1 class = "clickTrigger">erase<i class="upDown"></i></h1></div>
     <div id="colorTab" class="tab unCanvas">
         <div class="colorpicker">
             <div id="colorpicker2"></div>
@@ -57,7 +57,7 @@
             <br>
             <br>
             <br>
-            <h1>color<i class="upDown"></i></h1>
+            <h1 class = "clickTrigger">color<i class="upDown"></i></h1>
         </div>
     </div>
     <div id="layerTab" class="tab unCanvas">
@@ -74,7 +74,7 @@
             <button type="button" id="clear">Clear</button>
             <button type="button" id="mergeLayerButton">Merge Down</button>
         </div>
-        <h1>layers    <i class="upDown"></i></h1></div>
+        <h1 class = "clickTrigger">layers    <i class="upDown"></i></h1></div>
     <div id="otherTab" class="tab unCanvas">
         <div id="refButtonHolder">
             <button type="button" id="fileRefButton">Add a File Reference (from url)</button>
@@ -84,9 +84,10 @@
             </div>
         </div>
         <button type="button" id="download">Download (opens in new tab)</button>
-        <button type="button" id="clearAll">Clear EVERYTHING!</button><br>
+        <button type="button" id="clearAll">Clear EVERYTHING!</button>
+        <br>
         <a href="https://khanniie.github.io/Doodle-Date/pages/about-page.html">About the tool</a>
-        <h1>more<i class="upDown"></i></h1></div>
+        <h1 class = "clickTrigger">more<i class="upDown"></i></h1></div>
     <!--  <div id='undo' class = "tab unCanvas"><img src="images/undo-icon.png" alt="undo icon"/></div><div id="redo" class ="tab unCanvas"><img src="images/redo-icon.png" alt="redo icon"/></div> -->
     <div id="multi-panel" class="tab unCanvas"> Get Room Code / Invite Other Users </div>
     <canvas id='canvas0' class='aCanvas' display="block" width="5000px" height="5000px"></canvas>

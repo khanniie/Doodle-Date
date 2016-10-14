@@ -36,9 +36,9 @@ if (together == "true") {
 
 var PorE = "pen";
 
-$(".upDown").click(function() {
+$(".clickTrigger").click(function() {
     var a = $(this).parents(".tab");
-    var b = $(this);
+    var b = $(this).find(".upDown");
     var classCloseName = "close";
     if (a.attr("id") == "colorTab") {
         classCloseName = "closeColor";
