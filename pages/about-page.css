@@ -25,6 +25,12 @@
     h1{
     	font-size: 1.5em;
     }
+    #example-art-text{
+      font-size: 1.5em;
+    }
+    b{
+      color: rgb(40, 40, 200);
+    }
     #startUsing{
     	font-family: arial, helvetica, sans-serif;
     	font-size: 1.25em;
@@ -33,7 +39,8 @@
     	left: 2%;
     }
    .doodle{
-   	width: 80%;
+   	width: 40%;
+    margin: 3%;
    }
    .profile{
    	border-radius: 3px;
