@@ -542,6 +542,7 @@ opacitySlider.value = 100;
 softnessSlider.value = 0;
 opacitySlider.min = 60;
 softnessSlider.max = 70;
+widSlider.min = 1;
 
 var widSliderE = document.getElementById("lineWidE");
 var opacitySliderE = document.getElementById("lineOpacityE");
@@ -550,6 +551,8 @@ opacitySliderE.value = 100;
 softnessSliderE.value = 0;
 opacitySliderE.min = 60;
 softnessSliderE.max = 70;
+widSliderE.min = 1;
+
 
 widSlider.addEventListener("change", function() {
     lineWid = widSlider.value;
