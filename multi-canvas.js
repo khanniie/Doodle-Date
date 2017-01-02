@@ -1,20 +1,31 @@
+//firebase
 var firebaseURL = "https://doodle-date.firebaseio.com/";
 var fb = new Firebase(firebaseURL);
 var data = [];
+
 sessionStorage.setItem("beenBefore", true);
 
+//generate a room code
 var roomCode = "" + Math.floor(Math.random() * 10) + Math.floor(Math.random() * 10) + Math.floor(Math.random() * 10) + Math.floor(Math.random() * 10);
+//together is boolean, set true if they click join room.
 var together = sessionStorage.getItem("together");
 
+//if there is already a room code stored because they selected the join room option
 if (sessionStorage.getItem("roomCode")) {
+    //set name to the one stored in session storage. name isn't used right now, but in the future all the user names in a room will be availible.
     myName = sessionStorage.getItem("name");
+    //set room code to the one stored in the session storage.
     roomCode = sessionStorage.getItem("roomCode");
 }
 
 sessionStorage.setItem("roomCode", roomCode);
+
+//all Actions are sent to myRef, a child of the program's database
 var myRef = fb.child(roomCode);
 
 var myName = "UnknownUser";
+
+
 // var userList = myRef.child("userList");
 // var userAmount = 0;
 
@@ -442,14 +453,14 @@ var line = function(x1, y1, x2, y2, lineTemp, color) {
     ctx.closePath();
 };
 
-var saveLine = function(drawing) {
-    currentCanvasSave = drawing.canvas + "Save";
-    canvas = document.getElementById(currentCanvasSave);
-    ctx = canvas.getContext("2d");
-    doLine(drawing);
-    canvas = document.getElementById(drawing.canvas);
-    ctx = canvas.getContext("2d");
-};
+// var saveLine = function(drawing) {
+//     currentCanvasSave = drawing.canvas + "Save";
+//     canvas = document.getElementById(currentCanvasSave);
+//     ctx = canvas.getContext("2d");
+//     doLine(drawing);
+//     canvas = document.getElementById(drawing.canvas);
+//     ctx = canvas.getContext("2d");
+// };
 
 var drawLine = function(drawing) {
     currentCanvas = drawing.canvas;
