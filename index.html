@@ -1,124 +1,71 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <title>Doodle Date: An online multiuser drawing tool</title>
-    <meta name="description" content="An online multiuser drawing tool">
-    <meta name="author" content="Constance Connie Ye">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="images/rainbow_pencil_pixel_by_fonyl.gif">
+    <meta name="description" content="An online multiuser drawing tool" />
+    <meta name="author" content="Constance Connie Ye" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="images/rainbow_pencil_pixel_by_fonyl.gif" />
     <style>
-    body {
+      html {
+        width: 100%;
+        height: 100%;
+      }
+      body {
         margin: 0px;
-        background: #eeeef6;
-    }
-    /*.moveable{
-    transition-duration: 2s;
-}*/
-    
-    #contain {
-        width: 30vw;
-        height: 20vw;
-        position: absolute;
-        top: 30%;
-        left: 35%;
-        z-index: 10;
-        display: block;
-    }
-    
-    .madeBy {
-        font-family: arial, helvetica, sans-serif;
-        padding-left: 20px;
-        padding-top: 20px;
-        color: #555976;
-        font-size: 0.85em;
-    }
-    
-    .madeBy a {
-        text-decoration: none;
-        color: #545294;
-    }
-    
-    #button-before {
-        max-width: 30vw;
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: 10;
-        display: block;
-    }
-    
-    #contain:hover #button-before {
-        display: none;
-    }
-    
-    #button-after {
-        max-width: 30vw;
-        position: absolute;
-        top: 1vw;
-        left: -1vw;
-        z-index: 9;
-        display: none;
-    }
-    
-    #contain:hover #button-after {
-        display: block;
-    }
-    
-    #person-one {
-        max-width: 50vw;
-        position: absolute;
-        bottom: -10px;
-        left: -10px;
-        z-index: 5;
-    }
-    
-    #person-two {
-        max-width: 50vw;
-        position: absolute;
-        bottom: -10px;
-        right: -10px;
-        z-index: 5;
-    }
-    
-    #pen {
-        max-width: 50vw;
-        position: absolute;
-        top: 20%;
-        left: 25%;
-        z-index: 6;
-    }
-    
-    #blue-paint {
-        max-width: 40vw;
-        position: absolute;
-        top: -10px;
-        right: -10px;
-        z-index: 0;
-    }
-    
-    #lemon-paint {
-        max-width: 60vw;
-        position: absolute;
-        bottom: -10px;
-        left: -10px;
-        z-index: 0;
-    }
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        min-height: 100%;
+      }
+      #content {
+        width: 70%;
+        font-family: sans-serif;
+      }
     </style>
-</head>
+  </head>
 
-<body>
-    <div class="madeBy">Made by <a href="https://khanniie.github.io">Constance Ye</a></div>
-    <div id="contain"><img src="images/homepage-images/button-before.png" id="button-before" />
-        <a href="https://khanniie.github.io/Doodle-Date/pages/enter-room.html"><img src="images/homepage-images/button-after.png" id="button-after" /></a>
+  <body>
+    <div id="content">
+      <div>
+        Hello internet! I made this project many years ago in high school when I
+        was first learning how to code. Truthfully, I thought no one would ever
+        use it. <br /><br />
+        I checked the database again after getting emails from the database
+        service, and was so suprised to find out that people had been using it!
+        Although I'm so happy this tool was useful for a small number of people,
+        This was a student project from 2017, and many better versions of the
+        same concept have been released since then.
+        <b
+          >I'd strongly suggest using a more modern collaborative canvas like
+          <a href="https://aggie.io/">aggie.io</a></b
+        >
+        <br /><br />
+        <b
+          >I'm going to deprecate this project for now and close off the
+          database to any new entries. That means that although the pages are
+          still there, you won't be able to draw anymore.</b
+        >
+        I'll leave the database as is, so if you still remember your room code,
+        you can still view the drawings.
+        <br /><br />
+        If you'd like to save past drawing info or really want to keep using the
+        site, message me and I'll see what I can do :)
+        <br /><br />
+        Goodbye and thank YOU! Please feel free to reach out (I'm crabbage_ on
+        twitter!) - I never properly set up username storage so I have no clue
+        who's been using this and am so curious (How did you even find this?)!
+        <br /><br />
+        All the best,
+        <a href="connieye.com">Connie</a>
+      </div>
+
+      <div style="margin-top: 24px">
+        <a href="./entry.html">Proceed to Doodle Date -></a>
+      </div>
     </div>
-    <img src="images/homepage-images/person-one.png" id="person-one" class="moveable" />
-    <img src="images/homepage-images/person-two.png" id="person-two" class="moveable" />
-    <img src="images/homepage-images/pen.png" id="pen" />
-    <img src="images/homepage-images/blu-paint.png" id="blue-paint" class="moveable" />
-    <img src="images/homepage-images/lemon-paint.png" id="lemon-paint" class="moveable" />
-</body>
-
+  </body>
 </html>

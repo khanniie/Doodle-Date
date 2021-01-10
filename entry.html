@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Doodle Date: An online multiuser drawing tool</title>
+    <meta name="description" content="An online multiuser drawing tool">
+    <meta name="author" content="Constance Connie Ye">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="images/rainbow_pencil_pixel_by_fonyl.gif">
+    <style>
+    body {
+        margin: 0px;
+        background: #eeeef6;
+    }
+    /*.moveable{
+    transition-duration: 2s;
+}*/
+    
+    #contain {
+        width: 30vw;
+        height: 20vw;
+        position: absolute;
+        top: 30%;
+        left: 35%;
+        z-index: 10;
+        display: block;
+    }
+    
+    .madeBy {
+        font-family: arial, helvetica, sans-serif;
+        padding-left: 20px;
+        padding-top: 20px;
+        color: #555976;
+        font-size: 0.85em;
+    }
+    
+    .madeBy a {
+        text-decoration: none;
+        color: #545294;
+    }
+    
+    #button-before {
+        max-width: 30vw;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 10;
+        display: block;
+    }
+    
+    #contain:hover #button-before {
+        display: none;
+    }
+    
+    #button-after {
+        max-width: 30vw;
+        position: absolute;
+        top: 1vw;
+        left: -1vw;
+        z-index: 9;
+        display: none;
+    }
+    
+    #contain:hover #button-after {
+        display: block;
+    }
+    
+    #person-one {
+        max-width: 50vw;
+        position: absolute;
+        bottom: -10px;
+        left: -10px;
+        z-index: 5;
+    }
+    
+    #person-two {
+        max-width: 50vw;
+        position: absolute;
+        bottom: -10px;
+        right: -10px;
+        z-index: 5;
+    }
+    
+    #pen {
+        max-width: 50vw;
+        position: absolute;
+        top: 20%;
+        left: 25%;
+        z-index: 6;
+    }
+    
+    #blue-paint {
+        max-width: 40vw;
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        z-index: 0;
+    }
+    
+    #lemon-paint {
+        max-width: 60vw;
+        position: absolute;
+        bottom: -10px;
+        left: -10px;
+        z-index: 0;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="madeBy">Made by <a href="https://khanniie.github.io">Constance Ye</a></div>
+    <div id="contain"><img src="images/homepage-images/button-before.png" id="button-before" />
+        <a href="https://khanniie.github.io/Doodle-Date/pages/enter-room.html"><img src="images/homepage-images/button-after.png" id="button-after" /></a>
+    </div>
+    <img src="images/homepage-images/person-one.png" id="person-one" class="moveable" />
+    <img src="images/homepage-images/person-two.png" id="person-two" class="moveable" />
+    <img src="images/homepage-images/pen.png" id="pen" />
+    <img src="images/homepage-images/blu-paint.png" id="blue-paint" class="moveable" />
+    <img src="images/homepage-images/lemon-paint.png" id="lemon-paint" class="moveable" />
+</body>
+
+</html>
